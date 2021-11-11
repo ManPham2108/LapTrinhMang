@@ -28,7 +28,6 @@ public class Client{
     private Socket s;
     DataInputStream dis;
     DataOutputStream dos;
-    JTextArea text;
     public Client() throws IOException{
         s = new Socket("127.0.0.1", 9001);
         dis = new DataInputStream(s.getInputStream());
@@ -37,8 +36,8 @@ public class Client{
     }
     public void Close(){
         try {
-            dis.close();
             dos.close();
+            dis.close();  
             s.close();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,6 +50,11 @@ public class Client{
     public DataInputStream getDis() {
         return dis;
     }
+
+    public Socket getS() {
+        return s;
+    }
+    
     public void send(String message){
         String msg = message;
         try {

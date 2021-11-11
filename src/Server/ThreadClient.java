@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -27,26 +28,21 @@ public class ThreadClient implements Runnable{
     Socket s;
     boolean isloggedin;
     public ThreadClient(Socket s, String name,DataInputStream dis, DataOutputStream dos) {
+        this.s = s; 
         this.dis = dis;
         this.dos = dos;
         this.name = name;
-        this.s = s;
         this.isloggedin=true;
     }
     @Override
     public void run() {
         String received;
-        while (true)
+        while(s.isConnected())
         {
             try
             {
                 received = dis.readUTF();
                 System.out.println(received);
-                if(received.equals("logout")){
-                    this.isloggedin=false;
-                    this.s.close();
-                    break;
-                }
                 StringTokenizer st = new StringTokenizer(received, "#");
                 String MsgToSend = st.nextToken();
                 String recipient = st.nextToken();
@@ -59,13 +55,13 @@ public class ThreadClient implements Runnable{
                     }
                 }
             } catch (IOException e) {
-                 
                 e.printStackTrace();
-            }      
+            }
         }
         try {
             this.dis.close();
             this.dos.close();
+            this.s.close();
         } catch (IOException ex) {
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
         }
