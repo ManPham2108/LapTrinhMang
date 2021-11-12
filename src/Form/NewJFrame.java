@@ -24,7 +24,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() throws IOException {
         initComponents();
         client = new Client();
-        client.read(jTextArea1);
+        client.read(jTextArea1); 
     }
     /**
      * This method is called from within the constructor to initialize the form.

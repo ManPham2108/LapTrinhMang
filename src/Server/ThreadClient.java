@@ -61,7 +61,7 @@ public class ThreadClient implements Runnable{
                     }
                 }
             } catch (IOException e) {
-                break;
+                break; 
             }
         }
         try {

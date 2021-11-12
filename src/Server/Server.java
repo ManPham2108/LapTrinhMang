@@ -25,7 +25,7 @@ public class Server {
     static int i = 0;
     public static void main(String[] args) throws IOException
     {
-        ServerSocket sevverSocket = new ServerSocket(9001);
+        ServerSocket sevverSocket = new ServerSocket(9001); 
         Socket socket;
         while (true)
         {

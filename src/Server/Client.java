@@ -44,7 +44,7 @@ public class Client{
     public void Close(){
         try {
             write.close();
-            read.close();  
+            read.close();    
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
