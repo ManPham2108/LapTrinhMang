@@ -5,7 +5,7 @@
  */
 package Server;
 
-import Form.NewJFrame;
+import Form.FormChat;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
