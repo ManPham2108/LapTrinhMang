@@ -39,7 +39,7 @@ public class Server {
             Thread t = new Thread(mtch);
             ar.add(mtch);
             t.start();
-            System.out.println(i);
+            System.out.println(i); 
             i++;           
         }
     }
