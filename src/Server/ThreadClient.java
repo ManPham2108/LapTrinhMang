@@ -23,14 +23,18 @@ import java.util.logging.Logger;
  */
 public class ThreadClient implements Runnable{
     private String name;
-    final DataInputStream dis;
-    final DataOutputStream dos;
+//    final DataInputStream dis;
+//    final DataOutputStream dos;
+    final BufferedReader read;
+    final BufferedWriter write;
     Socket s;
     boolean isloggedin;
-    public ThreadClient(Socket s, String name,DataInputStream dis, DataOutputStream dos) {
+    public ThreadClient(Socket s, String name,BufferedReader read, BufferedWriter write) {
         this.s = s; 
-        this.dis = dis;
-        this.dos = dos;
+//        this.dis = dis;
+//        this.dos = dos;
+        this.read = read;
+        this.write = write;
         this.name = name;
         this.isloggedin=true;
     }
@@ -41,7 +45,7 @@ public class ThreadClient implements Runnable{
         {
             try
             {
-                received = dis.readUTF();
+                received = read.readLine();
                 System.out.println(received);
                 StringTokenizer st = new StringTokenizer(received, "#");
                 String MsgToSend = st.nextToken();
@@ -50,17 +54,19 @@ public class ThreadClient implements Runnable{
                 {
                     if (mc.name.equals(recipient) && mc.isloggedin==true)
                     {
-                        mc.dos.writeUTF(this.name+" : "+MsgToSend);
+                        mc.write.write(this.name+" : "+MsgToSend);
+                        mc.write.newLine();
+                        mc.write.flush();
                         break;
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             }
         }
         try {
-            this.dis.close();
-            this.dos.close();
+            this.read.close();
+            this.write.close();
             this.s.close();
         } catch (IOException ex) {
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);

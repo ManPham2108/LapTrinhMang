@@ -30,14 +30,13 @@ public class Server {
         while (true)
         {
             socket = sevverSocket.accept();
-            System.out.println("New client request received : " + socket);
-            DataInputStream dis = new DataInputStream(socket.getInputStream());
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            System.out.println("Creating a new handler for this client...");
-            //System.out.println(dis.readUTF());
-            ThreadClient mtch = new ThreadClient(socket,"client " + i, dis,dos);
+            System.out.println("Client "+i+" connect success");
+            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedWriter write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+//            DataInputStream dis = new DataInputStream(socket.getInputStream());
+//            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+            ThreadClient mtch = new ThreadClient(socket,"client " + i, read,write);
             Thread t = new Thread(mtch);
-            System.out.println("Adding this client to active client list");
             ar.add(mtch);
             t.start();
             System.out.println(i);

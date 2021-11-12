@@ -24,23 +24,8 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() throws IOException {
         initComponents();
         client = new Client();
-        t.start();
+        client.read(jTextArea1);
     }
-    Thread t = new Thread(){
-            public void run(){
-                while (client.getS().isConnected()) {
-                    try {
-                        String msg = client.getDis().readUTF();
-                        System.out.println(msg);
-                        if(msg!=null){
-                            jTextArea1.append(msg);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }   
-            }
-        };
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -138,7 +123,7 @@ public class NewJFrame extends javax.swing.JFrame {
         String message = jTextField1.getText();
         client.send(message);
         System.out.println(message);
-        jTextArea1.append(message);
+        jTextArea1.append(message+"\n");
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -197,7 +182,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
