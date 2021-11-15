@@ -1,12 +1,17 @@
 package Form;
 
+import Form.Body.Event.EventImageView;
+import Form.Body.Event.EventMain;
+import Form.Body.Event.PublicEvent;
 import Server.Client;
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import component.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -22,8 +27,32 @@ public class MainChat extends javax.swing.JFrame {
         com.registerComponent(this);
         com.setMinimumSize(new Dimension(800,500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
-        com.setSnapSize(new Dimension(10,10));
-        Client.getInstance().connect();
+        com.setSnapSize(new Dimension(10, 10));
+        login.setVisible(true);
+        loading.setVisible(false);
+        view_Image.setVisible(false);
+        home.setVisible(false);
+        initEvent();
+    }
+    
+    private void initEvent() {
+        PublicEvent.getInstance().addEventMain(new EventMain() {
+            @Override
+            public void showLoading(boolean show) {
+                loading.setVisible(show);
+            }
+
+            @Override
+            public void initChat() {
+                home.setVisible(true);
+            }
+        });
+        PublicEvent.getInstance().addEventImageView(new EventImageView() {
+            @Override
+            public void viewImage(Icon image) {
+                view_Image.viewImage(image);
+            }
+        });
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,7 +70,10 @@ public class MainChat extends javax.swing.JFrame {
         cmdMinimize = new javax.swing.JButton();
         cmdClose = new javax.swing.JButton();
         boby = new javax.swing.JLayeredPane();
-        home1 = new Form.Body.Home();
+        view_Image = new Form.Login.View_Image();
+        home = new Form.Body.Home();
+        loading = new Form.Login.Loading();
+        login = new Form.Login.Login();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -98,8 +130,12 @@ public class MainChat extends javax.swing.JFrame {
             .addComponent(cmdMinimize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        boby.setLayout(new java.awt.BorderLayout());
-        boby.add(home1, java.awt.BorderLayout.CENTER);
+        boby.setLayout(new java.awt.CardLayout());
+        boby.setLayer(view_Image, javax.swing.JLayeredPane.POPUP_LAYER);
+        boby.add(view_Image, "card5");
+        boby.add(home, "card2");
+        boby.add(loading, "card4");
+        boby.add(login, "card3");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -116,7 +152,7 @@ public class MainChat extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(boby, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                .addComponent(boby, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -193,7 +229,7 @@ public class MainChat extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        FlatArcIJTheme.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -212,8 +248,11 @@ public class MainChat extends javax.swing.JFrame {
     private javax.swing.JPanel boder;
     private javax.swing.JButton cmdClose;
     private javax.swing.JButton cmdMinimize;
-    private Form.Body.Home home1;
+    private Form.Body.Home home;
+    private Form.Login.Loading loading;
+    private Form.Login.Login login;
     private Form.Body.Menu_left menu_left1;
     private javax.swing.JPanel title;
+    private Form.Login.View_Image view_Image;
     // End of variables declaration//GEN-END:variables
 }

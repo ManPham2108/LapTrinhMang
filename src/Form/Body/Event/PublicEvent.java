@@ -1,27 +1,53 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Form.Body.Event;
 
-/**
- *
- * @author man21
- */
 public class PublicEvent {
+
     private static PublicEvent instance;
-    private EvenChat evenchat;
+    private EventMain eventMain;
+    private EventImageView eventImageView;
+    private EventChat eventChat;
+    private EventLogin eventLogin;
+
     public static PublicEvent getInstance() {
-        if(instance==null){
+        if (instance == null) {
             instance = new PublicEvent();
         }
         return instance;
     }
-    public void addEventChat(EvenChat event){
-        this.evenchat= event;
+
+    private PublicEvent() {
+
     }
-    public EvenChat getEventChat(){
-        return evenchat;
+
+    public void addEventMain(EventMain event) {
+        this.eventMain = event;
+    }
+
+    public void addEventImageView(EventImageView event) {
+        this.eventImageView = event;
+    }
+
+    public void addEventChat(EventChat event) {
+        this.eventChat = event;
+    }
+
+    public void addEventLogin(EventLogin event) {
+        this.eventLogin = event;
+    }
+
+    public EventMain getEventMain() {
+        return eventMain;
+    }
+
+    public EventImageView getEventImageView() {
+        return eventImageView;
+    }
+
+    public EventChat getEventChat() {
+        return eventChat;
+    }
+
+    public EventLogin getEventLogin() {
+        return eventLogin;
     }
 }

@@ -5,7 +5,7 @@
  */
 package Form.Body.Chat;
 
-import Form.Body.Event.EvenChat;
+import Form.Body.Event.EventChat;
 import Form.Body.Event.PublicEvent;
 import Server.Client;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class Chat extends javax.swing.JPanel {
         Chat_Body chatBody = new Chat_Body();
         Chat_Bottom chatBottom = new Chat_Bottom();
         //thêm tin nhắn vào bên phải
-        PublicEvent.getInstance().addEventChat(new EvenChat(){
+        PublicEvent.getInstance().addEventChat(new EventChat(){
             @Override
             public void sendMessage(String text) {
                 System.out.println("Gui: "+text);

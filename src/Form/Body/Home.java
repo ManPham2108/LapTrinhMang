@@ -2,6 +2,9 @@
 package Form.Body;
 
 import Form.Body.Chat.Chat;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -16,10 +19,14 @@ public class Home extends javax.swing.JLayeredPane {
         init();
     }
     private void init(){
-        //5[200!]0
-        setLayout(new MigLayout("fillx,filly","0[200!]5[fill,100%]0","0[fill]0"));
-        this.add(new Menu_left());
-        this.add(new Chat());
+        try {
+            //5[200!]0
+            setLayout(new MigLayout("fillx,filly","0[200!]5[fill,100%]0","0[fill]0"));
+            this.add(new Menu_left());
+            this.add(new Chat());
+        } catch (IOException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
