@@ -30,10 +30,10 @@ import javax.swing.JTextArea;
 public class Client{
     static Client instance;
     private Socket socket;
-    BufferedReader read = null;
-    BufferedWriter write = null;
-    String localhost = "127.0.0.1";
-    String internet = "serverchat.ddns.net";
+    private BufferedReader read = null;
+    private BufferedWriter write = null;
+    private String localhost = "127.0.0.1";
+    private String internet = "serverchat.ddns.net";
     
     public static Client getInstance() {
         if(instance==null){
@@ -41,7 +41,6 @@ public class Client{
         }
         return instance;
     }
-    Chat_Body chatBody = new Chat_Body();
     public void connect() throws IOException{ 
         socket = new Socket(internet, 9001);
         read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -53,7 +52,7 @@ public class Client{
                     try {
                         String msg = read.readLine();
                         System.out.println("Da doc: "+msg);
-                        PublicEvent.getInstance().getReciveMessage().reciveMessage(msg);
+                        PublicEvent.getInstance().getEventChat().reciveMessage(msg);
                     }catch (IOException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -32,7 +32,7 @@ public class Chat extends javax.swing.JPanel {
         Chat_Body chatBody = new Chat_Body();
         Chat_Bottom chatBottom = new Chat_Bottom();
         //thêm tin nhắn vào bên phải
-        PublicEvent.getInstance().addSendMessage(new EvenChat(){
+        PublicEvent.getInstance().addEventChat(new EvenChat(){
             @Override
             public void sendMessage(String text) {
                 System.out.println("Gui: "+text);
@@ -44,18 +44,9 @@ public class Chat extends javax.swing.JPanel {
                 chatBody.addItemRight(text);
             }
             @Override
-            public void reciveMessage(String text) {                  
-            }
-        });
-        PublicEvent.getInstance().addReciveMessage(new EvenChat(){
-            @Override
-            public void reciveMessage(String text) {
+            public void reciveMessage(String text) {          
                 System.out.println("Nhan: "+text);
                 chatBody.addItemLeft(text,"alll");
-            }
-
-            @Override
-            public void sendMessage(String text) {
             }
         });
         add(chatTitle,"wrap");

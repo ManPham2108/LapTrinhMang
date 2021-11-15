@@ -163,6 +163,7 @@ public class MainChat extends javax.swing.JFrame {
     private void cmdCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCloseActionPerformed
 
         System.exit(0);
+        Client.getInstance().Close();
     }//GEN-LAST:event_cmdCloseActionPerformed
 
     /**

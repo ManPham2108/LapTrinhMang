@@ -11,10 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -31,9 +33,11 @@ public class Chat_Bottom extends javax.swing.JPanel {
         scroll.setBorder(null);
         JIMSendTextPane txt = new JIMSendTextPane();
         txt.addKeyListener(new KeyAdapter(){
-            @Override
             public void keyTyped(KeyEvent e) {
                 refresh();
+                if (e.getKeyChar() == 10 && e.isControlDown()){
+                    send(txt);
+                }
             }
             
         });
@@ -54,23 +58,25 @@ public class Chat_Bottom extends javax.swing.JPanel {
         cmd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmd.setIcon(new ImageIcon(getClass().getResource("/Image/send.png")));
         Chat_Body chatBody = new Chat_Body();
-        cmd.addActionListener(new ActionListener(){
-            @Override
+        cmd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String text = txt.getText().trim();
-                if(!text.equals("")){
-                    PublicEvent.getInstance().getSendMessage().sendMessage(text);
-                    txt.setText("");
-                    txt.grabFocus();
-                    refresh();
-                }
-                else{
-                    txt.grabFocus();
-                }
+                send(txt);
             }          
         });
         panel.add(cmd);
         add(panel);
+    }
+    public void send(JIMSendTextPane txt){
+        String text = txt.getText().trim();
+        if(!text.equals("")){
+            PublicEvent.getInstance().getEventChat().sendMessage(text);
+            txt.setText("");
+            txt.grabFocus();
+            refresh();
+        }
+        else{
+            txt.grabFocus();
+        }
     }
     private void refresh(){
         revalidate();

@@ -11,24 +11,17 @@ package Form.Body.Event;
  */
 public class PublicEvent {
     private static PublicEvent instance;
-    private EvenChat evenchatSendMessage;
-    private EvenChat evenchatReciveMessage;
+    private EvenChat evenchat;
     public static PublicEvent getInstance() {
         if(instance==null){
             instance = new PublicEvent();
         }
         return instance;
     }
-    public void addSendMessage(EvenChat eventSend){
-        this.evenchatSendMessage= eventSend;
+    public void addEventChat(EvenChat event){
+        this.evenchat= event;
     }
-    public EvenChat getSendMessage(){
-        return evenchatSendMessage;
-    }     
-    public void addReciveMessage(EvenChat eventRecive){
-        this.evenchatReciveMessage= eventRecive;
-    }
-    public EvenChat getReciveMessage(){
-        return evenchatReciveMessage;
+    public EvenChat getEventChat(){
+        return evenchat;
     }
 }
