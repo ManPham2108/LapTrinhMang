@@ -36,7 +36,7 @@ public class Item_People extends javax.swing.JPanel {
         setBackground(new java.awt.Color(242, 242, 242));
 
         imageAvatar1.setBorderSize(0);
-        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/profile.png"))); // NOI18N
+        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/male-user.png"))); // NOI18N
 
         lb.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lb.setText("Name");

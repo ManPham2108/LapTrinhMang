@@ -46,7 +46,7 @@ public class Chat extends javax.swing.JPanel {
             @Override
             public void reciveMessage(String text) {          
                 System.out.println("Nhan: "+text);
-                chatBody.addItemLeft(text,"alll");
+                chatBody.addItemLeft(text);
             }
         });
         add(chatTitle,"wrap");

@@ -16,15 +16,6 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-        addItemLeft("does not word wrap it at all showing all the text in one line only instead. It would be interesting to support word wrap on jTextPane1 resized too...","ManPham");
-        addItemRight("does not word wrap it at all showing all the text in one line only instead. It would be interesting to support word wrap on jTextPane1 resized too...");
-        addItemLeft("Allooooo","ManPham");
-        addItemLeft("Allooooo","ManPham");
-        addItemLeft("Allooooo","ManPham");
-        addItemLeft("Allooooo","ManPham");
-        addItemLeft("Allooooo","ManPham");
-
-        
     }
     private void init(){
         body.setLayout(new MigLayout("fillx","","3[]3"));
@@ -32,10 +23,10 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
     //them tin nhan bên trái
-    public void addItemLeft(String text,String user){
+    public void addItemLeft(String text){
         Chat_Left_With_Profile item = new Chat_Left_With_Profile();
         item.setText(text);
-        item.setUserProfile(user);
+        //item.setUserProfile(user);
         body.add(item,"wrap,w ::50%");
         //50% set chiều rộng
         body.repaint();
@@ -43,7 +34,6 @@ public class Chat_Body extends javax.swing.JPanel {
         scrollToBottom();
     }
     //them tin nhan bên phải
-    
     public void addItemRight(String text){   
         Chat_Right item = new Chat_Right();
         item.setText(text);
@@ -52,9 +42,7 @@ public class Chat_Body extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();  
         scrollToBottom();
-        
     }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

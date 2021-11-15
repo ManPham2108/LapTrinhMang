@@ -26,7 +26,7 @@ public class Chat_item extends javax.swing.JLayeredPane {
     public void setUserProfile(String user){
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
-        layer.setBorder(new EmptyBorder(10,10,0,10));
+        layer.setBorder(new EmptyBorder(10,10,25,10));
         JLabel labeluser = new JLabel(user);
         labeluser.setBorder(null);
         labeluser.setFocusable(false);
@@ -42,7 +42,7 @@ public class Chat_item extends javax.swing.JLayeredPane {
     public void seen(){
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(FlowLayout.RIGHT,0,0));
-        layer.setBorder(new EmptyBorder(0,5,17,5));
+        layer.setBorder(new EmptyBorder(0,5,7,5));
         label = new JLabel("Đã xem");
         //Màu chữ đã xem
         label.setForeground(new Color(110,110,110));
