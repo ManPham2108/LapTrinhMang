@@ -3,16 +3,17 @@ package Form.Body.Chat;
 
 import java.awt.Color;
 
-public class Chat_Right extends javax.swing.JLayeredPane {
+public class Chat_Left_With_Profile extends javax.swing.JLayeredPane {
 
-    public Chat_Right() {
+    public Chat_Left_With_Profile() {
         initComponents();
-        //đổi màu khung chat bên trái
-        txt.setBackground(new Color(179,233,255));
+        txt.setBackground(new Color(242,242,242));
+    }
+    public void setUserProfile(String user){
+        txt.setUserProfile(user);
     }
     public void setText(String text){
         txt.setText(text);
-        txt.seen();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -26,7 +27,7 @@ public class Chat_Right extends javax.swing.JLayeredPane {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txt, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

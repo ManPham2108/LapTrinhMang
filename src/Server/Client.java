@@ -5,6 +5,9 @@
  */
 package Server;
 
+import Form.Body.Chat.Chat_Body;
+import Form.Body.Event.EvenChat;
+import Form.Body.Event.PublicEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -25,20 +28,45 @@ import javax.swing.JTextArea;
  * @author man21
  */
 public class Client{
+    static Client instance;
     private Socket socket;
-//    DataInputStream dis;
-//    DataOutputStream dos;
     BufferedReader read = null;
     BufferedWriter write = null;
     String localhost = "127.0.0.1";
     String internet = "serverchat.ddns.net";
-    public Client() throws IOException{ 
+    
+    public static Client getInstance() {
+        if(instance==null){
+            instance = new Client();
+        }
+        return instance;
+    }
+    Chat_Body chatBody = new Chat_Body();
+    public void connect() throws IOException{ 
         socket = new Socket(internet, 9001);
-//        dis = new DataInputStream(s.getInputStream());
-//        dos = new DataOutputStream(s.getOutputStream());
         read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        //dos.writeUTF("man");
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                while (true) {                    
+                    try {
+                        String msg = read.readLine();
+                        System.out.println("Da doc: "+msg);
+                        PublicEvent.getInstance().getReciveMessage().reciveMessage(msg);
+                    }catch (IOException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        t.start();
+    }
+    public void send(String message) throws IOException{
+        System.out.println("Dang gui: "+message);
+        write.write(message);
+        write.newLine();
+        write.flush();
     }
     public void Close(){
         try {
@@ -49,33 +77,5 @@ public class Client{
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void send(String message){
-        String msg = message;
-        try {
-            write.write(msg);
-            write.newLine();
-            write.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }    
-    }
-    public void read(JTextArea textarea) throws IOException{
-        Thread t = new Thread(){
-            public void run(){
-                while (true) {
-                    try {
-                        String msg = read.readLine();
-                        System.out.println(msg);
-                        if(msg!=null){
-                            textarea.append(msg+"\n");
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        t.start();
-        
-    }
+    
 }

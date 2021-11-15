@@ -23,16 +23,12 @@ import java.util.logging.Logger;
  */
 public class ThreadClient implements Runnable{
     private String name;
-//    final DataInputStream dis;
-//    final DataOutputStream dos;
     final BufferedReader read;
     final BufferedWriter write;
     Socket s;
     boolean isloggedin;
     public ThreadClient(Socket s, String name,BufferedReader read, BufferedWriter write) {
         this.s = s; 
-//        this.dis = dis;
-//        this.dos = dos;
         this.read = read;
         this.write = write;
         this.name = name;
@@ -54,7 +50,7 @@ public class ThreadClient implements Runnable{
                 {
                     if (mc.name.equals(recipient) && mc.isloggedin==true)
                     {
-                        mc.write.write(this.name+" : "+MsgToSend);
+                        mc.write.write(MsgToSend);
                         mc.write.newLine();
                         mc.write.flush();
                         break;

@@ -1,27 +1,29 @@
 package Form;
 
+import Server.Client;
 import component.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class MainChat extends javax.swing.JFrame {
-
-    /**
-     * Creates new form NewJFrame
-     */
-    public MainChat() {
+    public MainChat() throws IOException {
         initComponents();
         init();
+        
     }
-    private void init (){
+    private void init () throws IOException{
         setIconImage(new ImageIcon(getClass().getResource("/Image/icon.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
         com.setMinimumSize(new Dimension(800,500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10,10));
+        Client.getInstance().connect();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,6 +34,7 @@ public class MainChat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        menu_left1 = new Form.Body.Menu_left();
         boder = new javax.swing.JPanel();
         background = new javax.swing.JPanel();
         title = new javax.swing.JPanel();
@@ -193,7 +196,11 @@ public class MainChat extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainChat().setVisible(true);
+                try {
+                    new MainChat().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainChat.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -205,6 +212,7 @@ public class MainChat extends javax.swing.JFrame {
     private javax.swing.JButton cmdClose;
     private javax.swing.JButton cmdMinimize;
     private Form.Body.Home home1;
+    private Form.Body.Menu_left menu_left1;
     private javax.swing.JPanel title;
     // End of variables declaration//GEN-END:variables
 }

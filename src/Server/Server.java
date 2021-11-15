@@ -33,8 +33,6 @@ public class Server {
             System.out.println("Client "+i+" connect success");
             BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-//            DataInputStream dis = new DataInputStream(socket.getInputStream());
-//            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             ThreadClient mtch = new ThreadClient(socket,"client " + i, read,write);
             Thread t = new Thread(mtch);
             ar.add(mtch);
