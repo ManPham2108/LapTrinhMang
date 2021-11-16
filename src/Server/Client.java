@@ -6,7 +6,6 @@
 package Server;
 
 import Form.Body.Chat.Chat_Body;
-import Form.Body.Event.EvenChat;
 import Form.Body.Event.PublicEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,7 +47,7 @@ public class Client{
         Thread t = new Thread(){
             @Override
             public void run() {
-                while (true) {                    
+                while (true) {
                     try {
                         String msg = read.readLine();
                         System.out.println("Da doc: "+msg);
