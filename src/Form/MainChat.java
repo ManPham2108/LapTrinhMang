@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 public class MainChat extends javax.swing.JFrame {
     public MainChat() throws IOException {
-        initComponents();
+         initComponents();
         init();
         
     }

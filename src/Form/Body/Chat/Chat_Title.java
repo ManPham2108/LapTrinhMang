@@ -49,7 +49,7 @@ public class Chat_Title extends javax.swing.JPanel {
 
         imageAvatar1.setBackground(new java.awt.Color(255, 255, 255));
         imageAvatar1.setBorderSize(0);
-        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/leave-grouơ-30.png"))); // NOI18N
+        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/leave-group.png"))); // NOI18N
         imageAvatar1.setInheritsPopupMenu(true);
         imageAvatar1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
