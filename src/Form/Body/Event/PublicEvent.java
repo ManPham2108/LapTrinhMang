@@ -7,7 +7,7 @@ public class PublicEvent {
     private EventImageView eventImageView;
     private EventChat eventChat;
     private EventLogin eventLogin;
-
+    private EventListUser eventList;
     public static PublicEvent getInstance() {
         if (instance == null) {
             instance = new PublicEvent();
@@ -34,7 +34,9 @@ public class PublicEvent {
     public void addEventLogin(EventLogin event) {
         this.eventLogin = event;
     }
-
+    public void addEvenListUser(EventListUser event){
+        this.eventList = event;
+    }
     public EventMain getEventMain() {
         return eventMain;
     }
@@ -49,5 +51,8 @@ public class PublicEvent {
 
     public EventLogin getEventLogin() {
         return eventLogin;
+    }
+    public EventListUser getEventListUser(){
+        return eventList;
     }
 }

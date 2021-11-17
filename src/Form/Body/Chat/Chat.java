@@ -38,10 +38,10 @@ public class Chat extends javax.swing.JPanel {
                 System.out.println("Gui: "+text);
                 try {
                     Client.getInstance().send(text);
+                    chatBody.addItemRight(text);
                 } catch (IOException ex) {
                     Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                chatBody.addItemRight(text);
             }
             @Override
             public void reciveMessage(String text) {          

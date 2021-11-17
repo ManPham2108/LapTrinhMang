@@ -22,7 +22,6 @@ import java.util.Vector;
  */
 public class Server {
     static Vector<ThreadClient> ar = new Vector<>();
-    static int i = 0;
     public static void main(String[] args) throws IOException
     {
         ServerSocket sevverSocket = new ServerSocket(9001); 
@@ -30,15 +29,13 @@ public class Server {
         while (true)
         {
             socket = sevverSocket.accept();
-            System.out.println("Client "+i+" connect success");
+            System.out.println("Client connect success");
             BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            ThreadClient mtch = new ThreadClient(socket,"client " + i, read,write);
+            ThreadClient mtch = new ThreadClient(socket, read,write);
             Thread t = new Thread(mtch);
             ar.add(mtch);
-            t.start();
-            System.out.println(i); 
-            i++;           
+            t.start();           
         }
     }
 }

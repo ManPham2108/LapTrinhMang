@@ -1,14 +1,20 @@
 
 package Form.Body;
 
+import Form.Body.Event.EventListUser;
+import Form.Body.Event.PublicEvent;
+import Model.AccountModel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import component.ScrollBar;
+import java.util.ArrayList;
 import net.miginfocom.swing.MigLayout;
 
 
 
 public class Menu_left extends javax.swing.JPanel {
-
-    
+    private ArrayList<AccountModel> listPeople  = new ArrayList<>();
+    private Gson gson = new Gson();
     public Menu_left() {
         initComponents();
         init();
@@ -16,13 +22,22 @@ public class Menu_left extends javax.swing.JPanel {
     private void init(){
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx","0[]0","0[]0"));
-        showMessage();
+        PublicEvent.getInstance().addEvenListUser(new EventListUser(){
+            @Override
+            public void listUser(String text) {
+                ArrayList<AccountModel> list= gson.fromJson(text,new TypeToken<ArrayList<AccountModel>>() {}.getType());
+                listPeople=list;
+                for(AccountModel ac : list){
+                    menuList.add(new Item_People(ac.getFullName()),"wrap");
+                }
+            }
+        });
     }
-    private void showMessage() {
+    private void showPeople() {
         //  test data
         menuList.removeAll();
-        for (int i = 0; i < 20; i++) {
-            menuList.add(new Item_People("People " + i), "wrap");
+        for(AccountModel ac : listPeople){
+           menuList.add(new Item_People(ac.getFullName()),"wrap");
         }
         refreshMenuList();
     }
@@ -188,7 +203,7 @@ public class Menu_left extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
-        showMessage();
+        showPeople();
     }//GEN-LAST:event_menuMessageActionPerformed
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed

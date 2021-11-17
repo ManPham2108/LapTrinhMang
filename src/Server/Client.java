@@ -18,6 +18,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextArea;
@@ -50,8 +51,12 @@ public class Client{
                 while (true) {
                     try {
                         String msg = read.readLine();
+                        StringTokenizer st = new StringTokenizer(msg,"#");
                         System.out.println("Da doc: "+msg);
-                        PublicEvent.getInstance().getEventChat().reciveMessage(msg);
+                        if(st.nextToken().equals("listUser")){
+                            PublicEvent.getInstance().getEventListUser().listUser(st.nextToken());
+                        }
+                        //PublicEvent.getInstance().getEventChat().reciveMessage(msg);
                     }catch (IOException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -23,7 +23,7 @@ public class MainChat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(800,500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10,10));
-        //Client.getInstance().connect();
+        Client.getInstance().connect();
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -11,7 +11,7 @@ package Database;
  */
 public class DAL {
     public static MyConnectUnit getDAL(){
-        return new MyConnectUnit("localhost:3306", "root", "admin1234", "quanlytourdulich");
+        return new MyConnectUnit("localhost:3306", "root", "admin1234", "laptrinhmang");
     }
     
 }
