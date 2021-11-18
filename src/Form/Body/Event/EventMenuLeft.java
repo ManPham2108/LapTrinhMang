@@ -12,6 +12,7 @@ import java.util.ArrayList;
  *
  * @author man21
  */
-public interface EventListUser {
-    public void listUser(ArrayList<AccountModel> listuser);
+public interface EventMenuLeft {
+    public void addlistUser(ArrayList<AccountModel> listuser);
+    public void updateStatus(String Id);
 }

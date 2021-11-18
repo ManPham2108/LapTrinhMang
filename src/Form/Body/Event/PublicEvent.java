@@ -7,7 +7,7 @@ public class PublicEvent {
     private EventImageView eventImageView;
     private EventChat eventChat;
     private EventLogin eventLogin;
-    private EventListUser eventList;
+    private EventMenuLeft eventmenuleft;
     private EventLoginSuccess eventLoginSuccess;
     public static PublicEvent getInstance() {
         if (instance == null) {
@@ -35,8 +35,8 @@ public class PublicEvent {
     public void addEventLogin(EventLogin event) {
         this.eventLogin = event;
     }
-    public void addEvenListUser(EventListUser event){
-        this.eventList = event;
+    public void addEventMenuLeft(EventMenuLeft event){
+        this.eventmenuleft = event;
     }
     public void addEvenLoginSuccess(EventLoginSuccess event){
         this.eventLoginSuccess = event;
@@ -56,8 +56,8 @@ public class PublicEvent {
     public EventLogin getEventLogin() {
         return eventLogin;
     }
-    public EventListUser getEventListUser(){
-        return eventList;
+    public EventMenuLeft getEventMenuLeft(){
+        return eventmenuleft;
     }
     public EventLoginSuccess getEvenLoginSuccess(){
         return eventLoginSuccess;

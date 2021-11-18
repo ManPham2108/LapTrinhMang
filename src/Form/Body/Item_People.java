@@ -14,7 +14,7 @@ public class Item_People extends javax.swing.JPanel {
     public Item_People(AccountModel user) {
         this.user = user;
         initComponents();
-        lb.setText(user.getFullName());
+        lbName.setText(user.getFullName());
         init();
     }
     private void init(){
@@ -39,15 +39,19 @@ public class Item_People extends javax.swing.JPanel {
     private void initComponents() {
 
         imageAvatar1 = new component.ImageAvatar();
-        lb = new javax.swing.JLabel();
+        lbName = new javax.swing.JLabel();
+        lbStatus = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(242, 242, 242));
 
         imageAvatar1.setBorderSize(0);
         imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/male-user.png"))); // NOI18N
 
-        lb.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lb.setText("Name");
+        lbName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbName.setText("Name");
+
+        lbStatus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbStatus.setText("Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,20 +60,27 @@ public class Item_People extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(lbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lbStatus)))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.ImageAvatar imageAvatar1;
-    private javax.swing.JLabel lb;
+    private javax.swing.JLabel lbName;
+    private javax.swing.JLabel lbStatus;
     // End of variables declaration//GEN-END:variables
 }

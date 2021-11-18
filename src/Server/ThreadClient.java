@@ -39,7 +39,7 @@ public class ThreadClient implements Runnable{
     private SendMessageModel smm = new SendMessageModel();
     private Gson gson = new Gson();
     private String id;
-
+    private Server sv = new Server();
     public String getId() {
         return id;
     }
@@ -65,6 +65,7 @@ public class ThreadClient implements Runnable{
                 switch (st.nextToken()){
                     case "login":
                         checkUser(st.nextToken());
+                        
                         break;
                     case "ClientToClient":
                         smm = gson.fromJson(st.nextToken(),new TypeToken<SendMessageModel>() {}.getType());
@@ -101,6 +102,7 @@ public class ThreadClient implements Runnable{
         }
         else{
             System.out.println(am.getFullName()+" login sucess");
+            send("status#"+am.getId());
             setId(am.getId());
             loadListUser(am);
         }  
@@ -121,12 +123,6 @@ public class ThreadClient implements Runnable{
     }
     public String convertArToString(Object object){
         return gson.toJson(object);
-    }
-        public void sendMessage(String text){
-        StringTokenizer st = new StringTokenizer(text,"#");
-        String sender = st.nextToken();
-        String receiver = st.nextToken();
-        String msg = st.nextToken();
     }
     public void send(String message){
         try {

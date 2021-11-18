@@ -66,7 +66,7 @@ public class Client{
                             ArrayList<AccountModel> listUser= gson.fromJson(st.nextToken(),new TypeToken<ArrayList<AccountModel>>() {}.getType());
                             Amodel = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
-                            PublicEvent.getInstance().getEventListUser().listUser(listUser);
+                            PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
                             break;
                         case "loginfaile":
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
@@ -76,6 +76,8 @@ public class Client{
 //                                String user = a.nextToken();
                               PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
                               break;
+                        case "status":
+                            System.out.println(st.nextToken());
                     } 
                 }catch (IOException ex) {
                     break;

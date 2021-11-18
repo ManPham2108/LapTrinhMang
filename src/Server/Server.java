@@ -22,19 +22,30 @@ import java.util.Vector;
  */
 public class Server {
     static Vector<ThreadClient> ar = new Vector<>();
-    public static void main(String[] args) throws IOException
-    {
-        ServerSocket sevverSocket = new ServerSocket(9001); 
-        Socket socket;
+    public ServerSocket serverSocket;
+    public Socket socket;
+    public BufferedReader read;
+    public BufferedWriter write;
+    
+    public void startServer() throws IOException{
+        serverSocket = new ServerSocket(9001); 
         while (true)
         {
-            socket = sevverSocket.accept();
-            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedWriter write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            socket = serverSocket.accept();
+            read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             ThreadClient mtch = new ThreadClient(socket, read,write);
             Thread t = new Thread(mtch);
             ar.add(mtch);
             t.start();           
         }
+    }
+    public void updateStatus(String userId) throws IOException{
+        write.write("status#"+userId);
+    }
+    public static void main(String[] args) throws IOException
+    {
+        Server sv = new Server();
+        sv.startServer();
     }
 }

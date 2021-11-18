@@ -1,7 +1,8 @@
 
 package Form.Body;
 
-import Form.Body.Event.EventListUser;
+import Form.Body.Event.EventMenuLeft;
+import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Server.Client;
@@ -23,9 +24,9 @@ public class Menu_left extends javax.swing.JPanel {
     private void init(){
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx","0[]0","0[]0"));
-        PublicEvent.getInstance().addEvenListUser(new EventListUser(){
+        PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft(){
             @Override
-            public void listUser(ArrayList<AccountModel> listuser) {
+            public void addlistUser(ArrayList<AccountModel> listuser) {
                 System.out.println(Client.getInstance().Amodel.getFullName());
                 txtName.setText(Client.getInstance().Amodel.getFullName());
                 listPeople = listuser;
@@ -33,7 +34,14 @@ public class Menu_left extends javax.swing.JPanel {
                     menuList.add(new Item_People(ac),"wrap");
                 }
             }
-            
+            @Override
+            public void updateStatus(String Id) {
+                for(AccountModel ac : listPeople){
+                    if(Id.equals(ac.getId())){
+                        new Item_People(ac);
+                    }
+                }
+            }
         });
     }
     private void showPeople() {
