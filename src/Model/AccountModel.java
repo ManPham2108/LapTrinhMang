@@ -12,14 +12,14 @@ import java.sql.Date;
  * @author man21
  */
 public class AccountModel {
-    private int Id;
+    private String Id;
     private String Username;
     private String Password;
     private String FullName;
     private String Gender;
     private Date DateOfBirth;
 
-    public AccountModel(int Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {
+    public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {
         this.Id = Id;
         this.Username = Username;
         this.Password = Password;
@@ -28,6 +28,18 @@ public class AccountModel {
         this.DateOfBirth = DateOfBirth;
     }
     public AccountModel(){};
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public void setDateOfBirth(Date DateOfBirth) {
+        this.DateOfBirth = DateOfBirth;
+    }
     
     public String getUsername() {
         return Username;

@@ -1,15 +1,20 @@
 
 package Form.Body;
 
+import Form.Body.Chat.Chat_Title;
+import Form.Body.Event.PublicEvent;
+import Model.AccountModel;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
 public class Item_People extends javax.swing.JPanel {
-    public Item_People(String name) {
+    public AccountModel user;
+    public Item_People(AccountModel user) {
+        this.user = user;
         initComponents();
-        lb.setText(name);
+        lb.setText(user.getFullName());
         init();
     }
     private void init(){
@@ -18,12 +23,15 @@ public class Item_People extends javax.swing.JPanel {
             public void mouseEntered(MouseEvent e) {
                 setBackground(new Color(230,230,230));
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
                 setBackground(new Color(242,242,242));
             }
-            
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                PublicEvent.getInstance().getEventMain().SelectUser(user);
+            }  
         });
     }
     @SuppressWarnings("unchecked")

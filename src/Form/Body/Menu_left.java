@@ -4,6 +4,7 @@ package Form.Body;
 import Form.Body.Event.EventListUser;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
+import Server.Client;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import component.ScrollBar;
@@ -24,40 +25,42 @@ public class Menu_left extends javax.swing.JPanel {
         menuList.setLayout(new MigLayout("fillx","0[]0","0[]0"));
         PublicEvent.getInstance().addEvenListUser(new EventListUser(){
             @Override
-            public void listUser(String text) {
-                ArrayList<AccountModel> list= gson.fromJson(text,new TypeToken<ArrayList<AccountModel>>() {}.getType());
-                listPeople=list;
-                for(AccountModel ac : list){
-                    menuList.add(new Item_People(ac.getFullName()),"wrap");
+            public void listUser(ArrayList<AccountModel> listuser) {
+                System.out.println(Client.getInstance().Amodel.getFullName());
+                txtName.setText(Client.getInstance().Amodel.getFullName());
+                listPeople = listuser;
+                for(AccountModel ac : listuser){
+                    menuList.add(new Item_People(ac),"wrap");
                 }
             }
+            
         });
     }
     private void showPeople() {
         //  test data
         menuList.removeAll();
         for(AccountModel ac : listPeople){
-           menuList.add(new Item_People(ac.getFullName()),"wrap");
+           menuList.add(new Item_People(ac),"wrap");
         }
         refreshMenuList();
     }
 
     private void showGroup() {
         //  test data
-        menuList.removeAll();
-        for (int i = 0; i < 5; i++) {
-            menuList.add(new Item_People("Group " + i), "wrap");
-        }
-        refreshMenuList();
+//        menuList.removeAll();
+//        for (int i = 0; i < 5; i++) {
+//            menuList.add(new Item_People("Group " + i), "wrap");
+//        }
+//        refreshMenuList();
     }
 
     private void showBox() {
-        //  test data
-        menuList.removeAll();
-        for (int i = 0; i < 10; i++) {
-            menuList.add(new Item_People("Box " + i), "wrap");
-        }
-        refreshMenuList();
+//        //  test data
+//        menuList.removeAll();
+//        for (int i = 0; i < 10; i++) {
+//            menuList.add(new Item_People("Box " + i), "wrap");
+//        }
+//        refreshMenuList();
     }
 
     private void refreshMenuList() {
@@ -77,6 +80,8 @@ public class Menu_left extends javax.swing.JPanel {
         menuInfor = new javax.swing.JLayeredPane();
         imageAvatar1 = new component.ImageAvatar();
         imageAvatar2 = new component.ImageAvatar();
+        jPanel1 = new javax.swing.JPanel();
+        txtName = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(242, 242, 242));
 
@@ -175,7 +180,24 @@ public class Menu_left extends javax.swing.JPanel {
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 598, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(51, 255, 255));
+
+        txtName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -184,19 +206,23 @@ public class Menu_left extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuInfor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sp)
-                    .addComponent(menu)))
+                    .addComponent(menu)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sp))
+                        .addGap(0, 0, 0)
+                        .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(menuInfor))
                 .addGap(0, 0, 0))
         );
@@ -222,6 +248,7 @@ public class Menu_left extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.ImageAvatar imageAvatar1;
     private component.ImageAvatar imageAvatar2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLayeredPane menu;
     private component.MenuButton menuBox;
     private component.MenuButton menuGroup;
@@ -229,5 +256,6 @@ public class Menu_left extends javax.swing.JPanel {
     private javax.swing.JLayeredPane menuList;
     private component.MenuButton menuMessage;
     private javax.swing.JScrollPane sp;
+    private javax.swing.JLabel txtName;
     // End of variables declaration//GEN-END:variables
 }

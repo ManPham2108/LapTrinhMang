@@ -7,8 +7,12 @@ package Form.Body.Chat;
 
 import Form.Body.Event.EventChat;
 import Form.Body.Event.PublicEvent;
+import Model.AccountModel;
+import Model.SendMessageModel;
 import Server.Client;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
@@ -22,38 +26,45 @@ public class Chat extends javax.swing.JPanel {
     /**
      * Creates new form Menu_left
      */
+    private Chat_Title chatTitle;
+    private Chat_Body chatBody;
+    private Chat_Bottom chatBottom; 
     public Chat() throws IOException {
         initComponents();
         init();
     }
     private void init() throws IOException{
         setLayout(new MigLayout("fillx","0[fill]0","0[]0[100%,bottom]0[shrink 0]0"));
-        Chat_Title chatTitle = new Chat_Title();
-        Chat_Body chatBody = new Chat_Body();
-        Chat_Bottom chatBottom = new Chat_Bottom();
+        chatTitle = new Chat_Title();
+        chatBody = new Chat_Body();
+        chatBottom = new Chat_Bottom();
         //thêm tin nhắn vào bên phải
         PublicEvent.getInstance().addEventChat(new EventChat(){
             @Override
             public void sendMessage(String text) {
-                System.out.println("Gui: "+text);
-                try {
-                    Client.getInstance().send(text);
                     chatBody.addItemRight(text);
-                } catch (IOException ex) {
-                    Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             @Override
             public void reciveMessage(String text) {          
-                System.out.println("Nhan: "+text);
-                chatBody.addItemLeft(text);
+                StringTokenizer st = new StringTokenizer(text,":");
+                String userid = st.nextToken();
+                if(chatTitle.getaModel().getId().equals(userid)){
+                    System.out.println("useridaaaaa "+userid);
+                    String test = st.nextToken();
+                    System.out.println("msg: "+test);
+                    chatBody.addItemLeft(test);
+                }
             }
         });
         add(chatTitle,"wrap");
         add(chatBody,"wrap");
         add(chatBottom,"h ::20%");
-    
     }
+    public void setUser(AccountModel am){
+        chatTitle.setuser(am);
+        chatBottom.setaModel(am);     
+    }
+   
     //@//SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

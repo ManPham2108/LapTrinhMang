@@ -18,13 +18,13 @@ public class Chat_Body extends javax.swing.JPanel {
         init();
     }
     private void init(){
-        body.setLayout(new MigLayout("fillx","","3[]3"));
+        body.setLayout(new MigLayout("fillx","","0[]0"));
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
     //them tin nhan bên trái
     public void addItemLeft(String text){
-        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+        Chat_Left item = new Chat_Left();
         item.setText(text);
         //item.setUserProfile(user);
         body.add(item,"wrap,w ::50%");

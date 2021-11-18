@@ -1,18 +1,25 @@
 
 package Form.Body.Chat;
 
+import Model.AccountModel;
 import java.awt.Color;
 
 
 public class Chat_Title extends javax.swing.JPanel {
+   
+    private AccountModel aModel;
 
- 
+    public AccountModel getaModel() {
+        return aModel;
+    }
+    
     public Chat_Title() {
         initComponents();
     }
     //set username
-    public void setName(String username){
-        lbName.setText(username);
+    public void setuser(AccountModel user){
+        this.aModel = user;
+        lbName.setText(aModel.getFullName());
     }
     public void statusOnline(){
         lbStatus.setText("Online");
@@ -73,8 +80,8 @@ public class Chat_Title extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(layer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
+                .addComponent(layer, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))

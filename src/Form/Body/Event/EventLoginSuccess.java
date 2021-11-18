@@ -5,13 +5,10 @@
  */
 package Form.Body.Event;
 
-import Model.AccountModel;
-import java.util.ArrayList;
-
 /**
  *
  * @author man21
  */
-public interface EventListUser {
-    public void listUser(ArrayList<AccountModel> listuser);
+public interface EventLoginSuccess {
+    public void LoginSuccess(String msg);
 }

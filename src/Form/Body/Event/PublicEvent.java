@@ -8,6 +8,7 @@ public class PublicEvent {
     private EventChat eventChat;
     private EventLogin eventLogin;
     private EventListUser eventList;
+    private EventLoginSuccess eventLoginSuccess;
     public static PublicEvent getInstance() {
         if (instance == null) {
             instance = new PublicEvent();
@@ -37,6 +38,9 @@ public class PublicEvent {
     public void addEvenListUser(EventListUser event){
         this.eventList = event;
     }
+    public void addEvenLoginSuccess(EventLoginSuccess event){
+        this.eventLoginSuccess = event;
+    }
     public EventMain getEventMain() {
         return eventMain;
     }
@@ -54,5 +58,8 @@ public class PublicEvent {
     }
     public EventListUser getEventListUser(){
         return eventList;
+    }
+    public EventLoginSuccess getEvenLoginSuccess(){
+        return eventLoginSuccess;
     }
 }

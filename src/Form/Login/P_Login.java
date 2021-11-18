@@ -1,6 +1,12 @@
 package Form.Login;
 
+import Form.Body.Event.EventLoginSuccess;
 import Form.Body.Event.PublicEvent;
+import Form.MainChat;
+import Server.Client;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class P_Login extends javax.swing.JPanel {
@@ -20,6 +26,7 @@ public class P_Login extends javax.swing.JPanel {
         txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
         cmdRegister = new javax.swing.JButton();
+        txtError = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(369, 496));
@@ -51,6 +58,9 @@ public class P_Login extends javax.swing.JPanel {
             }
         });
 
+        txtError.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        txtError.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -59,7 +69,8 @@ public class P_Login extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmdRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                     .addComponent(cmdLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPass)
                     .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,7 +95,9 @@ public class P_Login extends javax.swing.JPanel {
                 .addComponent(cmdLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdRegister)
-                .addGap(0, 209, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 222, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -93,7 +106,24 @@ public class P_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        PublicEvent.getInstance().getEventLogin().login();
+        String user = txtUser.getText();
+        String pass = txtPass.getText();
+        try {
+            Client.getInstance().send("login#"+user+":"+pass);
+        } catch (IOException ex) {
+            Logger.getLogger(P_Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PublicEvent.getInstance().addEvenLoginSuccess(new EventLoginSuccess(){
+            @Override
+            public void LoginSuccess(String msg) {
+                if(msg.equals("success")){
+                    PublicEvent.getInstance().getEventLogin().login();
+                }
+                else{
+                    txtError.setText("User not");
+                }
+            }
+        });
     }//GEN-LAST:event_cmdLoginActionPerformed
 
 
@@ -103,6 +133,7 @@ public class P_Login extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbTitle;
+    private javax.swing.JLabel txtError;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables

@@ -2,6 +2,7 @@ package Form.Login;
 
 import Form.Body.Event.EventLogin;
 import Form.Body.Event.PublicEvent;
+import Form.MainChat;
 
 public class Login extends javax.swing.JPanel {
 
@@ -18,10 +19,10 @@ public class Login extends javax.swing.JPanel {
                     @Override
                     public void run() {
                         PublicEvent.getInstance().getEventMain().showLoading(true);
-                        try {
-                            Thread.sleep(3000); //  for test
-                        } catch (InterruptedException e) {
-                        }
+//                        try {
+//                            Thread.sleep(3000); //  for test
+//                        } catch (InterruptedException e) {
+//                        }
                         PublicEvent.getInstance().getEventMain().showLoading(false);
                         PublicEvent.getInstance().getEventMain().initChat();
                         setVisible(false);
@@ -33,7 +34,6 @@ public class Login extends javax.swing.JPanel {
             public void register() {
                 System.out.println("Register");
             }
-
             @Override
             public void goRegister() {
                 slide.show(1);

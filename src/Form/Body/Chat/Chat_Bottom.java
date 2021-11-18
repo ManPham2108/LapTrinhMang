@@ -1,7 +1,12 @@
 package Form.Body.Chat;
 
+import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
+import Form.Body.Item_People;
+import Model.AccountModel;
+import Model.SendMessageModel;
 import Server.Client;
+import com.google.gson.Gson;
 import component.JIMSendTextPane;
 import component.ScrollBar;
 import java.awt.Color;
@@ -12,6 +17,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,24 +30,34 @@ import net.miginfocom.swing.MigLayout;
 
 public class Chat_Bottom extends javax.swing.JPanel {
 
+    public AccountModel aModel;
 
+    public AccountModel getaModel() {
+        return aModel;
+    }
+    public void setaModel(AccountModel aModel) {
+        this.aModel = aModel;
+    }
     public Chat_Bottom() {
         initComponents();
         init();
+        //getaModel().getId();
     }
     private void init(){
         setLayout(new MigLayout("fillx,filly","0[fill]0[]0[]2","2[fill]2"));
         JScrollPane scroll = new JScrollPane();
         scroll.setBorder(null);
         JIMSendTextPane txt = new JIMSendTextPane();
-        txt.addKeyListener(new KeyAdapter(){
-            public void keyTyped(KeyEvent e) {
-                refresh();
-                if (e.getKeyChar() == 10 && e.isControlDown()){
-                    send(txt);
-                }
-            }
-        });
+//        txt.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyTyped(KeyEvent ke) {
+//                refresh();
+//                if (ke.getKeyChar() == 10 && ke.isControlDown()) {
+//                    //  user press controll + enter
+//                    send(txt);
+//                }
+//            }
+//        });
         txt.setHintText("nhap tin nhan");
         scroll.setViewportView(txt);
         ScrollBar sb = new ScrollBar();
@@ -56,7 +74,6 @@ public class Chat_Bottom extends javax.swing.JPanel {
         cmd.setContentAreaFilled(false);
         cmd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmd.setIcon(new ImageIcon(getClass().getResource("/Image/send.png")));
-        Chat_Body chatBody = new Chat_Body();
         cmd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 send(txt);
@@ -69,13 +86,24 @@ public class Chat_Bottom extends javax.swing.JPanel {
         String text = txt.getText().trim();
         if(!text.equals("")){
             PublicEvent.getInstance().getEventChat().sendMessage(text);
+            SendMessageModel smm = new SendMessageModel(Client.getInstance().Amodel.getId(), aModel.getId(), text);
+            try {
+                Client.getInstance().send("ClientToClient#"+convertArToString(smm));
+            } catch (IOException ex) {
+                Logger.getLogger(Chat_Bottom.class.getName()).log(Level.SEVERE, null, ex);
+            }
             txt.setText("");
             txt.grabFocus();
             refresh();
         }
         else{
+            System.out.println("konhan");
             txt.grabFocus();
         }
+    }
+    public String convertArToString(Object object){
+        Gson gson = new Gson();
+        return gson.toJson(object);
     }
     private void refresh(){
         revalidate();

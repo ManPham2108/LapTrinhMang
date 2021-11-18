@@ -29,7 +29,6 @@ public class Server {
         while (true)
         {
             socket = sevverSocket.accept();
-            System.out.println("Client connect success");
             BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             ThreadClient mtch = new ThreadClient(socket, read,write);

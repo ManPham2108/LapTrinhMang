@@ -2,6 +2,8 @@
 package Form.Body;
 
 import Form.Body.Chat.Chat;
+import Form.Body.Chat.Chat_Body;
+import Model.AccountModel;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +16,7 @@ public class Home extends javax.swing.JLayeredPane {
     /**
      * Creates new form Home
      */
+    private Chat chat;
     public Home(){
         initComponents();
         init();
@@ -23,10 +26,17 @@ public class Home extends javax.swing.JLayeredPane {
         setLayout(new MigLayout("fillx,filly","0[200!]5[fill,100%]0","0[fill]0"));
         this.add(new Menu_left());
         try {
-            this.add(new Chat());
+            chat = new Chat();
+            this.add(chat);
+            chat.setVisible(false);
         } catch (IOException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void setUser(AccountModel am){
+        chat.setUser(am);
+        chat.setVisible(false);
+        chat.setVisible(true);  
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -12,7 +12,7 @@ public class Chat_Right extends javax.swing.JLayeredPane {
     }
     public void setText(String text){
         txt.setText(text);
-        txt.seen();
+        //txt.seen();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
