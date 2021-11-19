@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.math.BigInteger;
 import java.sql.Date;
 
 /**
@@ -12,6 +13,12 @@ import java.sql.Date;
  * @author man21
  */
 public class AccountModel {
+    /**
+     * default public key for client
+     */
+    private final BigInteger n = new BigInteger("5559198564321915535997584315413393092493348347255843419771222580227273559376281043338357980467043907042637716818326704144978286703037762308482220625386384388624680062949875597814032263102045209295610051823779969687947948509258575370491964212854716485165414726530861795479919698326099361821127536680927");
+    private final BigInteger publickey = new BigInteger("65537");
+    
     private String Id;
     private String Username;
     private String Password;
@@ -19,7 +26,7 @@ public class AccountModel {
     private String Gender;
     private Date DateOfBirth;
 
-    public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {
+    public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {        
         this.Id = Id;
         this.Username = Username;
         this.Password = Password;
@@ -27,7 +34,14 @@ public class AccountModel {
         this.Gender = Gender;
         this.DateOfBirth = DateOfBirth;
     }
-    public AccountModel(){};
+    public AccountModel(){        
+    }
+    
+    public BigInteger RSA_Encryption(BigInteger Key_need_encrypt)
+    {
+        BigInteger Key_encypted = Key_need_encrypt.modPow(publickey, n);
+        return Key_encypted;
+    }
 
     public String getId() {
         return Id;
