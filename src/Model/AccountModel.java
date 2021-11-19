@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Encrypt.DES_For_Client;
 import java.math.BigInteger;
 import java.sql.Date;
 
@@ -25,6 +26,7 @@ public class AccountModel {
     private String FullName;
     private String Gender;
     private Date DateOfBirth;
+    private final DES_For_Client DES_Client;
 
     public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {        
         this.Id = Id;
@@ -33,14 +35,22 @@ public class AccountModel {
         this.FullName = FullName;
         this.Gender = Gender;
         this.DateOfBirth = DateOfBirth;
+        this.DES_Client = new DES_For_Client();
     }
-    public AccountModel(){        
+    public AccountModel(){
+        this.DES_Client = new DES_For_Client();
     }
     
-    public BigInteger RSA_Encryption(BigInteger Key_need_encrypt)
+    /**
+     * Send string of this method for server
+     * This is key of DES is encrypted by RSA
+     * @return 
+     */
+    public String RSA_Encryption()
     {
-        BigInteger Key_encypted = Key_need_encrypt.modPow(publickey, n);
-        return Key_encypted;
+        BigInteger keyOfDES = new BigInteger(DES_Client.getKeyDES());
+        BigInteger Key_encypted = keyOfDES.modPow(publickey, n);
+        return Key_encypted.toString();
     }
 
     public String getId() {

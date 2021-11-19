@@ -19,25 +19,27 @@ public class PKC_RSA {
     }
     
     /**
-     * RSA Encryption key of another
-     * @param Key_need_encrypt  need encrypt
+     * RSA Encryption
+     * @param key
      * @return Key_encrypted
      */
-    public BigInteger RSA_Encryption(BigInteger Key_need_encrypt)
+    public String RSA_Encryption(String key)
     {
-        BigInteger Key_encypted = Key_need_encrypt.modPow(publickey, n);
-        return Key_encypted;
+        BigInteger num_key = new BigInteger(key);
+        BigInteger Key_encypted = num_key.modPow(publickey, n);
+        return Key_encypted.toString();
     }
 
     /**
-     * RSA Decryption of itself
-     * @param Key_need_decrypt
+     * RSA Decryption
+     * @param key
      * @return Key_original
      */
-    private BigInteger RSA_Decryption(BigInteger Key_need_decrypt)
+    public String RSA_Decryption(String key)
     {
-        BigInteger Key_original = Key_need_decrypt.modPow(privatekey, n);
-        return Key_original;
+        BigInteger num_key = new BigInteger(key);
+        BigInteger Key_original = num_key.modPow(privatekey, n);
+        return Key_original.toString();
     }
 
     /**
