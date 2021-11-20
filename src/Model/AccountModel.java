@@ -26,7 +26,8 @@ public class AccountModel {
     private String FullName;
     private String Gender;
     private Date DateOfBirth;
-    private final DES_For_Client DES_Client;
+    private boolean status;
+    //private final DES_For_Client DES_Client;
 
     public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {        
         this.Id = Id;
@@ -35,23 +36,21 @@ public class AccountModel {
         this.FullName = FullName;
         this.Gender = Gender;
         this.DateOfBirth = DateOfBirth;
-        this.DES_Client = new DES_For_Client();
+        //this.DES_Client = new DES_For_Client();
+        this.status = status;
     }
-    public AccountModel(){
-        this.DES_Client = new DES_For_Client();
-    }
-    
+    public AccountModel(){};
     /**
      * Send string of this method for server
      * This is key of DES is encrypted by RSA
      * @return 
      */
-    public String RSA_Encryption()
-    {
-        BigInteger keyOfDES = new BigInteger(DES_Client.getKeyDES());
-        BigInteger Key_encypted = keyOfDES.modPow(publickey, n);
-        return Key_encypted.toString();
-    }
+//    public String RSA_Encryption()
+//    {
+//        BigInteger keyOfDES = new BigInteger(DES_Client.getKeyDES());
+//        BigInteger Key_encypted = keyOfDES.modPow(publickey, n);
+//        return Key_encypted.toString();
+//    }
 
     public String getId() {
         return Id;
@@ -103,6 +102,13 @@ public class AccountModel {
 
     public void setBirdOfDate(Date DateOfBirth) {
         this.DateOfBirth = DateOfBirth;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

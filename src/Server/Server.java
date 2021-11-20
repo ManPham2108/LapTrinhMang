@@ -16,10 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
-/**
- *
- * @author man21
- */
+
 public class Server {
     static Vector<ThreadClient> ar = new Vector<>();
     public ServerSocket serverSocket;
@@ -39,9 +36,6 @@ public class Server {
             ar.add(mtch);
             t.start();           
         }
-    }
-    public void updateStatus(String userId) throws IOException{
-        write.write("status#"+userId);
     }
     public static void main(String[] args) throws IOException
     {

@@ -12,34 +12,29 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException; 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Scanner; 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger; 
 
-/**
- *
- * @author man21
- */
 public class ThreadClient implements Runnable{
     public BufferedReader read;
     public BufferedWriter write;
     private Socket s;
     private boolean isloggedin;
-    private AccountDAL ac;
+    private AccountDAL ac = new AccountDAL();;
     private SendMessageModel smm = new SendMessageModel();
     private Gson gson = new Gson();
     private String id;
+    
     private Server sv = new Server();
+
+    
     public String getId() {
         return id;
     }
@@ -64,8 +59,7 @@ public class ThreadClient implements Runnable{
                 StringTokenizer st = new StringTokenizer(reccive, "#");
                 switch (st.nextToken()){
                     case "login":
-                        checkUser(st.nextToken());
-                        
+                        checkUser(st.nextToken());              
                         break;
                     case "ClientToClient":
                         smm = gson.fromJson(st.nextToken(),new TypeToken<SendMessageModel>() {}.getType());
@@ -86,9 +80,11 @@ public class ThreadClient implements Runnable{
         }
         }
         try {
+            //Server.ar.remove()
             this.read.close();
             this.write.close();
             this.s.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -99,17 +95,27 @@ public class ThreadClient implements Runnable{
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
         if(am == null){
             send("loginfaile#");
+            //saveLog("User Id "+am.getId()+" login faile");
         }
         else{
             System.out.println(am.getFullName()+" login sucess");
-            send("status#"+am.getId());
             setId(am.getId());
+            updateStatus(am.getId());
             loadListUser(am);
+            saveLog("User Id "+am.getId()+" login success");
         }  
     }
+    
     public void loadListUser(AccountModel ab){
-        ac = new AccountDAL();
         int i=0;
+        for(AccountModel am : ac.allAccount){
+            for(ThreadClient tc : Server.ar){
+                if(am.getId().equals(tc.getId())){
+                    am.setStatus(true);
+                    break;
+                }
+            }
+        }
         for(AccountModel a : ac.allAccount){
             if(a.getId().equalsIgnoreCase(ab.getId())){
                 i = ac.allAccount.indexOf(a);
@@ -123,6 +129,21 @@ public class ThreadClient implements Runnable{
     }
     public String convertArToString(Object object){
         return gson.toJson(object);
+    }
+    public void updateStatus(String id) throws IOException{
+        for(ThreadClient tc : Server.ar){
+            if(!tc.getId().equals(id)){
+                tc.write.write("status#"+id);
+                tc.write.newLine();
+                tc.write.flush();
+            }
+        }
+    }
+    public void saveLog(String log) throws IOException{
+        BufferedWriter W = new BufferedWriter(new FileWriter(new File("./src/Server/LogServer.txt").getAbsoluteFile(),true));
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        W.write(timeStamp+" "+log+"\n");
+        W.close();
     }
     public void send(String message){
         try {

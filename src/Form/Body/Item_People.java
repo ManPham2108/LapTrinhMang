@@ -11,11 +11,25 @@ import java.awt.event.MouseEvent;
 
 public class Item_People extends javax.swing.JPanel {
     public AccountModel user;
+
+    public AccountModel getUser() {
+        return user;
+    }
+    
     public Item_People(AccountModel user) {
         this.user = user;
         initComponents();
         lbName.setText(user.getFullName());
+        lbStatus.setVisible(false);
+        if(user.isStatus()){
+            lbStatus.setVisible(true);
+        }
         init();
+    }
+    public void updateStatus(){
+        if(user.isStatus()){
+            lbStatus.setVisible(true);
+        }
     }
     private void init(){
         addMouseListener(new MouseAdapter() {
@@ -51,7 +65,8 @@ public class Item_People extends javax.swing.JPanel {
         lbName.setText("Name");
 
         lbStatus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lbStatus.setText("Name");
+        lbStatus.setForeground(new java.awt.Color(0, 153, 0));
+        lbStatus.setText("Online");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -27,10 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextArea;
 
-/**
- *
- * @author man21
- */
+
 public class Client{
     static Client instance;
     private Socket socket=null;
@@ -65,6 +62,7 @@ public class Client{
                         case "loginsucess":
                             ArrayList<AccountModel> listUser= gson.fromJson(st.nextToken(),new TypeToken<ArrayList<AccountModel>>() {}.getType());
                             Amodel = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
+                            System.out.println("test"+Amodel.isStatus());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
                             break;
@@ -77,7 +75,8 @@ public class Client{
                               PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
                               break;
                         case "status":
-                            System.out.println(st.nextToken());
+                            PublicEvent.getInstance().getEventMenuLeft().updateStatus(st.nextToken());
+                            //System.out.println(st.nextToken());
                     } 
                 }catch (IOException ex) {
                     break;

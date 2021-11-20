@@ -9,6 +9,7 @@ import Server.Client;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import component.ScrollBar;
+import java.awt.Component;
 import java.util.ArrayList;
 import net.miginfocom.swing.MigLayout;
 
@@ -20,6 +21,7 @@ public class Menu_left extends javax.swing.JPanel {
     public Menu_left() {
         initComponents();
         init();
+        showPeople();
     }
     private void init(){
         sp.setVerticalScrollBar(new ScrollBar());
@@ -32,20 +34,28 @@ public class Menu_left extends javax.swing.JPanel {
                 listPeople = listuser;
                 for(AccountModel ac : listuser){
                     menuList.add(new Item_People(ac),"wrap");
+                    refreshMenuList();
                 }
             }
             @Override
             public void updateStatus(String Id) {
                 for(AccountModel ac : listPeople){
                     if(Id.equals(ac.getId())){
-                        new Item_People(ac);
-                    }
+                        ac.setStatus(true);
+                        break;
+                    }   
+                }
+                for(Component com : menuList.getComponents()){
+                    Item_People item = (Item_People) com;
+                    if(item.getUser().getId().equals(Id)){
+                        item.updateStatus();
+                        break;
+                    }                                                
                 }
             }
         });
     }
-    private void showPeople() {
-        //  test data
+    public void showPeople() {
         menuList.removeAll();
         for(AccountModel ac : listPeople){
            menuList.add(new Item_People(ac),"wrap");
@@ -84,7 +94,7 @@ public class Menu_left extends javax.swing.JPanel {
         menuGroup = new component.MenuButton();
         menuBox = new component.MenuButton();
         sp = new javax.swing.JScrollPane();
-        menuList = new javax.swing.JLayeredPane();
+        menuList = new javax.swing.JPanel();
         menuInfor = new javax.swing.JLayeredPane();
         imageAvatar1 = new component.ImageAvatar();
         imageAvatar2 = new component.ImageAvatar();
@@ -140,18 +150,15 @@ public class Menu_left extends javax.swing.JPanel {
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        menuList.setBackground(new java.awt.Color(242, 242, 242));
-        menuList.setOpaque(true);
-
         javax.swing.GroupLayout menuListLayout = new javax.swing.GroupLayout(menuList);
         menuList.setLayout(menuListLayout);
         menuListLayout.setHorizontalGroup(
             menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 161, Short.MAX_VALUE)
         );
         menuListLayout.setVerticalGroup(
             menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
+            .addGap(0, 631, Short.MAX_VALUE)
         );
 
         sp.setViewportView(menuList);
@@ -188,7 +195,7 @@ public class Menu_left extends javax.swing.JPanel {
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 598, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 255));
@@ -215,11 +222,9 @@ public class Menu_left extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuInfor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sp)
                     .addComponent(menu)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sp)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,14 +235,16 @@ public class Menu_left extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
                     .addComponent(menuInfor))
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
+
         showPeople();
+
     }//GEN-LAST:event_menuMessageActionPerformed
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
@@ -261,7 +268,7 @@ public class Menu_left extends javax.swing.JPanel {
     private component.MenuButton menuBox;
     private component.MenuButton menuGroup;
     private javax.swing.JLayeredPane menuInfor;
-    private javax.swing.JLayeredPane menuList;
+    private javax.swing.JPanel menuList;
     private component.MenuButton menuMessage;
     private javax.swing.JScrollPane sp;
     private javax.swing.JLabel txtName;
