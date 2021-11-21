@@ -21,15 +21,6 @@ public class Chat_Title extends javax.swing.JPanel {
         this.aModel = user;
         lbName.setText(aModel.getFullName());
     }
-    public void statusOnline(){
-        lbStatus.setText("Online");
-        lbStatus.setForeground(new java.awt.Color(40,147,59));
-        
-    }
-    public void setStatus(String text){
-        lbStatus.setText(text);
-        lbStatus.setForeground(new Color(160,160,160));
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -51,7 +42,6 @@ public class Chat_Title extends javax.swing.JPanel {
         layer.add(lbName);
 
         lbStatus.setForeground(new java.awt.Color(35, 163, 59));
-        lbStatus.setText("Online");
         layer.add(lbStatus);
 
         imageAvatar1.setBackground(new java.awt.Color(255, 255, 255));

@@ -13,6 +13,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class Chat_Body extends javax.swing.JPanel {
     String text;
+    private Chat_Right itemRight;
+    private Chat_Left itemLeft;
+
+
     public Chat_Body() {
         initComponents();
         init();
@@ -21,13 +25,14 @@ public class Chat_Body extends javax.swing.JPanel {
         body.setLayout(new MigLayout("fillx","","0[]0"));
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
+        itemRight = new Chat_Right();
+        itemLeft = new Chat_Left();
     }
     //them tin nhan bên trái
     public void addItemLeft(String text){
-        Chat_Left item = new Chat_Left();
-        item.setText(text);
+        itemLeft.setText(text);
         //item.setUserProfile(user);
-        body.add(item,"wrap,w ::50%");
+        body.add(itemLeft,"wrap,w ::50%");
         //50% set chiều rộng
         body.repaint();
         body.revalidate();
@@ -35,13 +40,15 @@ public class Chat_Body extends javax.swing.JPanel {
     }
     //them tin nhan bên phải
     public void addItemRight(String text){   
-        Chat_Right item = new Chat_Right();
-        item.setText(text);
-        body.add(item,"wrap, al right, w ::50%");
+        itemRight.setText(text);
+        body.add(itemRight,"wrap, al right, w ::50%");
         //50% set chiều rộng
         body.repaint();
         body.revalidate();  
         scrollToBottom();
+    }
+    public void removeItemRight(){
+        body.removeAll();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

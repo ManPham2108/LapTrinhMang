@@ -55,6 +55,11 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.addItemLeft(test);
                 }
             }
+
+            @Override
+            public void removeAllChatBody(){
+                chatBody.removeItemRight();
+            }
         });
         add(chatTitle,"wrap");
         add(chatBody,"wrap");

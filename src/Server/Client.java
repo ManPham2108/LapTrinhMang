@@ -62,9 +62,9 @@ public class Client{
                         case "loginsucess":
                             ArrayList<AccountModel> listUser= gson.fromJson(st.nextToken(),new TypeToken<ArrayList<AccountModel>>() {}.getType());
                             Amodel = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
-                            System.out.println("test"+Amodel.isStatus());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
+                            PublicEvent.getInstance().getEventMenuLeft().listUserCreatGroup(listUser);
                             break;
                         case "loginfaile":
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
@@ -75,7 +75,12 @@ public class Client{
                               PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
                               break;
                         case "status":
-                            PublicEvent.getInstance().getEventMenuLeft().updateStatus(st.nextToken());
+                            if(st.nextToken().equals("true")){
+                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(st.nextToken());
+                            }
+                            else{
+                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(st.nextToken());
+                            }
                             //System.out.println(st.nextToken());
                     } 
                 }catch (IOException ex) {

@@ -14,5 +14,7 @@ import java.util.ArrayList;
  */
 public interface EventMenuLeft {
     public void addlistUser(ArrayList<AccountModel> listuser);
-    public void updateStatus(String Id);
+    public void updateStatusOnline(String Id);
+    public void updateStatusOffline(String Id);
+    public void listUserCreatGroup(ArrayList<AccountModel> listuser);
 }

@@ -18,7 +18,7 @@ import java.util.Vector;
 
 
 public class Server {
-    static Vector<ThreadClient> ar = new Vector<>();
+    static Vector<ThreadClient> listUserLogin = new Vector<>();
     public ServerSocket serverSocket;
     public Socket socket;
     public BufferedReader read;
@@ -33,7 +33,7 @@ public class Server {
             write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             ThreadClient mtch = new ThreadClient(socket, read,write);
             Thread t = new Thread(mtch);
-            ar.add(mtch);
+            listUserLogin.add(mtch);
             t.start();           
         }
     }

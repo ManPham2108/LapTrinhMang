@@ -53,7 +53,6 @@ public class MainChat extends javax.swing.JFrame {
             public void SelectUser(AccountModel ac) {
                 home.setUser(ac);
             }
-            
         });
     }
     @SuppressWarnings("unchecked")

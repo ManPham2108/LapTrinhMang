@@ -1,6 +1,14 @@
 package Form.Login;
 
 import Form.Body.Event.PublicEvent;
+import Model.AccountModel;
+import Server.Client;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class P_Register extends javax.swing.JPanel {
@@ -25,8 +33,8 @@ public class P_Register extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtFullName = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        btnMale = new javax.swing.JRadioButton();
+        btnFemale = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jDateBirth = new com.toedter.calendar.JDateChooser();
@@ -65,16 +73,21 @@ public class P_Register extends javax.swing.JPanel {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Date of Birth");
 
-        jRadioButton1.setText("Male");
+        btnMale.setText("Male");
 
-        jRadioButton2.setText("Female");
+        btnFemale.setText("Female");
+        btnFemale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFemaleActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Full Name");
 
         jLabel6.setText("Gender");
 
         jDateBirth.setToolTipText("");
-        jDateBirth.setDateFormatString("dd/MM/yyyy");
+        jDateBirth.setDateFormatString("yyyy/MM/dd");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,9 +111,9 @@ public class P_Register extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2)
+                                .addComponent(btnFemale)
                                 .addGap(0, 32, Short.MAX_VALUE)))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -125,8 +138,8 @@ public class P_Register extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2)))
+                            .addComponent(btnMale)
+                            .addComponent(btnFemale)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -155,11 +168,36 @@ public class P_Register extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackLoginActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        PublicEvent.getInstance().getEventLogin().register();
+
+        Gson gson = new Gson();
+        String gender;
+        if(btnFemale.isSelected()){
+            gender = "Female";
+        }
+        else{
+            gender = "Male";
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String DateOfBirth=sdf.format(jDateBirth.getDate());
+        System.out.println(DateOfBirth);
+        AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
+        String user = gson.toJson(userRegister);
+        try {
+            PublicEvent.getInstance().getEventLogin().register();
+            Client.getInstance().send("register#"+user);
+        } catch (IOException ex) {
+            Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_cmdRegisterActionPerformed
+
+    private void btnFemaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFemaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFemaleActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton btnFemale;
+    private javax.swing.JRadioButton btnMale;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cmdBackLogin;
     private javax.swing.JButton cmdRegister;
@@ -170,8 +208,6 @@ public class P_Register extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JPasswordField txtConfirmPass;
     private javax.swing.JTextField txtFullName;

@@ -29,7 +29,6 @@ public class Menu_left extends javax.swing.JPanel {
         PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft(){
             @Override
             public void addlistUser(ArrayList<AccountModel> listuser) {
-                System.out.println(Client.getInstance().Amodel.getFullName());
                 txtName.setText(Client.getInstance().Amodel.getFullName());
                 listPeople = listuser;
                 for(AccountModel ac : listuser){
@@ -38,7 +37,7 @@ public class Menu_left extends javax.swing.JPanel {
                 }
             }
             @Override
-            public void updateStatus(String Id) {
+            public void updateStatusOnline(String Id) {
                 for(AccountModel ac : listPeople){
                     if(Id.equals(ac.getId())){
                         ac.setStatus(true);
@@ -52,6 +51,28 @@ public class Menu_left extends javax.swing.JPanel {
                         break;
                     }                                                
                 }
+            }
+            @Override
+            public void updateStatusOffline(String Id) {
+                for(AccountModel ac : listPeople){
+                    if(Id.equals(ac.getId())){
+                        ac.setStatus(false);
+                        break;
+                    }   
+                }
+                for(Component com : menuList.getComponents()){
+                    Item_People item = (Item_People) com;
+                    if(item.getUser().getId().equals(Id)){
+                        item.updateStatus();
+                        break;
+                    }                                                
+                }
+            }
+
+            @Override
+            public void listUserCreatGroup(ArrayList<AccountModel> listuser) {
+//                CreateGroup cg = new CreateGroup();
+//                cg.listUser(listuser);
             }
         });
     }
@@ -178,6 +199,11 @@ public class Menu_left extends javax.swing.JPanel {
 
         imageAvatar2.setBorderSize(0);
         imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/add-user-group.png"))); // NOI18N
+        imageAvatar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageAvatar2MouseClicked(evt);
+            }
+        });
 
         menuInfor.setLayer(imageAvatar1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         menuInfor.setLayer(imageAvatar2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -235,7 +261,7 @@ public class Menu_left extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
+                        .addComponent(sp))
                     .addComponent(menuInfor))
                 .addGap(0, 0, 0))
         );
@@ -258,6 +284,12 @@ public class Menu_left extends javax.swing.JPanel {
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
         System.out.println("aâ");
     }//GEN-LAST:event_imageAvatar1MouseClicked
+
+    private void imageAvatar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar2MouseClicked
+        CreateGroup cg = new CreateGroup();
+        cg.setVisible(true);
+        cg.listUser(listPeople);
+    }//GEN-LAST:event_imageAvatar2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

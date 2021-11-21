@@ -20,15 +20,20 @@ public class Item_People extends javax.swing.JPanel {
         this.user = user;
         initComponents();
         lbName.setText(user.getFullName());
-        lbStatus.setVisible(false);
         if(user.isStatus()){
             lbStatus.setVisible(true);
+        }
+        else{
+            lbStatus.setVisible(false);
         }
         init();
     }
     public void updateStatus(){
         if(user.isStatus()){
             lbStatus.setVisible(true);
+        }
+        else{
+            lbStatus.setVisible(false);
         }
     }
     private void init(){
@@ -45,6 +50,7 @@ public class Item_People extends javax.swing.JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 PublicEvent.getInstance().getEventMain().SelectUser(user);
+                PublicEvent.getInstance().getEventChat().removeAllChatBody();
             }  
         });
     }

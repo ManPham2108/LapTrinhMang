@@ -19,20 +19,15 @@ public class Login extends javax.swing.JPanel {
                     @Override
                     public void run() {
                         PublicEvent.getInstance().getEventMain().showLoading(true);
-//                        try {
-//                            Thread.sleep(3000); //  for test
-//                        } catch (InterruptedException e) {
-//                        }
                         PublicEvent.getInstance().getEventMain().showLoading(false);
                         PublicEvent.getInstance().getEventMain().initChat();
                         setVisible(false);
                     }
                 }).start();
             }
-
             @Override
             public void register() {
-                System.out.println("Register");
+                slide.show(0);
             }
             @Override
             public void goRegister() {

@@ -40,7 +40,7 @@
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="menu" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="sp" pref="631" max="32767" attributes="0"/>
+                      <Component id="sp" max="32767" attributes="0"/>
                   </Group>
                   <Component id="menuInfor" max="32767" attributes="0"/>
               </Group>
@@ -188,6 +188,9 @@
               <Image iconType="3" name="/Image/add-user-group.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imageAvatar2MouseClicked"/>
+          </Events>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
             <Property name="useNullLayout" type="boolean" value="true"/>

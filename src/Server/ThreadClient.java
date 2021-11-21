@@ -32,7 +32,7 @@ public class ThreadClient implements Runnable{
     private Gson gson = new Gson();
     private String id;
     
-    private Server sv = new Server();
+    private Server server = new Server();
 
     
     public String getId() {
@@ -63,7 +63,7 @@ public class ThreadClient implements Runnable{
                         break;
                     case "ClientToClient":
                         smm = gson.fromJson(st.nextToken(),new TypeToken<SendMessageModel>() {}.getType());
-                        for(ThreadClient tc : Server.ar){
+                        for(ThreadClient tc : Server.listUserLogin){
                             if(smm.getToUserId().equals(tc.getId())){
                                 tc.write.write("ClientToClient#"+smm.getFromUserId()+":"+smm.getMessage());
                                 tc.write.newLine();
@@ -73,43 +73,43 @@ public class ThreadClient implements Runnable{
                         }
                         break;
                     case "register":
+                        AccountModel userRegister = new AccountModel();
+                        userRegister = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
+                        ac.Insert(userRegister);
+                        saveLog(userRegister.getUsername()+" register success");
                         break;
                 }
-        } catch (Exception ex) {
+            } catch (Exception ex) {
                break;
-        }
+            }
         }
         try {
-            //Server.ar.remove()
-            this.read.close();
-            this.write.close();
-            this.s.close();
-            
+            userLogout();
         } catch (IOException ex) {
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void checkUser(String account) throws IOException, Exception{
-        ac = new AccountDAL();
         StringTokenizer st = new StringTokenizer(account,":");
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
         if(am == null){
             send("loginfaile#");
-            //saveLog("User Id "+am.getId()+" login faile");
         }
         else{
             System.out.println(am.getFullName()+" login sucess");
             setId(am.getId());
-            updateStatus(am.getId());
+            //cập nhật trạng thái user online
+            updateStatus(am.getId(),"true");
+            //load danh sách user
             loadListUser(am);
+            //lưu log user login
             saveLog("User Id "+am.getId()+" login success");
         }  
     }
-    
     public void loadListUser(AccountModel ab){
-        int i=0;
+        //set trạng thái cho user đang online
         for(AccountModel am : ac.allAccount){
-            for(ThreadClient tc : Server.ar){
+            for(ThreadClient tc : server.listUserLogin){
                 if(am.getId().equals(tc.getId())){
                     am.setStatus(true);
                     break;
@@ -117,12 +117,12 @@ public class ThreadClient implements Runnable{
             }
         }
         for(AccountModel a : ac.allAccount){
-            if(a.getId().equalsIgnoreCase(ab.getId())){
-                i = ac.allAccount.indexOf(a);
+            if(a.getId().equals(ab.getId())){
+                int i = ac.allAccount.indexOf(a);
+                ac.allAccount.remove(i);
                 break;
             }
         }
-        ac.allAccount.remove(i);
         String listuser = convertArToString(ac.allAccount);
         String user = convertArToString(ab);
         send("loginsucess#"+listuser+"#"+user);
@@ -130,10 +130,10 @@ public class ThreadClient implements Runnable{
     public String convertArToString(Object object){
         return gson.toJson(object);
     }
-    public void updateStatus(String id) throws IOException{
-        for(ThreadClient tc : Server.ar){
+    public void updateStatus(String id,String status) throws IOException{
+        for(ThreadClient tc : Server.listUserLogin){
             if(!tc.getId().equals(id)){
-                tc.write.write("status#"+id);
+                tc.write.write("status#"+status+"#"+id);
                 tc.write.newLine();
                 tc.write.flush();
             }
@@ -144,6 +144,22 @@ public class ThreadClient implements Runnable{
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         W.write(timeStamp+" "+log+"\n");
         W.close();
+    }
+    public void userLogout() throws IOException{
+        //cập nhật trạng thái user offline
+        updateStatus(getId(),"false");
+        //save log user logout
+        saveLog("User Id "+getId()+" logout");
+        for(ThreadClient tc : server.listUserLogin){
+            if(tc.getId().equals(getId())){
+                int i = server.listUserLogin.indexOf(tc);
+                server.listUserLogin.remove(i);
+            break;
+            }
+        }
+        this.read.close();
+        this.write.close();
+        this.s.close();
     }
     public void send(String message){
         try {
