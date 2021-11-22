@@ -9,6 +9,7 @@ public class PublicEvent {
     private EventLogin eventLogin;
     private EventMenuLeft eventmenuleft;
     private EventLoginSuccess eventLoginSuccess;
+    private EventUpdateInfo eventUpdateInfo;
     public static PublicEvent getInstance() {
         if (instance == null) {
             instance = new PublicEvent();
@@ -41,6 +42,9 @@ public class PublicEvent {
     public void addEvenLoginSuccess(EventLoginSuccess event){
         this.eventLoginSuccess = event;
     }
+    public void addEventUpdateInfo(EventUpdateInfo eventUpdateInfo) {
+        this.eventUpdateInfo = eventUpdateInfo;
+    }
     public EventMain getEventMain() {
         return eventMain;
     }
@@ -61,5 +65,8 @@ public class PublicEvent {
     }
     public EventLoginSuccess getEvenLoginSuccess(){
         return eventLoginSuccess;
+    }
+    public EventUpdateInfo getEventUpdateInfo() {
+        return eventUpdateInfo;
     }
 }
