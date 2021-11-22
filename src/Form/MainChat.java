@@ -6,6 +6,7 @@ import Form.Body.Event.EventLogin;
 import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
 import Form.Body.Home;
+import Form.Body.InforAccount;
 import Form.Login.Login;
 import Model.AccountModel;
 import Server.Client;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class MainChat extends javax.swing.JFrame {
@@ -53,6 +55,18 @@ public class MainChat extends javax.swing.JFrame {
             public void SelectUser(AccountModel ac) {
                 home.setUser(ac);
             }
+
+            @Override
+            public void SelectSystem() {
+                home.setSystem();
+            }
+            
+            @Override
+            public void BlockUser() {
+                home.setVisible(false);
+                login1.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Bạn đã bị hệ thống chặn");
+            }     
         });
     }
     @SuppressWarnings("unchecked")

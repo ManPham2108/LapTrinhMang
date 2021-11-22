@@ -8,7 +8,6 @@ import java.awt.Color;
 public class Chat_Title extends javax.swing.JPanel {
    
     private AccountModel aModel;
-
     public AccountModel getaModel() {
         return aModel;
     }
@@ -20,6 +19,10 @@ public class Chat_Title extends javax.swing.JPanel {
     public void setuser(AccountModel user){
         this.aModel = user;
         lbName.setText(aModel.getFullName());
+    }
+    public void setSystem(){
+        lbName.setText("System");
+        aModel = null;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -13,8 +13,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 import net.miginfocom.swing.MigLayout;
 
-
-
 public class Menu_left extends javax.swing.JPanel {
     private ArrayList<AccountModel> listPeople  = new ArrayList<>();
     private Gson gson = new Gson();
@@ -29,7 +27,7 @@ public class Menu_left extends javax.swing.JPanel {
         PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft(){
             @Override
             public void addlistUser(ArrayList<AccountModel> listuser) {
-                txtName.setText(Client.getInstance().Amodel.getFullName());
+                txtName.setText(Client.getInstance().User.getFullName());
                 listPeople = listuser;
                 for(AccountModel ac : listuser){
                     menuList.add(new Item_People(ac),"wrap");
@@ -44,13 +42,15 @@ public class Menu_left extends javax.swing.JPanel {
                         break;
                     }   
                 }
-                for(Component com : menuList.getComponents()){
-                    Item_People item = (Item_People) com;
-                    if(item.getUser().getId().equals(Id)){
-                        item.updateStatus();
-                        break;
-                    }                                                
-                }
+                if(menuMessage.isSelected()){
+                    for(Component com : menuList.getComponents()){
+                        Item_People item = (Item_People) com;
+                        if(item.getUser().getId().equals(Id)){
+                            item.updateStatus();
+                            break;
+                        }                                                
+                    }
+                } 
             }
             @Override
             public void updateStatusOffline(String Id) {
@@ -60,12 +60,14 @@ public class Menu_left extends javax.swing.JPanel {
                         break;
                     }   
                 }
-                for(Component com : menuList.getComponents()){
-                    Item_People item = (Item_People) com;
-                    if(item.getUser().getId().equals(Id)){
-                        item.updateStatus();
-                        break;
-                    }                                                
+                if(menuMessage.isSelected()){
+                    for(Component com : menuList.getComponents()){
+                        Item_People item = (Item_People) com;
+                        if(item.getUser().getId().equals(Id)){
+                            item.updateStatus();
+                            break;
+                        }                                                
+                    }
                 }
             }
 
@@ -93,13 +95,10 @@ public class Menu_left extends javax.swing.JPanel {
 //        refreshMenuList();
     }
 
-    private void showBox() {
-//        //  test data
-//        menuList.removeAll();
-//        for (int i = 0; i < 10; i++) {
-//            menuList.add(new Item_People("Box " + i), "wrap");
-//        }
-//        refreshMenuList();
+    private void showSystem() {
+        menuList.removeAll();
+        menuList.add(new Item_System("System"),"wrap");
+        refreshMenuList();
     }
 
     private void refreshMenuList() {
@@ -270,7 +269,6 @@ public class Menu_left extends javax.swing.JPanel {
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
 
         showPeople();
-
     }//GEN-LAST:event_menuMessageActionPerformed
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
@@ -278,11 +276,13 @@ public class Menu_left extends javax.swing.JPanel {
     }//GEN-LAST:event_menuGroupActionPerformed
 
     private void menuBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoxActionPerformed
-        showBox();
+        showSystem();
+        PublicEvent.getInstance().getEventMain().SelectSystem();
     }//GEN-LAST:event_menuBoxActionPerformed
 
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
-        System.out.println("aâ");
+        InforAccount ia = new InforAccount();
+        ia.setVisible(true);
     }//GEN-LAST:event_imageAvatar1MouseClicked
 
     private void imageAvatar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar2MouseClicked

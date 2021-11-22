@@ -26,6 +26,7 @@ public class CreateGroup extends javax.swing.JFrame {
         
     }
     public void listUser(ArrayList<AccountModel> listuser){
+        cbListUser.addItem("");
         for(AccountModel am : listuser){
             cbListUser.addItem(am.getFullName());
         }
@@ -44,10 +45,11 @@ public class CreateGroup extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         cbListUser = new javax.swing.JComboBox<>();
-        txtlistUser = new javax.swing.JTextField();
         btnCreateGroup = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtNameGroup = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtlistuser = new javax.swing.JTextArea();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,8 +75,6 @@ public class CreateGroup extends javax.swing.JFrame {
             }
         });
 
-        txtlistUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         btnCreateGroup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCreateGroup.setText("CREATE GROUP");
 
@@ -83,6 +83,11 @@ public class CreateGroup extends javax.swing.JFrame {
 
         txtNameGroup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        txtlistuser.setColumns(20);
+        txtlistuser.setLineWrap(true);
+        txtlistuser.setRows(5);
+        jScrollPane1.setViewportView(txtlistuser);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -90,19 +95,21 @@ public class CreateGroup extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(138, 138, 138)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnCreateGroup)
                             .addComponent(cbListUser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNameGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtlistUser, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addComponent(txtNameGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,13 +118,13 @@ public class CreateGroup extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNameGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(txtlistUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbListUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(btnCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,8 +142,8 @@ public class CreateGroup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbListUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListUserActionPerformed
-        txtlistUser.setText((String) cbListUser.getSelectedItem());
-        //txtlistUser.set (cbListUser.getAction();
+        txtlistuser.append((String) cbListUser.getSelectedItem()+", ");
+        
     }//GEN-LAST:event_cbListUserActionPerformed
 
     /**
@@ -181,7 +188,8 @@ public class CreateGroup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtNameGroup;
-    private javax.swing.JTextField txtlistUser;
+    private javax.swing.JTextArea txtlistuser;
     // End of variables declaration//GEN-END:variables
 }

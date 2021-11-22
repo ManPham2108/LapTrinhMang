@@ -46,13 +46,17 @@ public class Chat extends javax.swing.JPanel {
             }
             @Override
             public void reciveMessage(String text) {          
-                StringTokenizer st = new StringTokenizer(text,":");
+                StringTokenizer st = new StringTokenizer(text,"^&");
+                System.out.println(text);
                 String userid = st.nextToken();
-                if(chatTitle.getaModel().getId().equals(userid)){
-                    System.out.println("useridaaaaa "+userid);
-                    String test = st.nextToken();
-                    System.out.println("msg: "+test);
-                    chatBody.addItemLeft(test);
+                if(chatTitle.getaModel() == null && userid.equals("system")){
+                    chatBody.addItemLeft(st.nextToken());
+                }
+                else{
+                    if(chatTitle.getaModel().getId().equals(userid)){
+                        System.out.println("useridaaaaa "+userid);
+                        chatBody.addItemLeft(st.nextToken());
+                    } 
                 }
             }
 
@@ -69,7 +73,9 @@ public class Chat extends javax.swing.JPanel {
         chatTitle.setuser(am);
         chatBottom.setaModel(am);     
     }
-   
+    public void setSystem(){
+        chatTitle.setSystem();
+    }
     //@//SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

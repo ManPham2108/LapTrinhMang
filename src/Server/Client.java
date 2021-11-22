@@ -35,7 +35,7 @@ public class Client{
     private BufferedWriter write = null;
     private String localhost = "127.0.0.1";
     private String internet = "serverchat.ddns.net";
-    public AccountModel Amodel;
+    public AccountModel User;
     private Gson gson = new Gson();
     public static Client getInstance() {
         if(instance==null){
@@ -56,12 +56,12 @@ public class Client{
                 try { 
                     String msg = read.readLine();
                     System.out.println("Da doc: "+msg);
-                    StringTokenizer st = new StringTokenizer(msg,"#");
+                    StringTokenizer st = new StringTokenizer(msg,"#~");
                     String type = st.nextToken();
                     switch(type){
                         case "loginsucess":
                             ArrayList<AccountModel> listUser= gson.fromJson(st.nextToken(),new TypeToken<ArrayList<AccountModel>>() {}.getType());
-                            Amodel = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
+                            User = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
                             PublicEvent.getInstance().getEventMenuLeft().listUserCreatGroup(listUser);
@@ -70,18 +70,23 @@ public class Client{
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
                             break;
                         case "ClientToClient":
-//                                StringTokenizer a = new StringTokenizer(st.nextToken(),":");
-//                                String user = a.nextToken();
                               PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
                               break;
                         case "status":
-                            if(st.nextToken().equals("true")){
+                            String status = st.nextToken();
+                            if(status.equals("true")){
                                 PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(st.nextToken());
                             }
-                            else{
+                            if(status.equals("false")){
                                 PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(st.nextToken());
                             }
-                            //System.out.println(st.nextToken());
+                            break;
+                        case "block":
+                            PublicEvent.getInstance().getEventMain().BlockUser();
+                            break;
+                        case "messagesystem":
+                            PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
+                            break;
                     } 
                 }catch (IOException ex) {
                     break;

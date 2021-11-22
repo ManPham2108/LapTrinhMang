@@ -86,9 +86,9 @@ public class Chat_Bottom extends javax.swing.JPanel {
         String text = txt.getText().trim();
         if(!text.equals("")){
             PublicEvent.getInstance().getEventChat().sendMessage(text);
-            SendMessageModel smm = new SendMessageModel(Client.getInstance().Amodel.getId(), aModel.getId(), text);
+            SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text);
             try {
-                Client.getInstance().send("ClientToClient#"+convertArToString(smm));
+                Client.getInstance().send("ClientToClient#~"+convertArToString(smm));
             } catch (IOException ex) {
                 Logger.getLogger(Chat_Bottom.class.getName()).log(Level.SEVERE, null, ex);
             }

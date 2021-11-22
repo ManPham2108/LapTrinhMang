@@ -109,7 +109,7 @@ public class P_Login extends javax.swing.JPanel {
         String user = txtUser.getText();
         String pass = txtPass.getText();
         try {
-            Client.getInstance().send("login#"+user+":"+pass);
+            Client.getInstance().send("login#~"+user+"<,"+pass);
         } catch (IOException ex) {
             Logger.getLogger(P_Login.class.getName()).log(Level.SEVERE, null, ex);
         }

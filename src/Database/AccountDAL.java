@@ -21,14 +21,15 @@ import javax.mail.internet.MimeMessage;
  * @author letoan
  */
 public final class AccountDAL {
-
     MyConnectUnit connect;
     public ArrayList<AccountModel> allAccount = new ArrayList<AccountModel>();
+    public ArrayList<AccountModel> allAccountInfor = new ArrayList<>();
 
     public AccountDAL() {
         this.connect = Database.DAL.getDAL();
         try {
             allAccount = getAllAccount(null, null);
+            allAccountInfor = getAllAccountInfor(null, null);
         } catch (Exception ex) {
             Logger.getLogger(AccountDAL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -41,13 +42,23 @@ public final class AccountDAL {
             listAccount.add(new AccountModel(
                     rs.getString("Id"),
                     rs.getString("Username"),
-                    rs.getString("Password"),
+                    rs.getString("Password")
+            ));
+        }
+        return listAccount;
+    }
+    public ArrayList<AccountModel> getAllAccountInfor(String condition, String OrderBy) throws Exception {
+        ResultSet rs = this.connect.Select("accountinfor", condition, OrderBy);
+        ArrayList<AccountModel> listAccountinfor = new ArrayList<>();
+        while (rs.next()) {
+            listAccountinfor.add(new AccountModel(
+                    rs.getString("Id"),
                     rs.getString("FullName"),
                     rs.getString("Gender"),
                     rs.getDate("DateOfBirth")
             ));
         }
-        return listAccount;
+        return listAccountinfor;
     }
     public static void main(String[] args) throws Exception {
         AccountDAL ac = new AccountDAL();
@@ -62,7 +73,8 @@ public final class AccountDAL {
     public AccountModel getUser(String user,String pass) throws Exception{
         ArrayList<AccountModel> listAcc = this.getAllAccount("Username='" + user + "'"+" AND "+"Password='"+pass+"'", null);
         if(listAcc.size()>0){
-            return listAcc.get(0);
+            ArrayList<AccountModel> listAccInofr = this.getAllAccountInfor("Id='"+listAcc.get(0).getId()+"'", null);
+            return listAccInofr.get(0);
         }
         return null;
     }
@@ -70,15 +82,30 @@ public final class AccountDAL {
         allAccount=getAllAccount(null, null);
         user.setId("00"+(allAccount.size()+1));
         try {
-            HashMap<String, Object> hashUser = new HashMap<>();
-            hashUser.put("Id", user.getId());
-            hashUser.put("Username", user.getUsername());
-            hashUser.put("Password", user.getPassword());
-            hashUser.put("Fullname", user.getFullName());
-            hashUser.put("Gender", user.getGender());
-            hashUser.put("DateOfBirth", user.getDateOfBirth());
-            this.connect.insert("account", hashUser);
-            //allAccount.add(user);
+            HashMap<String, Object> hashUserAccount = new HashMap<>();
+            hashUserAccount.put("Id", user.getId());
+            hashUserAccount.put("Username", user.getUsername());
+            hashUserAccount.put("Password", user.getPassword());
+            HashMap<String, Object> hashUserAccountInfor = new HashMap<>();
+            hashUserAccountInfor.put("Id", user.getId());
+            hashUserAccountInfor.put("Fullname", user.getFullName());
+            hashUserAccountInfor.put("Gender", user.getGender());
+            hashUserAccountInfor.put("DateOfBirth", user.getDateOfBirth());
+            this.connect.insert("account", hashUserAccount);
+            this.connect.insert("accountinfor", hashUserAccountInfor);
+        } catch (Exception ex) {
+            
+        }
+    }
+    public void Update(AccountModel user){
+        try {
+            HashMap<String, Object> hashUseriInfor = new HashMap<>();
+            hashUseriInfor.put("Id", user.getId());
+            hashUseriInfor.put("Fullname", user.getFullName());
+            hashUseriInfor.put("Gender", user.getGender());
+            hashUseriInfor.put("DateOfBirth", user.getDateOfBirth());
+            System.out.println(user.getId());
+            this.connect.update("accountinfor", hashUseriInfor, "Id='"+user.getId()+"'");
         } catch (Exception ex) {
             
         }

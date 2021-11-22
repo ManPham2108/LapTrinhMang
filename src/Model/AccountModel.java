@@ -29,16 +29,29 @@ public class AccountModel {
     private boolean status;
     //private final DES_For_Client DES_Client;
 
-    public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {        
+    public AccountModel(String Id, String Username, String Password) {        
+        this.Id = Id;
+        this.Username = Username;
+        this.Password = Password;
+        //this.DES_Client = new DES_For_Client();
+    }
+    public AccountModel(String Id,String FullName, String Gender, Date DateOfBirth){
+        this.Id = Id;
+        this.FullName = FullName;
+        this.Gender = Gender;
+        this.DateOfBirth = DateOfBirth;
+        this.status = status;
+    }
+
+    public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {
         this.Id = Id;
         this.Username = Username;
         this.Password = Password;
         this.FullName = FullName;
         this.Gender = Gender;
         this.DateOfBirth = DateOfBirth;
-        //this.DES_Client = new DES_For_Client();
-        this.status = status;
     }
+    
     public AccountModel(){};
     /**
      * Send string of this method for server

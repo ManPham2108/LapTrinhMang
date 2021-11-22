@@ -38,6 +38,11 @@ public class Home extends javax.swing.JLayeredPane {
         chat.setVisible(false);
         chat.setVisible(true);  
     }
+    public void setSystem(){
+        chat.setSystem();
+        chat.setVisible(false);
+        chat.setVisible(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
