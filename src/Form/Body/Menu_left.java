@@ -4,6 +4,7 @@ package Form.Body;
 import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.PublicEvent;
+import Form.UpdateInfo.BodyUpdateInfo;
 import Model.AccountModel;
 import Server.Client;
 import com.google.gson.Gson;
@@ -281,8 +282,8 @@ public class Menu_left extends javax.swing.JPanel {
     }//GEN-LAST:event_menuBoxActionPerformed
 
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
-        InforAccount ia = new InforAccount();
-        ia.setVisible(true);
+        BodyUpdateInfo body = new BodyUpdateInfo();
+        body.setVisible(true);
     }//GEN-LAST:event_imageAvatar1MouseClicked
 
     private void imageAvatar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar2MouseClicked
