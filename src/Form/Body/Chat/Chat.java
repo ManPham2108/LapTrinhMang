@@ -46,20 +46,20 @@ public class Chat extends javax.swing.JPanel {
             }
             @Override
             public void reciveMessage(String text) {          
-                StringTokenizer st = new StringTokenizer(text,"^&");
+                //StringTokenizer st = new StringTokenizer(text,"^&");
+                String[] message = text.split("#-~");
                 System.out.println(text);
-                String userid = st.nextToken();
+                String userid = message[0];
                 if(chatTitle.getaModel() == null && userid.equals("system")){
-                    chatBody.addItemLeft(st.nextToken());
+                    chatBody.addItemLeft(message[1]);
                 }
                 else{
-                    if(chatTitle.getaModel().getId().equals(userid)){
+                    if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
                         System.out.println("useridaaaaa "+userid);
-                        chatBody.addItemLeft(st.nextToken());
+                        chatBody.addItemLeft(message[1]);
                     } 
                 }
             }
-
             @Override
             public void removeAllChatBody(){
                 chatBody.removeItemRight();
@@ -67,9 +67,9 @@ public class Chat extends javax.swing.JPanel {
 
             @Override
             public void loadMessage(String text) {
-                StringTokenizer st = new StringTokenizer(text,"^&");
-                String userid = st.nextToken();
-                String message = st.nextToken();
+                String[] a = text.split("#-~");
+                String userid = a[0];
+                String message = a[1];
                 if(chatTitle.getaModel().getId().equals(userid)){
                     chatBody.addItemLeft(message);
                 }

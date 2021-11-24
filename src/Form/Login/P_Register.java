@@ -195,7 +195,7 @@ public class P_Register extends javax.swing.JPanel {
         String user = gson.toJson(userRegister);
         try {
             PublicEvent.getInstance().getEventLogin().register();
-            Client.getInstance().send("register#"+user);
+            Client.getInstance().send("register#~"+user);
         } catch (IOException ex) {
             Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
         }

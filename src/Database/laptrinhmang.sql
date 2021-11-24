@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 04:44 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Nov 24, 2021 at 10:00 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,21 +30,22 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `account` (
   `Id` varchar(5) NOT NULL,
   `Username` varchar(100) NOT NULL,
-  `Password` varchar(500) NOT NULL
+  `Password` varchar(500) NOT NULL,
+  `Block` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`Id`, `Username`, `Password`) VALUES
-('001', 'a@gmail.com', '123456789'),
-('002', 'b@gmail.com', '123456789'),
-('003', 'c@gmail.com', '123456789'),
-('004', 'd@gmail.com', '123456789'),
-('005', 'e@gmail.com', '12345679'),
-('006', 'f@gmail.com', '123456789'),
-('007', 'g@gmail.com', '123456789');
+INSERT INTO `account` (`Id`, `Username`, `Password`, `Block`) VALUES
+('001', 'a@gmail.com', '123456789', 'False'),
+('002', 'b@gmail.com', '123456789', 'False'),
+('003', 'c@gmail.com', '123456789', 'False'),
+('004', 'd@gmail.com', '123456789', 'False'),
+('005', 'e@gmail.com', '12345679', 'False'),
+('006', 'f@gmail.com', '123456789', 'False'),
+('007', 'g@gmail.com', '123456789', 'False');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `accountinfor` (
 --
 
 INSERT INTO `accountinfor` (`Id`, `FullName`, `Gender`, `DateOfBirth`) VALUES
-('001', 'Phạm Minh Mẫn', 'Male', '2000-12-28'),
+('001', 'Phạm Minh Mẫn', 'Female', '2000-12-28'),
 ('002', 'Vũ Anh Phúc', 'Male', '2000-11-17'),
 ('003', 'Phạm Nhật Khánh', 'Male', '2000-01-03'),
 ('004', 'Phạm Minh Minh', 'Female', '2000-11-10'),

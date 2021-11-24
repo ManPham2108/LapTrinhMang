@@ -9,4 +9,5 @@ public interface EventMain {
     public void SelectUser(AccountModel ac);
     public void SelectSystem();
     public void BlockUser();
+    public void logout();
 }

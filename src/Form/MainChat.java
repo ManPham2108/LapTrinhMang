@@ -8,6 +8,8 @@ import Form.Body.Event.PublicEvent;
 import Form.Body.Home;
 import Form.Body.InforAccount;
 import Form.Login.Login;
+import Form.UpdateInfo.FormUpdateInfo;
+import Form.UpdateInfo.P_UpdateInfo;
 import Model.AccountModel;
 import Server.Client;
 import com.sun.org.apache.bcel.internal.generic.AALOAD;
@@ -66,7 +68,16 @@ public class MainChat extends javax.swing.JFrame {
                 home.setVisible(false);
                 login1.setVisible(true);
                 JOptionPane.showMessageDialog(null, "Bạn đã bị hệ thống chặn");
-            }     
+            }
+
+            @Override
+            public void logout() {
+                home.setVisible(false);
+                login1.setVisible(true);
+                //new FormUpdateInfo().setVisible(false);
+                new P_UpdateInfo().setVisible(false);
+            }
+           
         });
     }
     @SuppressWarnings("unchecked")

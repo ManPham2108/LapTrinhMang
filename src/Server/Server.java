@@ -69,26 +69,46 @@ public class Server {
                         case "alluseronline":
                             int sumuseronline=0;
                             for(ThreadClient tc : listUserLogin){
-                                if(tc.getId() != null){
+                                if(tc.getId() != null && !tc.getId().equals("")){
                                     sumuseronline++;
                                 }
                             }
                             System.out.println("Sum user online: "+sumuseronline);
                             break;
                         case "block":
+                            String userid = st.nextToken();
                             for(ThreadClient tc : listUserLogin){
-                                if(tc.getId().equals(st.nextToken())){
-                                    tc.send("block#~");
-                                    tc.setBlock(true);
-                                    break;
+                                if(tc.getId().equals(userid)){
+                                    try {
+                                        ac.UpdateBlock(userid, "True");
+                                        tc.send("block#~");
+                                        tc.setBlock(true);
+                                        break;
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    
                                 }    
+                            }
+                            break;
+                        case "unblock":
+                            String id = st.nextToken();
+                            for(ThreadClient tc : listUserLogin){
+                                if(tc.getId()!=null && tc.getId().equals(id)){
+                                    tc.setBlock(false);
+                                }
+                            }
+                            try {
+                                ac.UpdateBlock(id, "False");
+                            } catch (Exception ex) {
+                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
                         case "allmessage":
                             String message = st.nextToken();
                             for(ThreadClient tc : listUserLogin){
                                 if(tc.getId()!=null){
-                                    tc.send("messagesystem#~system^&"+message);
+                                    tc.send("messagesystem#~system#-~"+message);
                                 }    
                             }
                             break;

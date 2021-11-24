@@ -5,6 +5,7 @@ import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.PublicEvent;
 import Form.UpdateInfo.BodyUpdateInfo;
+import Form.UpdateInfo.FormUpdateInfo;
 import Model.AccountModel;
 import Server.Client;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ public class Menu_left extends javax.swing.JPanel {
             @Override
             public void addlistUser(ArrayList<AccountModel> listuser) {
                 txtName.setText(Client.getInstance().User.getFullName());
+                menuList.removeAll();
                 listPeople = listuser;
                 for(AccountModel ac : listuser){
                     menuList.add(new Item_People(ac),"wrap");
@@ -303,8 +305,8 @@ public class Menu_left extends javax.swing.JPanel {
     }//GEN-LAST:event_menuBoxActionPerformed
 
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
-        BodyUpdateInfo body = new BodyUpdateInfo();
-        body.setVisible(true);
+        FormUpdateInfo update = new FormUpdateInfo();
+        update.setVisible(true);
     }//GEN-LAST:event_imageAvatar1MouseClicked
 
     private void imageAvatar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar2MouseClicked

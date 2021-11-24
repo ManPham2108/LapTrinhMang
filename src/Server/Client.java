@@ -56,41 +56,42 @@ public class Client{
                 try { 
                     String msg = read.readLine();
                     System.out.println("Da nhan: "+msg);
-                    StringTokenizer st = new StringTokenizer(msg,"#~");
-                    String type = st.nextToken();
+                    String[] message = msg.split("#~");
+                   // StringTokenizer st = new StringTokenizer(msg,"#~");
+                    String type = message[0];
                     switch(type){
                         case "loginsucess":
-                            ArrayList<AccountModel> listUser= gson.fromJson(st.nextToken(),new TypeToken<ArrayList<AccountModel>>() {}.getType());
-                            User = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
+                            ArrayList<AccountModel> listUser= gson.fromJson(message[1],new TypeToken<ArrayList<AccountModel>>() {}.getType());
+                            User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
-                            PublicEvent.getInstance().getEventMenuLeft().listUserCreatGroup(listUser);
+                            //PublicEvent.getInstance().getEventMenuLeft().listUserCreatGroup(listUser);
                             break;
                         case "loginfaile":
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
                             break;
                         case "ClientToClient":
-                              PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
+                              PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
                               break;
                         case "status":
-                            String status = st.nextToken();
+                            String status = message[1];
                             if(status.equals("true")){
-                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(st.nextToken());
+                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(message[2]);
                             }
                             if(status.equals("false")){
-                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(st.nextToken());
+                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(message[2]);
                             }
                             break;
                         case "block":
                             PublicEvent.getInstance().getEventMain().BlockUser();
                             break;
                         case "messagesystem":
-                            PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
+                            PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
                             break;
                         case "loadmessage":
-                            String tmp = st.nextToken();
+                            String tmp = message[1];
                             if(tmp.equals("yes")){
-                                PublicEvent.getInstance().getEventChat().loadMessage(st.nextToken());
+                                PublicEvent.getInstance().getEventChat().loadMessage(message[2].toString());
                             }
                     } 
                 }catch (IOException ex) {

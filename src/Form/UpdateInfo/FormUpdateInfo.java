@@ -70,6 +70,7 @@ public class FormUpdateInfo extends javax.swing.JFrame {
 
     private void btnCloseUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseUpdateActionPerformed
         dispose();
+        
     }//GEN-LAST:event_btnCloseUpdateActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

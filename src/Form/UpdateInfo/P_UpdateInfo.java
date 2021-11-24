@@ -1,20 +1,40 @@
 package Form.UpdateInfo;
 
 import Form.Body.Event.PublicEvent;
+import Form.Body.InforAccount;
+import Model.AccountModel;
+import Server.Client;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class P_UpdateInfo extends javax.swing.JPanel {
-
+    private AccountModel user;
     public P_UpdateInfo() {
         initComponents();
+        init();
     }
-
+    private void init(){
+        this.user = Client.getInstance().User;
+        txtFullName.setText(user.getFullName());
+        if(user.getGender().equals("Male")){
+            btnMale.setSelected(true);
+        }
+        else{
+            btnFemale.setSelected(true);
+        }
+        jDateBirth.setDate(user.getDateOfBirth());
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         lbTitle = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         cmdUpdateInfo = new javax.swing.JButton();
         cmdBackChangePassword = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -24,7 +44,6 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jDateBirth = new com.toedter.calendar.JDateChooser();
-        lbUsername = new javax.swing.JLabel();
         lbErrDate = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -33,8 +52,6 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Change Information");
-
-        jLabel1.setText("User Name");
 
         cmdUpdateInfo.setText("Change");
         cmdUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -71,11 +88,8 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         jDateBirth.setToolTipText("");
         jDateBirth.setDateFormatString("yyyy/MM/dd");
 
-        lbUsername.setText("a@gmail.com");
-
         lbErrDate.setForeground(new java.awt.Color(255, 0, 51));
         lbErrDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbErrDate.setText("Date invalid !");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -87,10 +101,8 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmdBackChangePassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmdUpdateInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtFullName)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -128,15 +140,11 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbErrDate)
-                .addGap(8, 8, 8)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(2, 2, 2)
+                .addComponent(lbErrDate, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(cmdUpdateInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdBackChangePassword)
                 .addContainerGap())
         );
@@ -147,7 +155,32 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackChangePasswordActionPerformed
 
     private void cmdUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUpdateInfoActionPerformed
-
+        String gender;
+        Gson gson = new Gson();
+        if(btnFemale.isSelected()){
+            gender = "Female";
+        }
+        else{
+            gender = "Male";
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String DateOfBirth=sdf.format(jDateBirth.getDate());
+        AccountModel updateuser = new AccountModel();
+        updateuser.setId(user.getId());
+        updateuser.setFullName(txtFullName.getText());
+        updateuser.setGender(gender);
+        updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
+        String user = gson.toJson(updateuser);
+        try {
+            Client.getInstance().send("updateuser#~"+user);
+            JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
+            //Client.getInstance().User = updateuser;
+            PublicEvent.getInstance().getEventMain().logout();
+            Client.getInstance().send("logout#~"+updateuser.getId());
+        } catch (IOException ex) {
+            Logger.getLogger(InforAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         
     }//GEN-LAST:event_cmdUpdateInfoActionPerformed
@@ -160,13 +193,11 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     private javax.swing.JButton cmdBackChangePassword;
     private javax.swing.JButton cmdUpdateInfo;
     private com.toedter.calendar.JDateChooser jDateBirth;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lbErrDate;
     private javax.swing.JLabel lbTitle;
-    private javax.swing.JLabel lbUsername;
     private javax.swing.JTextField txtFullName;
     // End of variables declaration//GEN-END:variables
 }

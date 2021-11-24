@@ -1,20 +1,10 @@
 package Database;
 import Model.AccountModel;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Session;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -42,7 +32,8 @@ public final class AccountDAL {
             listAccount.add(new AccountModel(
                     rs.getString("Id"),
                     rs.getString("Username"),
-                    rs.getString("Password")
+                    rs.getString("Password"),
+                    rs.getString("Block")
             ));
         }
         return listAccount;
@@ -69,6 +60,7 @@ public final class AccountDAL {
         ArrayList<AccountModel> listAcc = this.getAllAccount("Username='" + user + "'"+" AND "+"Password='"+pass+"'", null);
         if(listAcc.size()>0){
             ArrayList<AccountModel> listAccInofr = this.getAllAccountInfor("Id='"+listAcc.get(0).getId()+"'", null);
+            listAccInofr.get(0).setBlock(listAcc.get(0).getBlock());
             return listAccInofr.get(0);
         }
         return null;
@@ -81,6 +73,7 @@ public final class AccountDAL {
             hashUserAccount.put("Id", user.getId());
             hashUserAccount.put("Username", user.getUsername());
             hashUserAccount.put("Password", user.getPassword());
+            hashUserAccount.put("Block", "False");
             HashMap<String, Object> hashUserAccountInfor = new HashMap<>();
             hashUserAccountInfor.put("Id", user.getId());
             hashUserAccountInfor.put("Fullname", user.getFullName());
@@ -92,7 +85,12 @@ public final class AccountDAL {
             
         }
     }
-    public void Update(AccountModel user){
+    public void UpdateBlock(String userid,String status) throws Exception{
+        HashMap<String, Object> hashAccount = new HashMap<>();
+        hashAccount.put("Block", status);
+        this.connect.update("account",hashAccount,"Id='"+userid+"'");
+    }
+    public void UpdateInfor(AccountModel user){
         try {
             HashMap<String, Object> hashUseriInfor = new HashMap<>();
             hashUseriInfor.put("Id", user.getId());

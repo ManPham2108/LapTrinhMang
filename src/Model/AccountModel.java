@@ -27,12 +27,14 @@ public class AccountModel {
     private String Gender;
     private Date DateOfBirth;
     private boolean status;
+    private String Block;
     //private final DES_For_Client DES_Client;
 
-    public AccountModel(String Id, String Username, String Password) {        
+    public AccountModel(String Id, String Username, String Password,String Block) {        
         this.Id = Id;
         this.Username = Username;
         this.Password = Password;
+        this.Block = Block;
         //this.DES_Client = new DES_For_Client();
     }
     public AccountModel(String Id,String FullName, String Gender, Date DateOfBirth){
@@ -41,6 +43,7 @@ public class AccountModel {
         this.Gender = Gender;
         this.DateOfBirth = DateOfBirth;
         this.status = status;
+        this.Block = Block;
     }
 
     public AccountModel(String Id, String Username, String Password, String FullName, String Gender, Date DateOfBirth) {
@@ -122,6 +125,14 @@ public class AccountModel {
     }
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getBlock() {
+        return Block;
+    }
+
+    public void setBlock(String Block) {
+        this.Block = Block;
     }
     
 }
