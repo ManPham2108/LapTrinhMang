@@ -34,7 +34,7 @@ public class Chat extends javax.swing.JPanel {
         init();
     }
     private void init() throws IOException{
-        setLayout(new MigLayout("fillx","0[fill]0","0[]0[100%,bottom]0[shrink 0]0"));
+        setLayout(new MigLayout("fillx", "0[fill]0", "0[]0[100%, fill]0[shrink 0]0"));
         chatTitle = new Chat_Title();
         chatBody = new Chat_Body();
         chatBottom = new Chat_Bottom();
@@ -64,10 +64,23 @@ public class Chat extends javax.swing.JPanel {
             public void removeAllChatBody(){
                 chatBody.removeItemRight();
             }
+
+            @Override
+            public void loadMessage(String text) {
+                StringTokenizer st = new StringTokenizer(text,"^&");
+                String userid = st.nextToken();
+                String message = st.nextToken();
+                if(chatTitle.getaModel().getId().equals(userid)){
+                    chatBody.addItemLeft(message);
+                }
+                if(Client.getInstance().User.getId().equals(userid)){
+                   chatBody.addItemRight(message);
+                }
+            }
         });
         add(chatTitle,"wrap");
         add(chatBody,"wrap");
-        add(chatBottom,"h ::20%");
+        add(chatBottom,"h ::30%");
     }
     public void setUser(AccountModel am){
         chatTitle.setuser(am);

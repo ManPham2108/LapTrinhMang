@@ -13,7 +13,7 @@ public class Item_System extends javax.swing.JPanel {
     public Item_System(String name){
         initComponents();
         lbName.setText(name);
-        
+        PublicEvent.getInstance().getEventChat().removeAllChatBody();
         //init();
     }
 //    private void init(){

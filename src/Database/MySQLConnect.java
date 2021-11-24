@@ -100,7 +100,7 @@ public class MySQLConnect {
     }
 
     public static void main(String[] args) throws Exception {
-        MySQLConnect m = new MySQLConnect("localhost:3306", "root", "admin1234", "laptrinhmang");
+        MySQLConnect m = new MySQLConnect("localhost:3306", "root","", "laptrinhmang");
         Connection c = m.getConnect();
 
 //        ArrayList<TourDuLichModel> list = new ArrayList<>();
@@ -109,5 +109,5 @@ public class MySQLConnect {
 //        list = tourService.getTours();
 //        System.out.println(list.size());
     }
-
+//skip-grant-tables
 }

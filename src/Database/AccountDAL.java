@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 public final class AccountDAL {
     MyConnectUnit connect;
     public ArrayList<AccountModel> allAccount = new ArrayList<AccountModel>();
-    public ArrayList<AccountModel> allAccountInfor = new ArrayList<>();
+    public ArrayList<AccountModel> allAccountInfor = new ArrayList<AccountModel>();
 
     public AccountDAL() {
         this.connect = Database.DAL.getDAL();
@@ -63,11 +63,6 @@ public final class AccountDAL {
     public static void main(String[] args) throws Exception {
         AccountDAL ac = new AccountDAL();
         AccountModel am = ac.getUser("a@gmail.com", "123456789");
-        Gson gson = new Gson();
-        String json = gson.toJson(am);
-        System.out.println(json);
-        AccountModel a = gson.fromJson(json,new TypeToken<AccountModel>() {}.getType());
-        System.out.println(a.getFullName());
 
     }
     public AccountModel getUser(String user,String pass) throws Exception{

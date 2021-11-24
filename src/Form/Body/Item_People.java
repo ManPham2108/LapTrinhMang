@@ -4,9 +4,14 @@ package Form.Body;
 import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
+import Model.SendMessageModel;
+import Server.Client;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Item_People extends javax.swing.JPanel {
@@ -51,6 +56,11 @@ public class Item_People extends javax.swing.JPanel {
             public void mouseReleased(MouseEvent e) {
                 PublicEvent.getInstance().getEventMain().SelectUser(user);
                 PublicEvent.getInstance().getEventChat().removeAllChatBody();
+                try {
+                    Client.getInstance().send("loadmessage#~"+Client.getInstance().User.getId()+"^&"+user.getId());
+                } catch (IOException ex) {
+                    Logger.getLogger(Item_People.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }  
         });
     }

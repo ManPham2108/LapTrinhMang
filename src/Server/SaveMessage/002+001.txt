@@ -1,0 +1,6 @@
+002:chào bạn mẫn
+001:chào bạn phúc
+001:bạn khỏe chứ
+002:khỏe vãi bạn eii
+001:say hi
+002:say you

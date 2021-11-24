@@ -49,42 +49,58 @@ public class Server {
         @Override
         public void run() {
             while (true) {                
-            AccountDAL ac = new AccountDAL();
-            Scanner sc = new Scanner(System.in);
-            String command = sc.nextLine();
-            StringTokenizer st = new StringTokenizer(command,">");
-            switch(st.nextToken().toLowerCase()){
-                case "alluser":
-                    int sum = ac.allAccountInfor.size();
-                    System.out.println("Sum user: "+sum);
-                    break;
-                case "alluseronline":
-                    int sumuseronline=0;
-                    for(ThreadClient tc : listUserLogin){
-                        if(tc.getId() != null){
-                            sumuseronline++;
-                        }
-                    }
-                    System.out.println("Sum user online: "+sumuseronline);
-                    break;
-                case "block":
-                    for(ThreadClient tc : listUserLogin){
-                        if(tc.getId().equals(st.nextToken())){
-                            tc.send("block#~");
-                            tc.setBlock(true);
-                            break;
-                        }    
-                    }
-                    break;
-                case "allmessage":
-                    String message = st.nextToken();
-                    for(ThreadClient tc : listUserLogin){
-                        if(tc.getId()!=null){
-                            tc.send("messagesystem#~system^&"+message);
-                        }    
-                    }
-                    break;
+                AccountDAL ac = new AccountDAL();
+                Scanner sc = new Scanner(System.in);
+                String command = sc.nextLine();
+                if(!command.contains(">")){
+                    System.out.println("Sai cú pháp");
+                    System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                    System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                    System.out.println("Nếu muốn block user hãy nhập: blocd>userid");
+                    System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                 }
+                else{
+                    StringTokenizer st = new StringTokenizer(command,">");
+                    switch(st.nextToken().toLowerCase()){
+                        case "alluser":
+                            int sum = ac.allAccountInfor.size();
+                            System.out.println("Sum user: "+sum);
+                            break;
+                        case "alluseronline":
+                            int sumuseronline=0;
+                            for(ThreadClient tc : listUserLogin){
+                                if(tc.getId() != null){
+                                    sumuseronline++;
+                                }
+                            }
+                            System.out.println("Sum user online: "+sumuseronline);
+                            break;
+                        case "block":
+                            for(ThreadClient tc : listUserLogin){
+                                if(tc.getId().equals(st.nextToken())){
+                                    tc.send("block#~");
+                                    tc.setBlock(true);
+                                    break;
+                                }    
+                            }
+                            break;
+                        case "allmessage":
+                            String message = st.nextToken();
+                            for(ThreadClient tc : listUserLogin){
+                                if(tc.getId()!=null){
+                                    tc.send("messagesystem#~system^&"+message);
+                                }    
+                            }
+                            break;
+                        default:
+                            System.out.println("Sai cú pháp");
+                            System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                            System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                            System.out.println("Nếu muốn block user hãy nhập: blocd>userid");
+                            System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                            break;
+                    }
+                }              
             }
         }
     });

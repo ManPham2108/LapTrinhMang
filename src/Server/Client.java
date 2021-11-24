@@ -55,7 +55,7 @@ public class Client{
             while (true) {
                 try { 
                     String msg = read.readLine();
-                    System.out.println("Da doc: "+msg);
+                    System.out.println("Da nhan: "+msg);
                     StringTokenizer st = new StringTokenizer(msg,"#~");
                     String type = st.nextToken();
                     switch(type){
@@ -87,6 +87,11 @@ public class Client{
                         case "messagesystem":
                             PublicEvent.getInstance().getEventChat().reciveMessage(st.nextToken());
                             break;
+                        case "loadmessage":
+                            String tmp = st.nextToken();
+                            if(tmp.equals("yes")){
+                                PublicEvent.getInstance().getEventChat().loadMessage(st.nextToken());
+                            }
                     } 
                 }catch (IOException ex) {
                     break;

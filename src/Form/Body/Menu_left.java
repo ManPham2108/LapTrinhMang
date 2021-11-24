@@ -25,6 +25,7 @@ public class Menu_left extends javax.swing.JPanel {
     private void init(){
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx","0[]0","0[]0"));
+        menuMessage.setSelected(true);
         PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft(){
             @Override
             public void addlistUser(ArrayList<AccountModel> listuser) {
@@ -125,6 +126,8 @@ public class Menu_left extends javax.swing.JPanel {
         setBackground(new java.awt.Color(242, 242, 242));
 
         menuMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/message_selected.png"))); // NOI18N
+        menuMessage.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/Image/message_selected.png"))); // NOI18N
+        menuMessage.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/Image/message_selected.png"))); // NOI18N
         menuMessage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuMessageActionPerformed(evt);
@@ -132,6 +135,8 @@ public class Menu_left extends javax.swing.JPanel {
         });
 
         menuGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/group_selected.png"))); // NOI18N
+        menuGroup.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/Image/group_selected.png"))); // NOI18N
+        menuGroup.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/Image/group_selected.png"))); // NOI18N
         menuGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuGroupActionPerformed(evt);
@@ -139,6 +144,8 @@ public class Menu_left extends javax.swing.JPanel {
         });
 
         menuBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/box_selected.png"))); // NOI18N
+        menuBox.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/Image/box_selected.png"))); // NOI18N
+        menuBox.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/Image/box_selected.png"))); // NOI18N
         menuBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoxActionPerformed(evt);
@@ -175,7 +182,7 @@ public class Menu_left extends javax.swing.JPanel {
         menuList.setLayout(menuListLayout);
         menuListLayout.setHorizontalGroup(
             menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 161, Short.MAX_VALUE)
+            .addGap(0, 167, Short.MAX_VALUE)
         );
         menuListLayout.setVerticalGroup(
             menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,16 +275,30 @@ public class Menu_left extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
-
-        showPeople();
+        if (!menuMessage.isSelected()) {
+            menuMessage.setSelected(true);
+            menuGroup.setSelected(false);
+            menuBox.setSelected(false);
+            showPeople();
+        }
     }//GEN-LAST:event_menuMessageActionPerformed
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
-       showGroup();
+       if (!menuGroup.isSelected()) {
+            menuMessage.setSelected(false);
+            menuGroup.setSelected(true);
+            menuBox.setSelected(false);
+            showGroup();
+       }
     }//GEN-LAST:event_menuGroupActionPerformed
 
     private void menuBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoxActionPerformed
-        showSystem();
+        if (!menuBox.isSelected()) {
+            menuMessage.setSelected(false);
+            menuGroup.setSelected(false);
+            menuBox.setSelected(true);
+            showSystem();
+        }
         PublicEvent.getInstance().getEventMain().SelectSystem();
     }//GEN-LAST:event_menuBoxActionPerformed
 

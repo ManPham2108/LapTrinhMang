@@ -13,8 +13,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException; 
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -74,6 +77,7 @@ public class ThreadClient implements Runnable{
                         break;
                     case "ClientToClient":
                         smm = gson.fromJson(st.nextToken(),new TypeToken<SendMessageModel>() {}.getType());
+                        saveMessage(smm.getFromUserId(), smm.getToUserId(), smm.getMessage());
                         for(ThreadClient tc : Server.listUserLogin){
                             if(smm.getToUserId().equals(tc.getId())){
                                 tc.write.write("ClientToClient#~"+smm.getFromUserId()+"^&"+smm.getMessage());
@@ -94,6 +98,10 @@ public class ThreadClient implements Runnable{
                         updateuser = gson.fromJson(st.nextToken(),new TypeToken<AccountModel>() {}.getType());
                         ac.Update(updateuser);
                         saveLog(updateuser.getId()+" update information account");
+                        break;
+                    case "loadmessage":
+                        StringTokenizer load = new StringTokenizer(st.nextToken(),"^&");
+                        loadMessage(load.nextToken(), load.nextToken());
                         break;
                 }
                 
@@ -147,9 +155,7 @@ public class ThreadClient implements Runnable{
         String user = convertArToString(ab);
         send("loginsucess#~"+listuser+"#~"+user);
     }
-    public String convertArToString(Object object){
-        return gson.toJson(object);
-    }
+
     public void updateStatus(String id,String status) throws IOException{
         for(ThreadClient tc : Server.listUserLogin){
             if(tc.getId()!=null && !tc.getId().equals(id)){
@@ -165,6 +171,59 @@ public class ThreadClient implements Runnable{
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         W.write(timeStamp+" "+log+"\n");
         W.close();
+    }
+    public void saveMessage(String fromuserid,String touserid,String message) throws IOException{
+        String url1 = "./src/Server/SaveMessage/"+fromuserid+"+"+touserid+".txt";
+        String url2= "./src/Server/SaveMessage/"+touserid+"+"+fromuserid+".txt";
+        File file1 = new File(url1);
+        File file2 = new File(url2);
+        if(file1.exists()==false && file2.exists()==false){
+            BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url1).getAbsoluteFile(),true));
+            savemessage.write(fromuserid+":"+message+"\n");
+            savemessage.close();
+        }
+        else{
+            if(file1.exists()){
+                BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url1).getAbsoluteFile(),true));
+                savemessage.write(fromuserid+":"+message+"\n");
+                savemessage.close();
+            }
+            if(file2.exists()==true){
+                BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url2).getAbsoluteFile(),true));
+                savemessage.write(fromuserid+":"+message+"\n");
+                savemessage.close();
+            }
+        }
+    }
+    public void loadMessage(String fromuserid,String touserid) throws FileNotFoundException, IOException{
+        String url1 = "./src/Server/SaveMessage/"+fromuserid+"+"+touserid+".txt";
+        String url2= "./src/Server/SaveMessage/"+touserid+"+"+fromuserid+".txt";
+        File file1 = new File(url1);
+        File file2 = new File(url2);
+        if(file1.exists()){
+            BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url1)));
+            String line = read.readLine();
+            while(line!=null){
+                StringTokenizer st = new StringTokenizer(line,":");
+                send("loadmessage#~yes#~"+st.nextToken()+"^&"+st.nextToken());
+                line = read.readLine();
+            }
+            read.close();
+        }
+        if(file2.exists()){
+            BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url2)));
+            String line = read.readLine();
+            while(line!=null){
+                StringTokenizer st = new StringTokenizer(line,":");
+                send("loadmessage#~yes#~"+st.nextToken()+"^&"+st.nextToken());
+                line = read.readLine();
+            }
+            read.close();
+        }
+        else{
+            send("loadmessage#~not");
+        }
+        
     }
     public void userLogout() throws IOException{
         //cập nhật trạng thái user offline
@@ -193,5 +252,8 @@ public class ThreadClient implements Runnable{
     }
     public String Reccive() throws IOException{
         return read.readLine();
+    }
+    public String convertArToString(Object object){
+        return gson.toJson(object);
     }
 }
