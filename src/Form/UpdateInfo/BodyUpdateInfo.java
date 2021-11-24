@@ -11,11 +11,12 @@ public class BodyUpdateInfo extends javax.swing.JPanel {
     }
 
     private void init() {
+        P_UpdateInfo update = new P_UpdateInfo();
         PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
             @Override
             public void updateInfo() {
-                // TODO: Update Info and close form update
-                
+                update.setVisible(false);
+                new FormUpdateInfo().close();
             }
 
             @Override

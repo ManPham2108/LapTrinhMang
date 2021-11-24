@@ -2,17 +2,12 @@ package Form;
 
 import Form.Body.Chat.Chat_Bottom;
 import Form.Body.Chat.Chat_Title;
-import Form.Body.Event.EventLogin;
 import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
-import Form.Body.Home;
-import Form.Body.InforAccount;
-import Form.Login.Login;
 import Form.UpdateInfo.FormUpdateInfo;
 import Form.UpdateInfo.P_UpdateInfo;
 import Model.AccountModel;
 import Server.Client;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import component.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -22,7 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class MainChat extends javax.swing.JFrame {
     public Chat_Title chatTitel ;
@@ -74,8 +68,7 @@ public class MainChat extends javax.swing.JFrame {
             public void logout() {
                 home.setVisible(false);
                 login1.setVisible(true);
-                //new FormUpdateInfo().setVisible(false);
-                new P_UpdateInfo().setVisible(false);
+                //new FormUpdateInfo().close();
             }
            
         });

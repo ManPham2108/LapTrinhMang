@@ -10,6 +10,7 @@ public class PublicEvent {
     private EventMenuLeft eventmenuleft;
     private EventLoginSuccess eventLoginSuccess;
     private EventUpdateInfo eventUpdateInfo;
+    private EventAuthenOtp eventAuthenOtp;
     public static PublicEvent getInstance() {
         if (instance == null) {
             instance = new PublicEvent();
@@ -69,4 +70,13 @@ public class PublicEvent {
     public EventUpdateInfo getEventUpdateInfo() {
         return eventUpdateInfo;
     }
+
+    public EventAuthenOtp getEventAuthenOtp() {
+        return eventAuthenOtp;
+    }
+
+    public void addEventAuthenOtp(EventAuthenOtp eventAuthenOtp) {
+        this.eventAuthenOtp = eventAuthenOtp;
+    }
+    
 }

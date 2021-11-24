@@ -180,7 +180,6 @@ public class P_Register extends javax.swing.JPanel {
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
 
-        Gson gson = new Gson();
         String gender;
         if(btnFemale.isSelected()){
             gender = "Female";
@@ -190,12 +189,12 @@ public class P_Register extends javax.swing.JPanel {
         }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String DateOfBirth=sdf.format(jDateBirth.getDate());
-        System.out.println(DateOfBirth);
+        Verified ver = new Verified();
         AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
-        String user = gson.toJson(userRegister);
+        ver.setUserregist(userRegister);
         try {
-            PublicEvent.getInstance().getEventLogin().register();
-            Client.getInstance().send("register#~"+user);
+            Client.getInstance().send("OTP#~"+userRegister.getUsername());
+            ver.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
         }

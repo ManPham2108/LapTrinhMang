@@ -1,7 +1,6 @@
 package Form.UpdateInfo;
 
 import Form.Body.Event.PublicEvent;
-import Form.Body.InforAccount;
 import Model.AccountModel;
 import Server.Client;
 import com.google.gson.Gson;
@@ -175,10 +174,11 @@ public class P_UpdateInfo extends javax.swing.JPanel {
             Client.getInstance().send("updateuser#~"+user);
             JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
             //Client.getInstance().User = updateuser;
+            PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
             PublicEvent.getInstance().getEventMain().logout();
             Client.getInstance().send("logout#~"+updateuser.getId());
         } catch (IOException ex) {
-            Logger.getLogger(InforAccount.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         
         

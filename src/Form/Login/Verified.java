@@ -1,10 +1,53 @@
 package Form.Login;
 
-public class Verified extends javax.swing.JFrame {
+import Database.AccountDAL;
+import Form.Body.Event.EventAuthenOtp;
+import Form.Body.Event.PublicEvent;
+import Model.AccountModel;
+import Server.Client;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sun.java2d.pipe.hw.AccelDeviceEventListener;
 
+public class Verified extends javax.swing.JFrame {
+    private AccountModel userregist;
+
+    public AccountModel getUserregist() {
+        return userregist;
+    }
+
+    public void setUserregist(AccountModel userregist) {
+        this.userregist = userregist;
+    }
+    
     public Verified() {
         initComponents();
         setLocationRelativeTo(null);
+        init();
+    }
+    private void init(){
+        lberror.setVisible(false);
+        PublicEvent.getInstance().addEventAuthenOtp(new EventAuthenOtp() {
+            @Override
+            public void authenSucess() {
+                Gson gson = new Gson();
+                String user = gson.toJson(getUserregist());
+                try {
+                    PublicEvent.getInstance().getEventLogin().register();
+                    Client.getInstance().send("register#~"+user);
+                } catch (IOException ex) {
+                    Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dispose();
+            }
+
+            @Override
+            public void authenFaile() {
+                lberror.setVisible(true);
+            }
+        });
     }
     
     @SuppressWarnings("unchecked")
@@ -17,7 +60,7 @@ public class Verified extends javax.swing.JFrame {
         txtOTP = new javax.swing.JTextField();
         cmdVerifiedOTP = new javax.swing.JButton();
         lbVerified = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lberror = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -54,8 +97,8 @@ public class Verified extends javax.swing.JFrame {
         lbVerified.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbVerified.setText("Your OTP");
 
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel1.setText("Incorrect !");
+        lberror.setForeground(new java.awt.Color(255, 0, 51));
+        lberror.setText("Incorrect !");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -67,7 +110,7 @@ public class Verified extends javax.swing.JFrame {
                     .addComponent(lbVerified, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                     .addComponent(cmdVerifiedOTP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtOTP)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lberror, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -78,7 +121,7 @@ public class Verified extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(lberror)
                 .addGap(18, 18, 18)
                 .addComponent(cmdVerifiedOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
@@ -133,9 +176,12 @@ public class Verified extends javax.swing.JFrame {
 
     private void cmdVerifiedOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdVerifiedOTPActionPerformed
         
-        //TODO: check OTP and open mainchat
-        
-        dispose();
+        try {
+            Client.getInstance().send("authenotp#~"+txtOTP.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_cmdVerifiedOTPActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -179,10 +225,10 @@ public class Verified extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCloseVerified;
     private javax.swing.JButton cmdVerifiedOTP;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbVerified;
+    private javax.swing.JLabel lberror;
     private javax.swing.JTextField txtOTP;
     // End of variables declaration//GEN-END:variables
 }

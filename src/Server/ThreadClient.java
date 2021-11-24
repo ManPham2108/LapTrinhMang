@@ -35,6 +35,7 @@ public class ThreadClient implements Runnable{
     private String id;
     private Server server = new Server();
     private boolean block;
+    private String otp;
     public String getId() {
         return id;
     }
@@ -65,7 +66,6 @@ public class ThreadClient implements Runnable{
             try {
                 String reccive = Reccive();
                 String[] message = reccive.split("#~");
-                //StringTokenizer st = new StringTokenizer(reccive, "#~");
                 switch (message[0]){
                     case "login":
                         if(isBlock()==true){
@@ -86,6 +86,21 @@ public class ThreadClient implements Runnable{
                             }
                         }
                         saveMessage(smm.getFromUserId(), smm.getToUserId(), smm.getMessage());
+                        break;
+                    case "OTP":
+                        OtpAuthentication authen = new OtpAuthentication();
+                        otp = String.valueOf(authen.randomOtp());
+                        authen.sendMail(message[1], otp);
+                        break;
+                    case "authenotp":
+                        if(message[1].equals(otp)){
+                            send("authenotp#~true");
+                            otp="";
+                        }
+                        
+                        else{
+                            send("authenotp#~false");
+                        }
                         break;
                     case "register":
                         AccountModel userRegister = new AccountModel();

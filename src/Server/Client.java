@@ -5,27 +5,19 @@
  */
 package Server;
 
-import Form.Body.Chat.Chat_Body;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader; 
 import java.io.OutputStreamWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextArea;
 
 
 public class Client{
@@ -57,7 +49,6 @@ public class Client{
                     String msg = read.readLine();
                     System.out.println("Da nhan: "+msg);
                     String[] message = msg.split("#~");
-                   // StringTokenizer st = new StringTokenizer(msg,"#~");
                     String type = message[0];
                     switch(type){
                         case "loginsucess":
@@ -93,6 +84,15 @@ public class Client{
                             if(tmp.equals("yes")){
                                 PublicEvent.getInstance().getEventChat().loadMessage(message[2].toString());
                             }
+                            break;
+                        case "authenotp":
+                            if(message[1].equals("true")){
+                                PublicEvent.getInstance().getEventAuthenOtp().authenSucess();
+                            }
+                            if(message[1].equals("false")){
+                                PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
+                            }
+                            break;
                     } 
                 }catch (IOException ex) {
                     break;

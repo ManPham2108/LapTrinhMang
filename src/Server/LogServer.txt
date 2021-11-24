@@ -491,3 +491,27 @@
 2021-11-24 15:59:29 001 update information account
 2021-11-24 15:59:30 User Id 001 logout
 2021-11-24 15:59:36 User Id  logout
+2021-11-24 21:50:00 User Id null logout
+2021-11-24 22:06:49 User Id null logout
+2021-11-24 22:26:03 man21082015@gmail.com register success
+2021-11-24 22:26:18 User Id 008 login success
+2021-11-24 22:26:55 User Id 008 logout
+2021-11-24 22:38:07 User Id 001 login success
+2021-11-24 22:38:11 001 update information account
+2021-11-24 22:38:12 User Id 001 logout
+2021-11-24 22:38:21 User Id 001 login success
+2021-11-24 22:38:27 User Id 001 logout
+2021-11-24 22:40:57 User Id 001 login success
+2021-11-24 22:41:03 001 update information account
+2021-11-24 22:41:03 User Id 001 logout
+2021-11-24 22:41:10 User Id  logout
+2021-11-24 22:41:39 User Id 001 login success
+2021-11-24 22:41:42 001 update information account
+2021-11-24 22:41:42 User Id 001 logout
+2021-11-24 22:42:05 User Id  logout
+2021-11-24 22:45:34 User Id 001 login success
+2021-11-24 22:45:36 001 update information account
+2021-11-24 22:45:37 User Id 001 logout
+2021-11-24 22:45:45 User Id  logout
+2021-11-24 22:51:20 User Id 001 login success
+2021-11-24 22:51:31 User Id 001 logout

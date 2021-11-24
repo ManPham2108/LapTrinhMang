@@ -6,7 +6,9 @@ public class FormUpdateInfo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
-
+    public void close(){
+        dispose();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
