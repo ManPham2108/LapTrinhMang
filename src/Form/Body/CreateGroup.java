@@ -1,10 +1,19 @@
 package Form.Body;
 
+import Form.Body.Event.PublicEvent;
+import Form.Login.P_Register;
 import Model.AccountModel;
+import Model.GroupModel;
+import Server.Client;
+import com.google.gson.Gson;
 import java.awt.Color;
 import java.awt.Component;
+import java.io.IOException;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,7 +23,8 @@ public class CreateGroup extends javax.swing.JFrame {
 
     private Map<String, String> map_usergroup;// save key: iduser, value: idgroup
     private DefaultTableModel dm;
-
+    ArrayList<AccountModel> aruser = new ArrayList<>();
+    ArrayList<String> listuserid = new ArrayList<>();
     public CreateGroup() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -32,14 +42,14 @@ public class CreateGroup extends javax.swing.JFrame {
         };
         tblListUser.setModel(dm);
     }
-
     public void listUser(ArrayList<AccountModel> listuser) {
+        aruser = listuser;
         cbListUser.addItem("");
         for (AccountModel am : listuser) {
             cbListUser.addItem(am.getFullName());
         }
+        listuserid.add(Client.getInstance().User.getId());
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -71,6 +81,11 @@ public class CreateGroup extends javax.swing.JFrame {
 
         btnCreateGroup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCreateGroup.setText("CREATE");
+        btnCreateGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateGroupActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Name group:");
@@ -200,14 +215,19 @@ public class CreateGroup extends javax.swing.JFrame {
 
     private void cbListUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListUserActionPerformed
         //txtlistuser.append((String) cbListUser.getSelectedItem()+", ");
-        if (!cbListUser.getSelectedItem().equals("")) {
+        
+        if (!cbListUser.getSelectedItem().equals("")){
+            int index = cbListUser.getSelectedIndex();
+            String userid = aruser.get(index-1).getId();
+            if(listuserid.contains(userid)==false){
+                listuserid.add(userid);
+            } 
             JButton btn = new JButton("Delete");
             dm.addRow(new Object[]{
                 cbListUser.getSelectedItem(),
                 btn
             });
         }
-
     }//GEN-LAST:event_cbListUserActionPerformed
 
     private void cmdCloseGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCloseGroupActionPerformed
@@ -224,11 +244,25 @@ public class CreateGroup extends javax.swing.JFrame {
                 ((JButton) value).doClick();
                 JButton btn = (JButton) value;
                 dm.removeRow(row);
+                listuserid.remove(row);
             }
         }
 
 
     }//GEN-LAST:event_tblListUserMouseClicked
+
+    private void btnCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupActionPerformed
+        // TODO add your handling code here:
+        Gson gson = new Gson();
+        GroupModel group = new GroupModel("G102", txtNameGroup.getText(), listuserid);
+        String creategroup = gson.toJson(group);
+        try {
+            Client.getInstance().send("creategroup#~"+creategroup);
+        } catch (IOException ex) {
+            Logger.getLogger(CreateGroup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dispose();
+    }//GEN-LAST:event_btnCreateGroupActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

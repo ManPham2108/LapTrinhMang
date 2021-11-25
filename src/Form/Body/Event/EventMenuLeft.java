@@ -6,6 +6,7 @@
 package Form.Body.Event;
 
 import Model.AccountModel;
+import Model.GroupModel;
 import java.util.ArrayList;
 
 /**
@@ -16,5 +17,5 @@ public interface EventMenuLeft {
     public void addlistUser(ArrayList<AccountModel> listuser);
     public void updateStatusOnline(String Id);
     public void updateStatusOffline(String Id);
-    public void listUserCreatGroup(ArrayList<AccountModel> listuser);
+    public void listGroup(ArrayList<GroupModel> listgroup);
 }

@@ -2,14 +2,20 @@
 package Form.Body.Chat;
 
 import Model.AccountModel;
+import Model.GroupModel;
 import java.awt.Color;
 
 
 public class Chat_Title extends javax.swing.JPanel {
    
     private AccountModel aModel;
+    private GroupModel group;
     public AccountModel getaModel() {
         return aModel;
+    }
+
+    public GroupModel getGroup() {
+        return group;
     }
     
     public Chat_Title() {
@@ -19,9 +25,16 @@ public class Chat_Title extends javax.swing.JPanel {
     public void setuser(AccountModel user){
         this.aModel = user;
         lbName.setText(aModel.getFullName());
+        group = null;
     }
     public void setSystem(){
         lbName.setText("System");
+        aModel = null;
+        group = null;
+    }
+    public void setGroup(GroupModel gr){
+        this.group = gr;
+        lbName.setText(group.getNameGroup());
         aModel = null;
     }
     @SuppressWarnings("unchecked")

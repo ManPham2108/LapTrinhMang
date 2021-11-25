@@ -53,4 +53,10 @@ public class PKC_RSA {
         // private key (n, d)
         privatekey = publickey.modInverse(phi);
     }
+    public static void main(String[] args) {
+        PKC_RSA rsa = new PKC_RSA();
+        String a = rsa.RSA_Encryption("123");
+        System.out.println("ma hoa: "+a);
+        System.out.println("giải ma: "+rsa.RSA_Encryption(a));
+    }
 }

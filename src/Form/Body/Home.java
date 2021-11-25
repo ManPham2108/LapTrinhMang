@@ -4,6 +4,7 @@ package Form.Body;
 import Form.Body.Chat.Chat;
 import Form.Body.Chat.Chat_Body;
 import Model.AccountModel;
+import Model.GroupModel;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +41,11 @@ public class Home extends javax.swing.JLayeredPane {
     }
     public void setSystem(){
         chat.setSystem();
+        chat.setVisible(false);
+        chat.setVisible(true);
+    }
+    public void setGroup(GroupModel gr){
+        chat.setGroup(gr);
         chat.setVisible(false);
         chat.setVisible(true);
     }

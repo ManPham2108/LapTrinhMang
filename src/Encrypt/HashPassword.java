@@ -16,7 +16,7 @@ import javax.xml.bind.DatatypeConverter;
  * @author khanh
  */
 public class HashPassword {
-    public static String generateHash(String password){
+    public String generateHash(String password){
         String hash = "";
         try {            
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -30,7 +30,12 @@ public class HashPassword {
         return hash;
     }
     
-    public static boolean checkPassword(String passUser, String passInput){
+    public boolean checkPassword(String passUser, String passInput){
         return generateHash(passInput).equals(passUser);
+    }
+    public static void main(String[] args) {
+        HashPassword pass = new HashPassword();
+        String b = "";
+        System.out.println(b.length());
     }
 }

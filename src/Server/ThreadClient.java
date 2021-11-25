@@ -6,7 +6,9 @@
 package Server;
 
 import Database.AccountDAL;
+import Database.GroupDAL;
 import Model.AccountModel;
+import Model.GroupModel;
 import Model.SendMessageModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,22 +22,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger; 
+import javax.swing.GroupLayout;
 
 public class ThreadClient implements Runnable{
     public BufferedReader read;
     public BufferedWriter write;
     private Socket s;
-    private AccountDAL ac = new AccountDAL();;
-    private SendMessageModel smm = new SendMessageModel();
+    private AccountDAL ac = new AccountDAL();
     private Gson gson = new Gson();
     private String id;
     private Server server = new Server();
     private boolean block;
     private String otp;
+
     public String getId() {
         return id;
     }
@@ -76,7 +80,7 @@ public class ThreadClient implements Runnable{
                         }   
                         break;
                     case "ClientToClient":
-                        smm = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
+                        SendMessageModel smm = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
                         for(ThreadClient tc : Server.listUserLogin){
                             if(smm.getToUserId().equals(tc.getId())){
                                 tc.write.write("ClientToClient#~"+smm.getFromUserId()+"#-~"+smm.getMessage());
@@ -87,9 +91,27 @@ public class ThreadClient implements Runnable{
                         }
                         saveMessage(smm.getFromUserId(), smm.getToUserId(), smm.getMessage());
                         break;
+                    case "messagegroup":
+                        GroupDAL group = new GroupDAL();
+                        SendMessageModel mesgroup = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
+                        ArrayList<String> list = group.allUserInGroup(mesgroup.getToUserId());
+                        list.remove(mesgroup.getFromUserId());
+                        for(String s:list){
+                            //System.out.println(s);
+                            for(ThreadClient tc : server.listUserLogin){
+                                if(tc.getId().equals(s)){
+                                    tc.write.write("ClientToClient#~"+mesgroup.getToUserId()+"#-~"+mesgroup.getMessage());
+                                    tc.write.newLine();
+                                    tc.write.flush();
+                                    break;
+                                }
+                            }
+                        }
+                        saveMessageGroup(mesgroup.getFromUserId(), mesgroup.getToUserId(), mesgroup.getMessage());
+                        break;
                     case "OTP":
                         OtpAuthentication authen = new OtpAuthentication();
-                        otp = String.valueOf(authen.randomOtp());
+                         otp = String.valueOf(authen.randomOtp());
                         authen.sendMail(message[1], otp);
                         break;
                     case "authenotp":
@@ -108,6 +130,11 @@ public class ThreadClient implements Runnable{
                         ac.Insert(userRegister);
                         saveLog(userRegister.getUsername()+" register success");
                         break;
+                    case "creategroup":
+                        GroupModel g = gson.fromJson(message[1],new TypeToken<GroupModel>() {}.getType());
+                        GroupDAL gr = new GroupDAL();
+                        gr.insert(g);
+                        break;
                     case "updateuser":
                         AccountModel updateuser = new AccountModel();
                         updateuser = gson.fromJson(message[1],new TypeToken<AccountModel>() {}.getType());
@@ -116,7 +143,13 @@ public class ThreadClient implements Runnable{
                         break;
                     case "loadmessage":
                         StringTokenizer load = new StringTokenizer(message[1],"^&");
-                        loadMessage(load.nextToken(), load.nextToken());
+                        String tmp = load.nextToken();
+                        if(tmp.contains("G")){
+                            loadMessageGroup(load.nextToken(), tmp);
+                        }
+                        if(!tmp.contains("G")){
+                            loadMessage(tmp, load.nextToken());
+                        }
                         break;
                     case "logout":
                         updateStatus(message[1], "false");
@@ -160,10 +193,18 @@ public class ThreadClient implements Runnable{
                 updateStatus(am.getId(),"true");
                 //load danh sách user
                 loadListUser(am);
+                //load danh sách gr
+                loadListGroup(am.getId());
                 //lưu log user login
                 saveLog("User Id "+am.getId()+" login success");
             }   
         }  
+    }
+    public void loadListGroup(String iduser) throws Exception{
+        GroupDAL group = new GroupDAL();
+        ArrayList<GroupModel> g = group.getGroupUser(iduser);
+        String listgroup = convertArToString(g);
+        send("loadgroup#~"+listgroup);
     }
     public void loadListUser(AccountModel ab){
         //set trạng thái cho user đang online
@@ -175,6 +216,7 @@ public class ThreadClient implements Runnable{
                 }
             }
         }
+        
         for(AccountModel a : ac.allAccountInfor){
             if(a.getId().equals(ab.getId())){
                 int i = ac.allAccountInfor.indexOf(a);
@@ -254,7 +296,31 @@ public class ThreadClient implements Runnable{
         else{
             send("loadmessage#~not");
         }
+    }
+    public void saveMessageGroup(String iduser,String groupid,String message) throws IOException{
+        String url = "./src/Server/SaveMessage/"+groupid+".txt";
+        BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url).getAbsoluteFile(),true));
+        savemessage.write(iduser+"#!~"+message+"\n");
+        savemessage.close();
+    }
+    public void loadMessageGroup(String iduser,String groupid) throws FileNotFoundException, IOException{
+        String url = "./src/Server/SaveMessage/"+groupid+".txt";
+        File file = new File(url);
+        if(file.exists()){
+            BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url)));
+            String line = read.readLine();
+            while(line!=null){
+                String[] a = line.split("#!~");
+                send("loadmessage#~yes#~"+a[0]+"#-~"+a[1]);
+                line = read.readLine();
+            }
+            read.close();
+        }
+        else{
+            send("loadmessage#~not");
+        }
         
+
     }
     public void userLogout() throws IOException{
         //cập nhật trạng thái user offline

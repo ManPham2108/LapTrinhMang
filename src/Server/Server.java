@@ -77,7 +77,6 @@ public class Server {
                             for(ThreadClient tc : listUserLogin){
                                 if(tc.getId().equals(userid)){
                                     try {
-                                        ac.UpdateBlock(userid, "True");
                                         tc.send("block#~");
                                         tc.setBlock(true);
                                         break;
@@ -86,6 +85,11 @@ public class Server {
                                     }
                                     
                                 }    
+                            }
+                            try {
+                                ac.UpdateBlock(userid, "True");
+                            } catch (Exception ex) {
+                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
                         case "unblock":

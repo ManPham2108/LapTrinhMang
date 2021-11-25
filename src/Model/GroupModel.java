@@ -14,15 +14,18 @@ import java.util.ArrayList;
 public class GroupModel {
     private String IdGroup;
     private String NameGroup;
-    private ArrayList<AccountModel> listUserGroup;
+    private ArrayList<String> listUserId;
     public GroupModel(){};
-
-    public GroupModel(String IdGroup, String NameGroup, ArrayList<AccountModel> listUserGroup) {
+    public GroupModel(String IdGroup, String NameGroup){
+            this.IdGroup = IdGroup;
+            this.NameGroup = NameGroup;
+        }
+    public GroupModel(String IdGroup, String NameGroup, ArrayList<String> listUserId) {
         this.IdGroup = IdGroup;
         this.NameGroup = NameGroup;
-        this.listUserGroup = listUserGroup;
+        this.listUserId = listUserId;
     }
-
+    
     public String getIdGroup() {
         return IdGroup;
     }
@@ -31,8 +34,8 @@ public class GroupModel {
         return NameGroup;
     }
 
-    public ArrayList<AccountModel> getListUserGroup() {
-        return listUserGroup;
+    public ArrayList<String> getListUserGroup() {
+        return listUserId;
     }
 
     public void setIdGroup(String IdGroup) {
@@ -43,7 +46,8 @@ public class GroupModel {
         this.NameGroup = NameGroup;
     }
 
-    public void setListUserGroup(ArrayList<AccountModel> listUserGroup) {
-        this.listUserGroup = listUserGroup;
+    public void setListUserGroup(ArrayList<String> listUserId) {
+        this.listUserId = listUserId;
     }
+
 }

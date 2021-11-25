@@ -7,6 +7,7 @@ package Server;
 
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
+import Model.GroupModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
@@ -56,10 +57,16 @@ public class Client{
                             User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
-                            //PublicEvent.getInstance().getEventMenuLeft().listUserCreatGroup(listUser);
                             break;
                         case "loginfaile":
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
+                            break;
+                        case "loadgroup":
+                            System.out.println("a");
+                            System.out.println(message[1]);
+                            Gson g = new Gson();
+                            ArrayList<GroupModel> listgroup = g.fromJson(message[1],new TypeToken<ArrayList<GroupModel>>() {}.getType());
+                            PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup);
                             break;
                         case "ClientToClient":
                               PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);

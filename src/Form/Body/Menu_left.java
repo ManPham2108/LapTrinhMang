@@ -7,6 +7,7 @@ import Form.Body.Event.PublicEvent;
 import Form.UpdateInfo.BodyUpdateInfo;
 import Form.UpdateInfo.FormUpdateInfo;
 import Model.AccountModel;
+import Model.GroupModel;
 import Server.Client;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class Menu_left extends javax.swing.JPanel {
     private ArrayList<AccountModel> listPeople  = new ArrayList<>();
+    private ArrayList<GroupModel> listGroup  = new ArrayList<>();
     private Gson gson = new Gson();
     public Menu_left() {
         initComponents();
@@ -74,11 +76,9 @@ public class Menu_left extends javax.swing.JPanel {
                     }
                 }
             }
-
             @Override
-            public void listUserCreatGroup(ArrayList<AccountModel> listuser) {
-//                CreateGroup cg = new CreateGroup();
-//                cg.listUser(listuser);
+            public void listGroup(ArrayList<GroupModel> listgroup) {
+                listGroup = listgroup;
             }
         });
     }
@@ -91,12 +91,11 @@ public class Menu_left extends javax.swing.JPanel {
     }
 
     private void showGroup() {
-        //  test data
-//        menuList.removeAll();
-//        for (int i = 0; i < 5; i++) {
-//            menuList.add(new Item_People("Group " + i), "wrap");
-//        }
-//        refreshMenuList();
+        menuList.removeAll();
+        for (GroupModel gm : listGroup) {
+            menuList.add(new Item_Group(gm), "wrap");
+        }
+        refreshMenuList();
     }
 
     private void showSystem() {

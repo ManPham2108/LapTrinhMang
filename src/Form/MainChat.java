@@ -7,6 +7,7 @@ import Form.Body.Event.PublicEvent;
 import Form.UpdateInfo.FormUpdateInfo;
 import Form.UpdateInfo.P_UpdateInfo;
 import Model.AccountModel;
+import Model.GroupModel;
 import Server.Client;
 import component.ComponentResizer;
 import java.awt.Dimension;
@@ -52,6 +53,11 @@ public class MainChat extends javax.swing.JFrame {
                 home.setUser(ac);
             }
 
+            @Override
+            public void SelectGroup(GroupModel gr) {
+                home.setGroup(gr);
+            }
+            
             @Override
             public void SelectSystem() {
                 home.setSystem();

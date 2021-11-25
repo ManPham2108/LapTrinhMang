@@ -26,13 +26,14 @@ public class Chat_Body extends javax.swing.JPanel {
     //them tin nhan bên trái
     public void addItemLeft(String text){
         Chat_Left itemLeft = new Chat_Left();
+        System.out.println(text);
         itemLeft.setText(text);
         //item.setUserProfile(user);
         body.add(itemLeft,"wrap,w ::50%");
         //50% set chiều rộng
         repaint();
         revalidate();
-        //scrollToBottom();
+        scrollToBottom();
     }
     //them tin nhan bên phải
     public void addItemRight(String text){   

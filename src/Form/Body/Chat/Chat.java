@@ -8,6 +8,7 @@ package Form.Body.Chat;
 import Form.Body.Event.EventChat;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
+import Model.GroupModel;
 import Model.SendMessageModel;
 import Server.Client;
 import com.google.gson.Gson;
@@ -46,18 +47,21 @@ public class Chat extends javax.swing.JPanel {
             }
             @Override
             public void reciveMessage(String text) {          
-                //StringTokenizer st = new StringTokenizer(text,"^&");
                 String[] message = text.split("#-~");
                 System.out.println(text);
                 String userid = message[0];
+                String msg = message[1].replace("%20","\r\n");
                 if(chatTitle.getaModel() == null && userid.equals("system")){
-                    chatBody.addItemLeft(message[1]);
+                    chatBody.addItemLeft(msg);
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
                         System.out.println("useridaaaaa "+userid);
-                        chatBody.addItemLeft(message[1]);
-                    } 
+                        chatBody.addItemLeft(msg);
+                    }
+                    if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid)){
+                        chatBody.addItemLeft(msg);
+                    }
                 }
             }
             @Override
@@ -69,12 +73,18 @@ public class Chat extends javax.swing.JPanel {
             public void loadMessage(String text) {
                 String[] a = text.split("#-~");
                 String userid = a[0];
-                String message = a[1];
-                if(chatTitle.getaModel().getId().equals(userid)){
+                String message = a[1].replace("%20","\r\n");
+                if(chatTitle.getaModel()!=null && chatTitle.getaModel().getId().equals(userid)){
                     chatBody.addItemLeft(message);
                 }
-                if(Client.getInstance().User.getId().equals(userid)){
+                if(chatTitle.getaModel()!=null && Client.getInstance().User.getId().equals(userid)){
                    chatBody.addItemRight(message);
+                }
+                if(chatTitle.getaModel()==null && Client.getInstance().User.getId().equals(userid)){
+                    chatBody.addItemRight(message);
+                }
+                if(chatTitle.getaModel()==null && !Client.getInstance().User.getId().equals(userid)){
+                    chatBody.addItemLeft(message);
                 }
             }
         });
@@ -84,10 +94,16 @@ public class Chat extends javax.swing.JPanel {
     }
     public void setUser(AccountModel am){
         chatTitle.setuser(am);
-        chatBottom.setaModel(am);     
+        chatBottom.setaModel(am);
+        chatBottom.setGroup(null);
     }
     public void setSystem(){
         chatTitle.setSystem();
+    }
+    public void setGroup(GroupModel gr){
+        chatTitle.setGroup(gr);
+        chatBottom.setGroup(gr);
+        chatBottom.setaModel(null);
     }
     //@//SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

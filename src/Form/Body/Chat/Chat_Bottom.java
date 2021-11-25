@@ -4,6 +4,7 @@ import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
 import Form.Body.Item_People;
 import Model.AccountModel;
+import Model.GroupModel;
 import Model.SendMessageModel;
 import Server.Client;
 import com.google.gson.Gson;
@@ -30,34 +31,42 @@ import net.miginfocom.swing.MigLayout;
 
 public class Chat_Bottom extends javax.swing.JPanel {
 
-    public AccountModel aModel;
-
+    private AccountModel aModel;
+    private GroupModel group;
     public AccountModel getaModel() {
         return aModel;
     }
     public void setaModel(AccountModel aModel) {
         this.aModel = aModel;
     }
+
+    public GroupModel getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupModel group) {
+        this.group = group;
+    }
+    
     public Chat_Bottom() {
         initComponents();
         init();
-        //getaModel().getId();
     }
     private void init(){
         setLayout(new MigLayout("fillx,filly","0[fill]0[]0[]2","2[fill]2"));
         JScrollPane scroll = new JScrollPane();
         scroll.setBorder(null);
         JIMSendTextPane txt = new JIMSendTextPane();
-//        txt.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyTyped(KeyEvent ke) {
-//                refresh();
-//                if (ke.getKeyChar() == 10 && ke.isControlDown()) {
-//                    //  user press controll + enter
-//                    send(txt);
-//                }
-//            }
-//        });
+        txt.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                refresh();
+                if (ke.getKeyChar() == 10 && ke.isControlDown()) {
+                    //  user press controll + enter
+                    send(txt);
+                }
+            }
+        });
         txt.setHintText("nhap tin nhan");
         scroll.setViewportView(txt);
         ScrollBar sb = new ScrollBar();
@@ -83,22 +92,27 @@ public class Chat_Bottom extends javax.swing.JPanel {
         add(panel);
     }
     public void send(JIMSendTextPane txt){
-        String text = txt.getText().trim();
-        if(!text.equals("")){
-            PublicEvent.getInstance().getEventChat().sendMessage(text);
-            SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text);
-            try {
-                Client.getInstance().send("ClientToClient#~"+convertArToString(smm));
-            } catch (IOException ex) {
-                Logger.getLogger(Chat_Bottom.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            String text = txt.getText().trim();
+            if(!text.equals("")){
+                PublicEvent.getInstance().getEventChat().sendMessage(text);
+                if(aModel!=null){
+                    SendMessageModel  smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n","%20"));
+                    Client.getInstance().send("ClientToClient#~"+convertArToString(smm));
+                }
+                if(group!=null){
+                   SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20"));
+                   Client.getInstance().send("messagegroup#~"+convertArToString(smm));
+                }
+                txt.setText("");
+                txt.grabFocus();
+                refresh();
             }
-            txt.setText("");
-            txt.grabFocus();
-            refresh();
-        }
-        else{
-            System.out.println("konhan");
-            txt.grabFocus();
+            else{
+                txt.grabFocus();
+            }
+        }catch(IOException e){
+            System.out.println(e);
         }
     }
     public String convertArToString(Object object){
