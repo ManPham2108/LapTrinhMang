@@ -1,8 +1,6 @@
 package Form.Body.Chat;
 
-import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
-import Form.Body.Item_People;
 import Model.AccountModel;
 import Model.GroupModel;
 import Model.SendMessageModel;
@@ -17,20 +15,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import net.miginfocom.swing.MigLayout;
 
 
 public class Chat_Bottom extends javax.swing.JPanel {
-
     private AccountModel aModel;
     private GroupModel group;
     public AccountModel getaModel() {

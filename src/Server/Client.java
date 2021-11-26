@@ -5,6 +5,8 @@
  */
 package Server;
 
+import Encrypt.DES_For_Client;
+import Encrypt.PKC_RSA;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Model.GroupModel;
@@ -15,6 +17,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader; 
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ public class Client{
     private String internet = "serverchat.ddns.net";
     public AccountModel User;
     private Gson gson = new Gson();
+    private DES_For_Client client=null;
     public static Client getInstance() {
         if(instance==null){
             instance = new Client();
@@ -40,18 +44,34 @@ public class Client{
         socket = new Socket(localhost, 9001);
         read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        client = new DES_For_Client();
         t.start();
+        
     }
     Thread t = new Thread(){
         @Override
         public void run() {
+            String sessionkey = null;
             while (true) {
                 try { 
                     String msg = read.readLine();
                     System.out.println("Da nhan: "+msg);
+                    if(!msg.contains("hello#~")){
+                        msg = client.Decrypt( msg);
+                        System.out.println("xem: "+msg);
+                    }
                     String[] message = msg.split("#~");
                     String type = message[0];
                     switch(type){
+                        case "hello":
+                            PKC_RSA rsa = new PKC_RSA();
+                            sessionkey = client.getKeyDES();
+                            System.out.println(sessionkey);
+                            String tmpa = rsa.RSA_Encryption(sessionkey, BigInteger.valueOf(Integer.valueOf(message[1])));
+                            write.write("hello#~"+tmpa);
+                            write.newLine();
+                            write.flush();
+                            break;
                         case "loginsucess":
                             ArrayList<AccountModel> listUser= gson.fromJson(message[1],new TypeToken<ArrayList<AccountModel>>() {}.getType());
                             User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
@@ -115,8 +135,9 @@ public class Client{
         }
     };
     public void send(String message) throws IOException{
-        System.out.println("Dang gui: "+message);
-        write.write(message);
+        String ma=client.Encrypt(message);
+        System.out.println("Da gui: "+ma);
+        write.write(ma);
         write.newLine();
         write.flush();
     }

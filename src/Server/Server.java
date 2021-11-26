@@ -52,7 +52,7 @@ public class Server {
                     System.out.println("Sai cú pháp");
                     System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
                     System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
-                    System.out.println("Nếu muốn block user hãy nhập: blocd>userid");
+                    System.out.println("Nếu muốn block user hãy nhập: block>userid");
                     System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                 }
                 else{
@@ -78,7 +78,6 @@ public class Server {
                                 if(tc.getId().equals(userid)){
                                     try {
                                         tc.send("block#~");
-                                        tc.setBlock(true);
                                         break;
                                     } catch (Exception ex) {
                                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,11 +93,6 @@ public class Server {
                             break;
                         case "unblock":
                             String id = st.nextToken();
-                            for(ThreadClient tc : listUserLogin){
-                                if(tc.getId()!=null && tc.getId().equals(id)){
-                                    tc.setBlock(false);
-                                }
-                            }
                             try {
                                 ac.UpdateBlock(id, "False");
                             } catch (Exception ex) {
@@ -117,7 +111,7 @@ public class Server {
                             System.out.println("Sai cú pháp");
                             System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
                             System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
-                            System.out.println("Nếu muốn block user hãy nhập: blocd>userid");
+                            System.out.println("Nếu muốn block user hãy nhập: block>userid");
                             System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                             break;
                     }

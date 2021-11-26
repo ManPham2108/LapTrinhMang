@@ -11,11 +11,15 @@ public class PKC_RSA {
     private final BigInteger p = new BigInteger("2310010084797206060970182958503017542754083072911744685007200562505870553287844787627036012084595177444067962019045355456247877265294016086431972206411");
     private final BigInteger q = new BigInteger("2406568958684850561886689852694393864213007223714844337463681934839133837196941210132601142693213653765331388465007706796240995966643434903606937610557");
     private final BigInteger n = new BigInteger("5559198564321915535997584315413393092493348347255843419771222580227273559376281043338357980467043907042637716818326704144978286703037762308482220625386384388624680062949875597814032263102045209295610051823779969687947948509258575370491964212854716485165414726530861795479919698326099361821127536680927");
-    private final BigInteger publickey = new BigInteger("65537");    
+    private  BigInteger publickey = new BigInteger("65537");    
     private BigInteger privatekey;
     
     public PKC_RSA(){
         RSA_Key_Generator();
+    }
+
+    public BigInteger getPublickey() {
+        return publickey;
     }
     
     /**
@@ -23,10 +27,11 @@ public class PKC_RSA {
      * @param key
      * @return Key_encrypted
      */
-    public String RSA_Encryption(String key)
+    public String RSA_Encryption(String key,BigInteger pubkey)
     {
+        publickey = pubkey;
         BigInteger num_key = new BigInteger(key);
-        BigInteger Key_encypted = num_key.modPow(publickey, n);
+        BigInteger Key_encypted = num_key.modPow(pubkey, n);
         return Key_encypted.toString();
     }
 
@@ -53,10 +58,10 @@ public class PKC_RSA {
         // private key (n, d)
         privatekey = publickey.modInverse(phi);
     }
-    public static void main(String[] args) {
-        PKC_RSA rsa = new PKC_RSA();
-        String a = rsa.RSA_Encryption("123");
-        System.out.println("ma hoa: "+a);
-        System.out.println("giải ma: "+rsa.RSA_Encryption(a));
-    }
+//    public static void main(String[] args) {
+//        PKC_RSA rsa = new PKC_RSA();
+//        String a = rsa.RSA_Encryption("123");
+//        System.out.println("ma hoa: "+a);
+//        System.out.println("giải ma: "+rsa.RSA_Encryption(a));
+//    }
 }

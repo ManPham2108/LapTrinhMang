@@ -17,7 +17,7 @@ import javax.crypto.spec.DESKeySpec;
 
 public class DES_For_Server {
 
-    public static String Encrypt(String keyDES, String plaintxt){
+    public  String Encrypt(String keyDES, String plaintxt){
         String encrypted = "";
         try {
             DESKeySpec desKeySpec = new DESKeySpec(keyDES.getBytes());
@@ -33,7 +33,7 @@ public class DES_For_Server {
         return encrypted;
     }
     
-    public static String Decrypt(String keyDES, String ciphertxt){
+    public  String Decrypt(String keyDES, String ciphertxt){
         String decrypted = "";
         try {
             byte[] data = Base64.getDecoder().decode(ciphertxt);

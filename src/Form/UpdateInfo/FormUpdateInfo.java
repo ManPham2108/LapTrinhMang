@@ -1,10 +1,36 @@
 package Form.UpdateInfo;
 
+import Form.Body.Event.EventUpdateInfo;
+import Form.Body.Event.PublicEvent;
+
 public class FormUpdateInfo extends javax.swing.JFrame {
 
     public FormUpdateInfo() {
         initComponents();
         setLocationRelativeTo(null);
+        init();
+    }
+    private void init(){
+        PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
+            @Override
+            public void updateInfo() {
+                //new FormUpdateInfo().close();
+                dispose();
+            }
+
+            @Override
+            public void changePassword() {
+                // TODO: Change password and close form update
+            }
+
+            @Override
+            public void goUpdateInfo() {
+            }
+
+            @Override
+            public void goChangePassword() {
+            }
+        });
     }
     public void close(){
         dispose();

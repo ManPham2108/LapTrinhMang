@@ -1,6 +1,5 @@
 package Form.Login;
 
-import Database.AccountDAL;
 import Form.Body.Event.EventAuthenOtp;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
@@ -9,7 +8,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.java2d.pipe.hw.AccelDeviceEventListener;
 
 public class Verified extends javax.swing.JFrame {
     private AccountModel userregist;
@@ -42,7 +40,6 @@ public class Verified extends javax.swing.JFrame {
                 }
                 dispose();
             }
-
             @Override
             public void authenFaile() {
                 lberror.setVisible(true);
@@ -83,7 +80,6 @@ public class Verified extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         txtOTP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtOTP.setText("123556");
 
         cmdVerifiedOTP.setText("Enter");
         cmdVerifiedOTP.addActionListener(new java.awt.event.ActionListener() {

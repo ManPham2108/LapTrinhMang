@@ -2,7 +2,6 @@ package Form.UpdateInfo;
 
 import Form.Body.Event.EventUpdateInfo;
 import Form.Body.Event.PublicEvent;
-
 public class BodyUpdateInfo extends javax.swing.JPanel {
 
     public BodyUpdateInfo() {
@@ -11,19 +10,15 @@ public class BodyUpdateInfo extends javax.swing.JPanel {
     }
 
     private void init() {
-        P_UpdateInfo update = new P_UpdateInfo();
         PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
             @Override
             public void updateInfo() {
-                update.setVisible(false);
-                new FormUpdateInfo().close();
+                //new FormUpdateInfo().close();
             }
 
             @Override
             public void changePassword() {
                 // TODO: Change password and close form update
-                
-                
             }
 
             @Override

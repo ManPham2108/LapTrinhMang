@@ -7,6 +7,8 @@ package Server;
 
 import Database.AccountDAL;
 import Database.GroupDAL;
+import Encrypt.DES_For_Server;
+import Encrypt.PKC_RSA;
 import Model.AccountModel;
 import Model.GroupModel;
 import Model.SendMessageModel;
@@ -27,7 +29,6 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger; 
-import javax.swing.GroupLayout;
 
 public class ThreadClient implements Runnable{
     public BufferedReader read;
@@ -37,9 +38,9 @@ public class ThreadClient implements Runnable{
     private Gson gson = new Gson();
     private String id;
     private Server server = new Server();
-    private boolean block;
-    private String otp;
-
+    private String otp = null;
+    private DES_For_Server des = new DES_For_Server();
+    private String sessionkey = null;
     public String getId() {
         return id;
     }
@@ -47,45 +48,43 @@ public class ThreadClient implements Runnable{
     public void setId(String id) {
         this.id = id;
     }
-
-    public boolean isBlock() {
-        return block;
-    }
-
-    public void setBlock(boolean block) {
-        this.block = block;
-    }
-
-    
     public ThreadClient(Socket s,BufferedReader read, BufferedWriter write) {
         this.s = s;
         this.read = read;
         this.write = write;
-        this.block = block;
     }
     public ThreadClient(){};
     @Override
     public void run(){
+        PKC_RSA rsa = new PKC_RSA();
+        try {
+            write.write("hello#~"+String.valueOf(rsa.getPublickey()));
+            write.newLine();
+            write.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
         while (true) {            
             try {
                 String reccive = Reccive();
+                if(!reccive.contains("hello#~")){
+                     reccive = des.Decrypt(sessionkey, reccive);
+                     System.out.println("server nhan: "+reccive);
+                }
                 String[] message = reccive.split("#~");
                 switch (message[0]){
+                    case "hello":
+                        sessionkey = rsa.RSA_Decryption(message[1]);
+                        System.out.println("key: "+sessionkey);
+                        break;
                     case "login":
-                        if(isBlock()==true){
-                            send("block#~");
-                        }
-                        else{
-                            checkUser(message[1]);      
-                        }   
+                        checkUser(message[1]);
                         break;
                     case "ClientToClient":
                         SendMessageModel smm = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
                         for(ThreadClient tc : Server.listUserLogin){
                             if(smm.getToUserId().equals(tc.getId())){
-                                tc.write.write("ClientToClient#~"+smm.getFromUserId()+"#-~"+smm.getMessage());
-                                tc.write.newLine();
-                                tc.write.flush();
+                                tc.send("ClientToClient#~"+smm.getFromUserId()+"#-~"+smm.getMessage());
                                 break;                            
                             }
                         }
@@ -97,12 +96,9 @@ public class ThreadClient implements Runnable{
                         ArrayList<String> list = group.allUserInGroup(mesgroup.getToUserId());
                         list.remove(mesgroup.getFromUserId());
                         for(String s:list){
-                            //System.out.println(s);
                             for(ThreadClient tc : server.listUserLogin){
                                 if(tc.getId().equals(s)){
-                                    tc.write.write("ClientToClient#~"+mesgroup.getToUserId()+"#-~"+mesgroup.getMessage());
-                                    tc.write.newLine();
-                                    tc.write.flush();
+                                    tc.send("ClientToClient#~"+mesgroup.getToUserId()+"#-~"+mesgroup.getMessage());
                                     break;
                                 }
                             }
@@ -119,7 +115,6 @@ public class ThreadClient implements Runnable{
                             send("authenotp#~true");
                             otp="";
                         }
-                        
                         else{
                             send("authenotp#~false");
                         }
@@ -162,7 +157,6 @@ public class ThreadClient implements Runnable{
                         }
                         break;
                 }
-                
             } catch (Exception ex) {
                break;
             }
@@ -183,7 +177,6 @@ public class ThreadClient implements Runnable{
         else{
             setId(am.getId());
             if(am.getBlock().equals("True")){
-                setBlock(true);
                 send("block#~");
             }
             else{
@@ -228,13 +221,10 @@ public class ThreadClient implements Runnable{
         String user = convertArToString(ab);
         send("loginsucess#~"+listuser+"#~"+user);
     }
-
     public void updateStatus(String id,String status) throws IOException{
         for(ThreadClient tc : Server.listUserLogin){
             if(tc.getId()!=null && !tc.getId().equals(id)){
-                tc.write.write("status#~"+status+"#~"+id);
-                tc.write.newLine();
-                tc.write.flush();
+                tc.send("status#~"+status+"#~"+id);
             }
         }
         
@@ -340,7 +330,8 @@ public class ThreadClient implements Runnable{
     }
     public void send(String message){
         try {
-            write.write(message);
+            String enc = des.Encrypt(sessionkey, message);
+            write.write(enc);
             write.newLine();
             write.flush();
         } catch (IOException ex) {
