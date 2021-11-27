@@ -15,38 +15,55 @@ public final class GroupDAL {
     }
     private int idgr;
     public ArrayList<GroupModel>getGroupUser(String id) throws Exception {
-        ResultSet rs = this.connect.Select("`group`","IdUser='"+id+"'",null);
-        ArrayList<GroupModel> listGroup = new ArrayList<GroupModel>();
+        ResultSet rs = this.connect.Select("groupmember","IdUser='"+id+"'",null);
+        ArrayList<String> listIdGroup = new ArrayList<String>();
         while (rs.next()) {
-            listGroup.add(new GroupModel(
-                    rs.getString("IdGroup"),
-                    rs.getString("NameGroup")
-            ));
+            listIdGroup.add(String.valueOf(rs.getInt("IdGroup")));
+        }
+        ArrayList<GroupModel> listGroup = new ArrayList<GroupModel>();
+        for(String i : listIdGroup){
+             ResultSet rss = this.connect.Select("`group`","Id='"+i+"'",null);
+             while (rss.next()) {                
+                listGroup.add(new GroupModel(
+                     String.valueOf(rss.getInt("Id")),
+                    rss.getString("NameGroup")
+             ));
+            } 
         }
         return listGroup;
     }
-//    public static void main(String[] args) throws Exception {
-//        GroupDAL gr = new GroupDAL();
+    public static void main(String[] args) throws Exception {
+        GroupDAL gr = new GroupDAL();
 //        ArrayList<String> a = new  ArrayList<>();
 //        a.add("006");
 //        a.add("007");
 //        gr.insert(new GroupModel("G102","xin",a));
-//    }
+//          for(GroupModel g : gr.getGroupUser(2)){
+//              System.out.println(g.getIdGroup());
+//          }
+    }
     public ArrayList<String> allUserInGroup(String idgroup) throws Exception{
-        ResultSet rs = this.connect.Select("`group`", "IdGroup='"+idgroup+"'");
+        ResultSet rs = this.connect.Select("groupmember", "IdGroup='"+idgroup+"'");
         ArrayList<String> listuser = new ArrayList<String>();
         while (rs.next()){            
-            listuser.add(rs.getString("IdUser"));
+            listuser.add(String.valueOf(rs.getInt("IdUser")));
         }
         return listuser;
     }
     public void insert(GroupModel group) throws Exception{
+        HashMap<String, Object> hashgroup = new HashMap<>();
+        hashgroup.put("NameGroup", group.getNameGroup());
+        this.connect.insert("`group`", hashgroup);
+        ResultSet rs = this.connect.Select("`group`","NameGroup='"+group.getNameGroup()+"'",null);
+        String idgr = null;
+        while(rs.next()){
+            idgr = String.valueOf(rs.getInt("Id"));
+        }
+        HashMap<String, Object> listhashusergroup = new HashMap<>();
         for(int i = 0;i<group.getListUserGroup().size();i++){
-            HashMap<String, Object> hashgroup = new HashMap<>();
-            hashgroup.put("IdGroup", group.getIdGroup());
-            hashgroup.put("NameGroup", group.getNameGroup());
-            hashgroup.put("IdUser", group.getListUserGroup().get(i)); 
-            this.connect.insert("`group`", hashgroup);
+            listhashusergroup.put("IdGroup", idgr); 
+            listhashusergroup.put("IdUser", group.getListUserGroup().get(i)); 
+            this.connect.insert("groupmember", listhashusergroup);
         }
     }
 }

@@ -1,6 +1,7 @@
 package Database;
 import Encrypt.HashPassword;
 import Model.AccountModel;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public final class AccountDAL {
         ArrayList<AccountModel> listAccount = new ArrayList<>();
         while (rs.next()) {
             listAccount.add(new AccountModel(
-                    rs.getString("Id"),
+                    String.valueOf(rs.getInt("Id")),
                     rs.getString("Username"),
                     rs.getString("Password"),
                     rs.getString("Block")
@@ -41,7 +42,7 @@ public final class AccountDAL {
         ArrayList<AccountModel> listAccountinfor = new ArrayList<>();
         while (rs.next()) {
             listAccountinfor.add(new AccountModel(
-                    rs.getString("Id"),
+                    String.valueOf(rs.getInt("Id")),
                     rs.getString("FullName"),
                     rs.getString("Gender"),
                     rs.getDate("DateOfBirth")
@@ -51,7 +52,7 @@ public final class AccountDAL {
     }
     public static void main(String[] args) throws Exception {
         AccountDAL ac = new AccountDAL();
-        AccountModel am = ac.getUser("a@gmail.com", "123456789");
+        ac.Insert(new AccountModel(null,"x@gmail.com", "1", "aaaaaaaaa", "nam",Date.valueOf("2000-12-12")));
 
     }
     public AccountModel getUser(String user,String pass) throws Exception{
@@ -66,22 +67,20 @@ public final class AccountDAL {
         return null;
     }
     public void Insert(AccountModel user) throws Exception{
-        allAccount=getAllAccount(null, null);
-        user.setId("00"+(allAccount.size()+1));
         HashPassword hash = new HashPassword();
         String passhash = hash.generateHash(user.getPassword());
         try {
             HashMap<String, Object> hashUserAccount = new HashMap<>();
-            hashUserAccount.put("Id", user.getId());
             hashUserAccount.put("Username", user.getUsername());
             hashUserAccount.put("Password", passhash);
             hashUserAccount.put("Block", "False");
+            this.connect.insert("account", hashUserAccount);
+            user.setId(getAllAccount("Username='"+user.getUsername()+"'", null).get(0).getId());
             HashMap<String, Object> hashUserAccountInfor = new HashMap<>();
-            hashUserAccountInfor.put("Id", user.getId());
+            hashUserAccountInfor.put("Id", Integer.valueOf(user.getId()));
             hashUserAccountInfor.put("Fullname", user.getFullName());
             hashUserAccountInfor.put("Gender", user.getGender());
             hashUserAccountInfor.put("DateOfBirth", user.getDateOfBirth());
-            this.connect.insert("account", hashUserAccount);
             this.connect.insert("accountinfor", hashUserAccountInfor);
         } catch (Exception ex) {
             
@@ -95,11 +94,9 @@ public final class AccountDAL {
     public void UpdateInfor(AccountModel user){
         try {
             HashMap<String, Object> hashUseriInfor = new HashMap<>();
-            hashUseriInfor.put("Id", user.getId());
             hashUseriInfor.put("Fullname", user.getFullName());
             hashUseriInfor.put("Gender", user.getGender());
             hashUseriInfor.put("DateOfBirth", user.getDateOfBirth());
-            System.out.println(user.getId());
             this.connect.update("accountinfor", hashUseriInfor, "Id='"+user.getId()+"'");
         } catch (Exception ex) {
             

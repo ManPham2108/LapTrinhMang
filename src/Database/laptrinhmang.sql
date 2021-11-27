@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2021 at 10:00 AM
+-- Generation Time: Nov 26, 2021 at 03:17 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `account` (
   `Id` varchar(5) NOT NULL,
   `Username` varchar(100) NOT NULL,
-  `Password` varchar(500) NOT NULL,
+  `Password` varchar(140) NOT NULL,
   `Block` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`Id`, `Username`, `Password`, `Block`) VALUES
-('001', 'a@gmail.com', '123456789', 'False'),
-('002', 'b@gmail.com', '123456789', 'False'),
-('003', 'c@gmail.com', '123456789', 'False'),
-('004', 'd@gmail.com', '123456789', 'False'),
+('001', 'a@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False'),
+('002', 'b@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False'),
+('003', 'c@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False'),
+('004', 'd@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False'),
 ('005', 'e@gmail.com', '12345679', 'False'),
-('006', 'f@gmail.com', '123456789', 'False'),
-('007', 'g@gmail.com', '123456789', 'False');
+('006', 'f@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False'),
+('007', 'g@gmail.com', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 'False');
 
 -- --------------------------------------------------------
 
@@ -80,10 +80,23 @@ INSERT INTO `accountinfor` (`Id`, `FullName`, `Gender`, `DateOfBirth`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `group` (
-  `IdGroup` varchar(10) NOT NULL,
-  `NameGroup` varchar(100) NOT NULL,
-  `Id` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `IdGroup` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `NameGroup` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `IdUser` varchar(5) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `group`
+--
+
+INSERT INTO `group` (`IdGroup`, `NameGroup`, `IdUser`) VALUES
+('G100', 'Bạn Bè', '001'),
+('G101', 'Bạn tôi', '001'),
+('G100', 'Bạn Bè', '002'),
+('G100', 'Bạn Bè', '003'),
+('G102', 'Chào', '001'),
+('G102', 'Chào', '005'),
+('G102', 'Chào', '007');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

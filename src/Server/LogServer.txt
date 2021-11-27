@@ -760,3 +760,24 @@
 2021-11-26 21:00:57 001 update information account
 2021-11-26 21:00:57 User Id 001 logout
 2021-11-26 21:01:05 User Id  logout
+2021-11-26 21:12:41 User Id 001 login success
+2021-11-26 21:17:15 User Id 001 logout
+2021-11-26 21:29:24 User Id 001 login success
+2021-11-26 21:29:43 User Id 001 logout
+2021-11-26 22:24:50 User Id null logout
+2021-11-26 22:25:38 User Id 002 login success
+2021-11-26 22:26:10 User Id 001 login success
+2021-11-26 22:26:19 User Id 001 logout
+2021-11-26 22:30:35 User Id 002 login success
+2021-11-26 22:30:43 User Id 002 logout
+2021-11-26 22:39:50 phucvu01120@gmail.com register success
+2021-11-26 22:40:02 User Id 008 login success
+2021-11-26 22:40:11 User Id 008 logout
+2021-11-26 22:46:38 User Id 008 login success
+2021-11-26 22:47:38 User Id 008 logout
+2021-11-26 22:48:35 User Id 008 login success
+2021-11-26 22:48:43 User Id 008 logout
+2021-11-27 15:34:24 User Id 1 login success
+2021-11-27 15:35:04 User Id 1 logout
+2021-11-27 16:03:49 User Id 1 login success
+2021-11-27 16:04:12 User Id 1 logout

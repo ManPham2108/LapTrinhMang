@@ -41,7 +41,6 @@ public class Chat_PanelMore extends javax.swing.JPanel {
         ch.setBorder(null);
         ch.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         ch.setVerticalScrollBar(new ScrollBar());
-        
         add(ch, "w 100%, h 100%");
     }
     
