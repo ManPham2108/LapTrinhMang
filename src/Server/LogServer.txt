@@ -760,3 +760,4 @@
 2021-11-26 21:00:57 001 update information account
 2021-11-26 21:00:57 User Id 001 logout
 2021-11-26 21:01:05 User Id  logout
+2021-11-27 16:13:11 User Id 1 logout

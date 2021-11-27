@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Encrypt;
 
 import java.security.MessageDigest;
@@ -11,10 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 
-/**
- *
- * @author khanh
- */
 public class HashPassword {
     public String generateHash(String password){
         String hash = "";
@@ -32,10 +23,5 @@ public class HashPassword {
     
     public boolean checkPassword(String passUser, String passInput){
         return generateHash(passInput).equals(passUser);
-    }
-    public static void main(String[] args) {
-        HashPassword pass = new HashPassword();
-        String b = "";
-        System.out.println(b.length());
     }
 }
