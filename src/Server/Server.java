@@ -6,6 +6,7 @@
 package Server;
 
 import Database.AccountDAL;
+import Encrypt.UtilsRSA;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -28,14 +29,15 @@ public class Server {
     public BufferedWriter write;
     
     public void startServer() throws IOException{
-        serverSocket = new ServerSocket(9001); 
+        serverSocket = new ServerSocket(9001);
+        UtilsRSA.GenerateKeys();
         sendMessage.start();
         while (true)
         {
             socket = serverSocket.accept();
             read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            ThreadClient mtch = new ThreadClient(socket, read,write);
+            ThreadClient mtch = new ThreadClient(socket, read,write,UtilsRSA.loadPub());
             Thread t = new Thread(mtch);
             listUserLogin.add(mtch);
             t.start();           

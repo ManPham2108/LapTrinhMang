@@ -9,6 +9,8 @@ import Database.AccountDAL;
 import Database.GroupDAL;
 import Encrypt.DES_For_Server;
 import Encrypt.PKC_RSA;
+import Encrypt.UtilsAES;
+import Encrypt.UtilsRSA;
 import Model.AccountModel;
 import Model.GroupModel;
 import Model.SendMessageModel;
@@ -41,6 +43,7 @@ public class ThreadClient implements Runnable{
     private String otp = null;
     private DES_For_Server des = new DES_For_Server();
     private String sessionkey = null;
+    private String keyrsa;
     public String getId() {
         return id;
     }
@@ -48,17 +51,17 @@ public class ThreadClient implements Runnable{
     public void setId(String id) {
         this.id = id;
     }
-    public ThreadClient(Socket s,BufferedReader read, BufferedWriter write) {
+    public ThreadClient(Socket s,BufferedReader read, BufferedWriter write,String keyrsa) {
         this.s = s;
         this.read = read;
         this.write = write;
+        this.keyrsa = keyrsa;
     }
     public ThreadClient(){};
     @Override
     public void run(){
-        PKC_RSA rsa = new PKC_RSA();
         try {
-            write.write("hello#~"+String.valueOf(rsa.getPublickey()));
+            write.write("hello#~"+keyrsa);
             write.newLine();
             write.flush();
         } catch (IOException ex) {
@@ -68,13 +71,13 @@ public class ThreadClient implements Runnable{
             try {
                 String reccive = Reccive();
                 if(!reccive.contains("hello#~")){
-                     reccive = des.Decrypt(sessionkey, reccive);
+                     reccive = UtilsAES.DecryptText(sessionkey, reccive);
                      System.out.println("server nhan: "+reccive);
                 }
                 String[] message = reccive.split("#~");
                 switch (message[0]){
                     case "hello":
-                        sessionkey = rsa.RSA_Decryption(message[1]);
+                        sessionkey = UtilsRSA.DecryptText(message[1]);
                         System.out.println("key: "+sessionkey);
                         break;
                     case "login":
@@ -294,7 +297,7 @@ public class ThreadClient implements Runnable{
         savemessage.close();
     }
     public void loadMessageGroup(String iduser,String groupid) throws FileNotFoundException, IOException{
-        String url = "./src/Server/SaveMessage/"+groupid+".txt";
+        String url = "./src/Server/SaveMessage/G"+groupid+".txt";
         File file = new File(url);
         if(file.exists()){
             BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url)));
@@ -330,7 +333,7 @@ public class ThreadClient implements Runnable{
     }
     public void send(String message){
         try {
-            String enc = des.Encrypt(sessionkey, message);
+            String enc = UtilsAES.EncryptText(sessionkey, message);
             write.write(enc);
             write.newLine();
             write.flush();

@@ -7,6 +7,8 @@ package Server;
 
 import Encrypt.DES_For_Client;
 import Encrypt.PKC_RSA;
+import Encrypt.UtilsAES;
+import Encrypt.UtilsRSA;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Model.GroupModel;
@@ -19,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.net.Socket;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +36,7 @@ public class Client{
     private String internet = "serverchat.ddns.net";
     public AccountModel User;
     private Gson gson = new Gson();
-    private DES_For_Client client=null;
+    private String sessionkey = null;
     public static Client getInstance() {
         if(instance==null){
             instance = new Client();
@@ -44,30 +47,27 @@ public class Client{
         socket = new Socket(localhost, 9001);
         read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        client = new DES_For_Client();
-        t.start();
-        
+        sessionkey = null;
+        t.start(); 
     }
     Thread t = new Thread(){
         @Override
         public void run() {
-            String sessionkey = null;
             while (true) {
                 try { 
                     String msg = read.readLine();
                     System.out.println("Da nhan: "+msg);
                     if(!msg.contains("hello#~")){
-                        msg = client.Decrypt( msg);
-                        System.out.println("xem: "+msg);
+                        msg = UtilsAES.DecryptText(sessionkey,msg);
+                        System.out.println("giai: "+msg);
                     }
                     String[] message = msg.split("#~");
                     String type = message[0];
                     switch(type){
                         case "hello":
-                            PKC_RSA rsa = new PKC_RSA();
-                            sessionkey = client.getKeyDES();
-                            System.out.println(sessionkey);
-                            String tmpa = rsa.RSA_Encryption(sessionkey, BigInteger.valueOf(Integer.valueOf(message[1])));
+                            sessionkey = UtilsAES.generateKey();
+                            System.out.println("ss: "+sessionkey);
+                            String tmpa = UtilsRSA.EncryptText(sessionkey,message[1]);
                             write.write("hello#~"+tmpa);
                             write.newLine();
                             write.flush();
@@ -82,8 +82,6 @@ public class Client{
                             PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
                             break;
                         case "loadgroup":
-                            System.out.println("a");
-                            System.out.println(message[1]);
                             Gson g = new Gson();
                             ArrayList<GroupModel> listgroup = g.fromJson(message[1],new TypeToken<ArrayList<GroupModel>>() {}.getType());
                             PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup);
@@ -135,7 +133,7 @@ public class Client{
         }
     };
     public void send(String message) throws IOException{
-        String ma=client.Encrypt(message);
+        String ma=UtilsAES.EncryptText(sessionkey,message);
         System.out.println("Da gui: "+ma);
         write.write(ma);
         write.newLine();

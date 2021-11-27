@@ -22,13 +22,13 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 public class UtilsRSA {
 
     private static final String PUBLIC_KEY_FILE = "src/Encrypt/publickey.txt";
     private static final String PRIVATE_KEY_FILE = "src/Encrypt/privatekey.txt";
 
     //Server tạo cặp key 
+    public static  PublicKey key;
     public static void GenerateKeys() {
         try {
             //Tạo cặp key
@@ -37,14 +37,12 @@ public class UtilsRSA {
             KeyPair pair = generator.generateKeyPair();
             PrivateKey privateKey = pair.getPrivate();
             PublicKey publicKey = pair.getPublic();
-
             //Lưu cặp key vào file
             File f_public = new File(PUBLIC_KEY_FILE);
             FileOutputStream fos_public = new FileOutputStream(f_public, false);
             fos_public.write(publicKey.getEncoded());
             fos_public.flush();
             fos_public.close();
-
             File f_private = new File(PRIVATE_KEY_FILE);
             FileOutputStream fos_private = new FileOutputStream(f_private, false);
             fos_private.write(privateKey.getEncoded());
@@ -55,23 +53,27 @@ public class UtilsRSA {
             Logger.getLogger(UtilsRSA.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    public static String loadPub() throws IOException{
+        File publicKeyFile = new File(PUBLIC_KEY_FILE);
+        byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());
+        String publicKeyString = Base64.getEncoder().encodeToString(publicKeyBytes);
+        return publicKeyString;
+    }
     // Client mã hóa
-    public static String EncryptText(String plainText) {
+    public static String EncryptText(String plainText,String key) {
         String cipherText = "";
         try {
             //Lấy public key từ file
-            File publicKeyFile = new File(PUBLIC_KEY_FILE);
-            byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());
+            //File publicKeyFile = new File(PUBLIC_KEY_FILE);
+            //byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());
+            byte[] publicKeyBytes = Base64.getDecoder().decode(key);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(publicKeyBytes);
             PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
-
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] cipherBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
             cipherText= Base64.getEncoder().encodeToString(cipherBytes);
-
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(UtilsRSA.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,4 +100,10 @@ public class UtilsRSA {
         }
         return plainText;
     }
+//    public static void main(String[] args) throws IOException {
+//        UtilsRSA.GenerateKeys();
+//        String a = UtilsRSA.loadPub();
+//        UtilsRSA.EncryptText("xin chao", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr8Zg9HpMpQwkynKrEXg471G+UfhFFpd/Ai8AcnWt5qb7XS8n0HzZiO0vP33K9PFDJr0JghigZrHAmQYvSU7WLhZRFhgbxyGDQuy4qBjegb7HxgbA/HrxYEjnud0izAtEX53gARtEIOLQrOqhDc79zwCR4c37A1gN8OQF3KPZzEwIDAQAB");
+//        System.out.println(a);
+//    }
 }

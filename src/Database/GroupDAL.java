@@ -34,13 +34,10 @@ public final class GroupDAL {
     }
     public static void main(String[] args) throws Exception {
         GroupDAL gr = new GroupDAL();
-//        ArrayList<String> a = new  ArrayList<>();
-//        a.add("006");
-//        a.add("007");
-//        gr.insert(new GroupModel("G102","xin",a));
-//          for(GroupModel g : gr.getGroupUser(2)){
-//              System.out.println(g.getIdGroup());
-//          }
+        gr.getGroupUser("1");
+        ArrayList<String> a = new  ArrayList<>();
+        a.add("006");
+        a.add("007");
     }
     public ArrayList<String> allUserInGroup(String idgroup) throws Exception{
         ResultSet rs = this.connect.Select("groupmember", "IdGroup='"+idgroup+"'");

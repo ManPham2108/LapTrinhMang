@@ -42,7 +42,7 @@ public class Item_Group extends javax.swing.JPanel {
                 PublicEvent.getInstance().getEventChat().removeAllChatBody();
 
                 try {
-                    Client.getInstance().send("loadmessage#~"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
+                    Client.getInstance().send("loadmessage#~G"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
                 } catch (IOException ex) {
                     Logger.getLogger(Item_Group.class.getName()).log(Level.SEVERE, null, ex);
                 }
