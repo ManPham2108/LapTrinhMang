@@ -34,7 +34,7 @@ public class Sticker {
         return list;
     }
 
-    public Model_Sticker getImoji(int id) {
+    public Model_Sticker getSticker(int id) {
         return new Model_Sticker(id, new ImageIcon(getClass().getResource("/Sticker/Image/" + id + ".png")));
     }
 }
