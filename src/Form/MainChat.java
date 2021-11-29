@@ -4,8 +4,6 @@ import Form.Body.Chat.Chat_Bottom;
 import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.EventMain;
 import Form.Body.Event.PublicEvent;
-import Form.UpdateInfo.FormUpdateInfo;
-import Form.UpdateInfo.P_UpdateInfo;
 import Model.AccountModel;
 import Model.GroupModel;
 import Server.Client;

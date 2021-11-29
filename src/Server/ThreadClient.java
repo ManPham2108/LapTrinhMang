@@ -8,7 +8,6 @@ package Server;
 import Database.AccountDAL;
 import Database.GroupDAL;
 import Encrypt.DES_For_Server;
-import Encrypt.PKC_RSA;
 import Encrypt.UtilsAES;
 import Encrypt.UtilsRSA;
 import Model.AccountModel;
@@ -41,7 +40,6 @@ public class ThreadClient implements Runnable{
     private String id;
     private Server server = new Server();
     private String otp = null;
-    private DES_For_Server des = new DES_For_Server();
     private String sessionkey = null;
     private String keyrsa;
     public String getId() {

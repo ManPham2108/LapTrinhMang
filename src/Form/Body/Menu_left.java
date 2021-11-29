@@ -1,16 +1,14 @@
 
 package Form.Body;
 
-import Form.Body.Event.EventMenuLeft;
+import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.PublicEvent;
-import Form.UpdateInfo.BodyUpdateInfo;
 import Form.UpdateInfo.FormUpdateInfo;
 import Model.AccountModel;
 import Model.GroupModel;
 import Server.Client;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import component.ScrollBar;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -277,6 +275,7 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
         if (!menuMessage.isSelected()) {
+            
             menuMessage.setSelected(true);
             menuGroup.setSelected(false);
             menuBox.setSelected(false);
@@ -286,6 +285,7 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
        if (!menuGroup.isSelected()) {
+           
             menuMessage.setSelected(false);
             menuGroup.setSelected(true);
             menuBox.setSelected(false);

@@ -4,7 +4,6 @@ package Form.Body;
 import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
-import Model.SendMessageModel;
 import Server.Client;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -56,6 +55,8 @@ public class Item_People extends javax.swing.JPanel {
             public void mouseReleased(MouseEvent e) {
                 PublicEvent.getInstance().getEventMain().SelectUser(user);
                 PublicEvent.getInstance().getEventChat().removeAllChatBody();
+                Chat_Title chattitle = new Chat_Title();
+                chattitle.loadblockuser();
                 try {
                     Client.getInstance().send("loadmessage#~"+Client.getInstance().User.getId()+"^&"+user.getId());
                 } catch (IOException ex) {

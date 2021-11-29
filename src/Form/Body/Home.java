@@ -2,7 +2,6 @@
 package Form.Body;
 
 import Form.Body.Chat.Chat;
-import Form.Body.Chat.Chat_Body;
 import Model.AccountModel;
 import Model.GroupModel;
 import java.io.IOException;

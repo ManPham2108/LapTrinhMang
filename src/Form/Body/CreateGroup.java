@@ -1,7 +1,5 @@
 package Form.Body;
 
-import Form.Body.Event.PublicEvent;
-import Form.Login.P_Register;
 import Model.AccountModel;
 import Model.GroupModel;
 import Server.Client;
@@ -9,7 +7,6 @@ import com.google.gson.Gson;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.IOException;
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;

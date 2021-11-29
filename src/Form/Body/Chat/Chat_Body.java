@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
 

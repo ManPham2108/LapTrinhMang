@@ -8,7 +8,6 @@ import component.ScrollBar;
 import component.WrapLayout;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;

@@ -9,13 +9,8 @@ import Form.Body.Event.EventChat;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Model.GroupModel;
-import Model.SendMessageModel;
 import Server.Client;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -94,14 +89,18 @@ public class Chat extends javax.swing.JPanel {
     }
     public void setUser(AccountModel am){
         chatTitle.setuser(am);
+        chatTitle.loadblockuser();
         chatBottom.setaModel(am);
         chatBottom.setGroup(null);
     }
     public void setSystem(){
         chatTitle.setSystem();
+        chatTitle.hideblock();
+        chatBottom.setVisible(false);
     }
     public void setGroup(GroupModel gr){
         chatTitle.setGroup(gr);
+        chatTitle.loadexitgr();
         chatBottom.setGroup(gr);
         chatBottom.setaModel(null);
     }
