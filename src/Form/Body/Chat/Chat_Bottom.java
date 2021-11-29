@@ -64,7 +64,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
                 }
             }
         });
-        txt.setHintText("nhap tin nhan");
+        txt.setHintText("Nhập tin nhắn");
         scroll.setViewportView(txt);
         ScrollBar sb = new ScrollBar();
         sb.setPreferredSize(new Dimension(2,10));
