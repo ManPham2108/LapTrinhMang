@@ -53,8 +53,8 @@ public class Item_People extends javax.swing.JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                PublicEvent.getInstance().getEventMain().SelectUser(user);
                 PublicEvent.getInstance().getEventChat().removeAllChatBody();
+                PublicEvent.getInstance().getEventMain().SelectUser(user);
                 Chat_Title chattitle = new Chat_Title();
                 chattitle.loadblockuser();
                 try {

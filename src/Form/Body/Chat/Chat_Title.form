@@ -52,10 +52,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lbName" min="-2" pref="168" max="-2" attributes="0"/>
                       <Component id="lbStatus" min="-2" pref="168" max="-2" attributes="0"/>
+                      <Component id="lbName" min="-2" pref="369" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

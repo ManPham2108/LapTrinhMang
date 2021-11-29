@@ -38,9 +38,8 @@ public class Item_Group extends javax.swing.JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                PublicEvent.getInstance().getEventMain().SelectGroup(group);
                 PublicEvent.getInstance().getEventChat().removeAllChatBody();
-
+                PublicEvent.getInstance().getEventMain().SelectGroup(group);
                 try {
                     Client.getInstance().send("loadmessage#~G"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
                 } catch (IOException ex) {

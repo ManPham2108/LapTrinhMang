@@ -52,7 +52,7 @@ public final class AccountDAL {
     }
     public static void main(String[] args) throws Exception {
         AccountDAL ac = new AccountDAL();
-        ac.Insert(new AccountModel(null,"x@gmail.com", "1", "aaaaaaaaa", "nam",Date.valueOf("2000-12-12")));
+        ac.insertBlockUser("1","2");
 
     }
     public AccountModel getUser(String user,String pass) throws Exception{
@@ -101,5 +101,30 @@ public final class AccountDAL {
         } catch (Exception ex) {
             
         }
+    }
+    public ArrayList<String> listUserblock(String iduser) throws Exception{
+        ArrayList<String> list = new ArrayList<>();
+        ResultSet rs = this.connect.Select("blockuser","Id='"+iduser+"'", null);
+        while (rs.next()) {            
+            list.add(String.valueOf(rs.getInt("IdUserBlock")));
+        }
+        return list;
+    }
+    public ArrayList<String> listUserBlocked(String iduser) throws Exception{
+        ArrayList<String> list = new ArrayList<>();
+        ResultSet rs = this.connect.Select("blockuser","IdUserBlock='"+iduser+"'", null);
+        while (rs.next()) {            
+            list.add(String.valueOf(rs.getInt("Id")));
+        }
+        return list;
+    }
+    public void insertBlockUser(String iduser, String idUserblock) throws Exception{
+        HashMap<String,Object> Block = new HashMap<>();
+        Block.put("Id", Integer.valueOf(iduser));
+        Block.put("IdUserBlock", Integer.valueOf(idUserblock));
+        this.connect.insert("blockuser", Block);
+    }
+    public void deleteBlockUser(String iduser, String idUserblock) throws Exception{
+        this.connect.delete("blockuser","Id='"+iduser+"' and IdUserBlock='"+idUserblock+"'");
     }
 }

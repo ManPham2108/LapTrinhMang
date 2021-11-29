@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Server;
 
 import Database.AccountDAL;
@@ -119,6 +114,30 @@ public class ThreadClient implements Runnable{
                             send("authenotp#~false");
                         }
                         break;
+                    case "blockuser":
+                        StringTokenizer block = new StringTokenizer(message[1],"^&");
+                        String type = block.nextToken();
+                        String iduser = block.nextToken();
+                        String iduserblock = block.nextToken();
+                        if(type.equals("block")){
+                            for(ThreadClient tc : server.listUserLogin){
+                                if(tc.getId().equals(iduserblock)){
+                                    tc.send("blockuser#~updateuserblock^&"+iduser);
+                                    break;
+                                }
+                            }
+                            ac.insertBlockUser(iduser, iduserblock);
+                        }
+                        if(type.equals("unblock")){
+                            for(ThreadClient tc : server.listUserLogin){
+                                if(tc.getId().equals(iduserblock)){
+                                    tc.send("blockuser#~updateuserunblock^&"+iduser);
+                                    break;
+                                }
+                            }
+                            ac.deleteBlockUser(iduser, iduserblock);
+                        }
+                        break;
                     case "register":
                         AccountModel userRegister = new AccountModel();
                         userRegister = gson.fromJson(message[1],new TypeToken<AccountModel>() {}.getType());
@@ -129,6 +148,7 @@ public class ThreadClient implements Runnable{
                         GroupModel g = gson.fromJson(message[1],new TypeToken<GroupModel>() {}.getType());
                         GroupDAL gr = new GroupDAL();
                         gr.insert(g);
+                        saveLog(g.getListUserGroup().get(0)+" create group "+g.getNameGroup());
                         break;
                     case "updateuser":
                         AccountModel updateuser = new AccountModel();
@@ -171,8 +191,12 @@ public class ThreadClient implements Runnable{
         StringTokenizer st = new StringTokenizer(account,"<,");
         //System.out.println(st.nextToken());
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
+        
         if(am == null){
             send("loginfaile#~");
+        }
+        if(checkUserLoging(am.getId())){
+            System.out.println("Co chu");
         }
         else{
             setId(am.getId());
@@ -188,10 +212,20 @@ public class ThreadClient implements Runnable{
                 loadListUser(am);
                 //load danh sách gr
                 loadListGroup(am.getId());
+                //load listblock
+                loadListUserBlock(am.getId());
                 //lưu log user login
                 saveLog("User Id "+am.getId()+" login success");
             }   
         }  
+    }
+    public boolean checkUserLoging(String id){
+        for(ThreadClient tc : server.listUserLogin){
+            if(tc.getId()!= null &&tc.getId().equals(id)){
+                return true;
+            }
+        }
+        return false;
     }
     public void loadListGroup(String iduser) throws Exception{
         GroupDAL group = new GroupDAL();
@@ -228,6 +262,16 @@ public class ThreadClient implements Runnable{
             }
         }
         
+    }
+    public void loadListUserBlock(String iduser) throws Exception{
+        String userblock = convertArToString(ac.listUserblock(iduser));
+        String userblocked = convertArToString(ac.listUserBlocked(iduser));
+        if(!userblock.equals("[]")){
+            send("blockuser#~userblock^&"+userblock);
+        }
+        if(!userblocked.equals("[]")){
+            send("blockuser#~userblocked^&"+userblocked);
+        }
     }
     public void saveLog(String log) throws IOException{
         BufferedWriter W = new BufferedWriter(new FileWriter(new File("./src/Server/LogServer.txt").getAbsoluteFile(),true));
@@ -283,34 +327,30 @@ public class ThreadClient implements Runnable{
             }
             read.close();
         }
-        else{
-            send("loadmessage#~not");
-        }
     }
     public void saveMessageGroup(String iduser,String groupid,String message) throws IOException{
-        String url = "./src/Server/SaveMessage/"+groupid+".txt";
+        String url = "./src/Server/SaveMessage/G"+groupid+".txt";
         BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url).getAbsoluteFile(),true));
         savemessage.write(iduser+"#!~"+message+"\n");
         savemessage.close();
     }
     public void loadMessageGroup(String iduser,String groupid) throws FileNotFoundException, IOException{
-        String url = "./src/Server/SaveMessage/G"+groupid+".txt";
-        File file = new File(url);
-        if(file.exists()){
+        String url = "./src/Server/SaveMessage/"+groupid+".txt";
+        System.out.println("Gr "+groupid);
+        File files = new File(url);
+        if(files.exists()){
             BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url)));
             String line = read.readLine();
             while(line!=null){
-                String[] a = line.split("#!~");
+                String[] a = line.trim().split("#!~");
                 send("loadmessage#~yes#~"+a[0]+"#-~"+a[1]);
                 line = read.readLine();
             }
             read.close();
         }
         else{
-            send("loadmessage#~not");
+            System.out.println("ko ton tai file");
         }
-        
-
     }
     public void userLogout() throws IOException{
         //cập nhật trạng thái user offline

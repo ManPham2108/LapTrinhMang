@@ -30,6 +30,7 @@ public class Server {
     
     public void startServer() throws IOException{
         serverSocket = new ServerSocket(9001);
+        System.out.println("Server is listening....");
         UtilsRSA.GenerateKeys();
         sendMessage.start();
         while (true)

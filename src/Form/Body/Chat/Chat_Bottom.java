@@ -11,6 +11,7 @@ import component.ScrollBar;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -28,6 +29,10 @@ public class Chat_Bottom extends javax.swing.JPanel {
     private GroupModel group;
     private MigLayout mig;
     private Chat_PanelMore panelMore;
+    private JPanel panel = new JPanel();
+    private JIMSendTextPane txt;
+    private JButton cmd;
+    private JButton cmdMore;
     public AccountModel getaModel() {
         return aModel;
     }
@@ -48,12 +53,16 @@ public class Chat_Bottom extends javax.swing.JPanel {
         initComponents();
         init();
     }
+    public void removeall(){
+        init();
+    }
     private void init(){
+        removeAll();
         mig = new MigLayout("fillx,filly","0[fill]0[]0[]2","2[fill]2[]0");
         setLayout(mig);
         JScrollPane scroll = new JScrollPane();
         scroll.setBorder(null);
-        JIMSendTextPane txt = new JIMSendTextPane();
+        txt = new JIMSendTextPane();
         txt.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent ke) {
@@ -75,7 +84,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
         panel.setLayout(new MigLayout("filly","0[]3[]0","0[bottom]0"));
         panel.setPreferredSize(new Dimension(30,28));
         panel.setBackground(Color.WHITE);
-        JButton cmd = new JButton();
+        cmd = new JButton();
         cmd.setBorder(null);
         cmd.setContentAreaFilled(false);
         cmd.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -85,7 +94,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
                 send(txt);
             }          
         });
-        JButton cmdMore = new JButton();
+        cmdMore = new JButton();
         cmdMore.setBorder(null);
         cmdMore.setContentAreaFilled(false);
         cmdMore.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -112,6 +121,44 @@ public class Chat_Bottom extends javax.swing.JPanel {
         panelMore = new Chat_PanelMore();
         panelMore.setVisible(false);
         add(panelMore, "dock south,h 0!");
+    }
+    public void setBlock(String type){
+        removeAll();
+        txt.setVisible(false);
+        cmdMore.setVisible(false);
+        cmd.setVisible(false);
+        Label lberror = new Label();
+        lberror.setForeground(Color.red);
+        JButton btnerror = new JButton("Bỏ chặn");
+        btnerror.setBorder(null);
+        btnerror.setContentAreaFilled(false);
+        btnerror.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnerror.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnerror.setVisible(false);
+                removeAll();
+                init();
+                try {
+                    Client.getInstance().send("blockuser#~unblock^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
+                    PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblock;"+aModel.getId());
+                } catch (IOException ex) {
+                }  
+            }
+        });
+        if(type.equals("userblock")){
+            panel.removeAll();
+            lberror.setText("Bạn đã chặn người này");
+            System.err.println("vo luôn");
+            panel.add(lberror);
+            panel.add(btnerror);
+        }
+        if(type.equals("userblocked")){
+            panel.removeAll();
+            lberror.setText("Bạn đã bị chặn");
+            panel.add(lberror);
+        }
+        add(panel,"wrap");
     }
     public void send(JIMSendTextPane txt){
         try {

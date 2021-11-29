@@ -13,7 +13,6 @@ public final class GroupDAL {
     public GroupDAL() throws Exception {
         this.connect = Database.DAL.getDAL();
     }
-    private int idgr;
     public ArrayList<GroupModel>getGroupUser(String id) throws Exception {
         ResultSet rs = this.connect.Select("groupmember","IdUser='"+id+"'",null);
         ArrayList<String> listIdGroup = new ArrayList<String>();

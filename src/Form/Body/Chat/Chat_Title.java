@@ -1,8 +1,13 @@
 
 package Form.Body.Chat;
 
+import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Model.GroupModel;
+import Server.Client;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Chat_Title extends javax.swing.JPanel {
@@ -77,9 +82,9 @@ public class Chat_Title extends javax.swing.JPanel {
             layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layerLayout.createSequentialGroup()
                 .addGroup(layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(178, 178, 178))
+                    .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layerLayout.setVerticalGroup(
             layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,6 +140,14 @@ public class Chat_Title extends javax.swing.JPanel {
 
     private void lbblockmsgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbblockmsgMouseClicked
         // TODO add your handling code here:
+        if(aModel!=null){
+            PublicEvent.getInstance().getEventChat().loadBlock("load;"+aModel.getId());
+            try {
+                Client.getInstance().send("blockuser#~block^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
+            } catch (IOException ex) {
+                Logger.getLogger(Chat_Title.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_lbblockmsgMouseClicked
 
 

@@ -10,13 +10,14 @@ import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Model.GroupModel;
 import Server.Client;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import jdk.nashorn.internal.ir.BreakableNode;
 import net.miginfocom.swing.MigLayout;
-
-/**
- *
- * @author man21
- */
 public class Chat extends javax.swing.JPanel {
 
     /**
@@ -24,7 +25,10 @@ public class Chat extends javax.swing.JPanel {
      */
     private Chat_Title chatTitle;
     private Chat_Body chatBody;
-    private Chat_Bottom chatBottom; 
+    private Chat_Bottom chatBottom;
+    private ArrayList<String> listblock = new ArrayList<>();
+    private ArrayList<String> listblocked = new ArrayList<>();
+    private Gson g = new Gson();
     public Chat() throws IOException {
         initComponents();
         init();
@@ -62,6 +66,7 @@ public class Chat extends javax.swing.JPanel {
             @Override
             public void removeAllChatBody(){
                 chatBody.removeItemRight();
+                chatBottom.removeall();
             }
 
             @Override
@@ -82,6 +87,61 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.addItemLeft(message);
                 }
             }
+            public void loadBlock(String text) {
+                if(text.contains("load")){
+                    String[] ab = text.split(";");
+                    chatBottom.setBlock("userblock");
+                    chatTitle.hideblock();
+                    listblock.add(ab[1]);
+                }
+                if(text.contains("updateremoveblock")){
+                    String [] a = text.split(";");
+                    int i = 0;
+                    for(String b : listblock){
+                        if(b.equals(a[1])){
+                            listblock.remove(i);
+                            break;
+                        }
+                        i++;
+                    }
+                }
+                if(!text.contains("update") && !text.contains("load")){
+                    StringTokenizer tmp = new StringTokenizer(text,"^&");
+                    String type = tmp.nextToken();
+                    String list = tmp.nextToken();
+                    if(type.equals("userblock")){
+                        listblock = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
+                        System.err.println(listblock);
+                    }
+                    if(type.equals("userblocked")){
+                        listblocked = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
+                    }
+                }
+            }
+
+            @Override
+            public void updateUserBlock(String text) {
+                StringTokenizer st = new StringTokenizer(text,"^&");
+                String type = st.nextToken();
+                String id = st.nextToken();
+                switch(type){
+                    case "updateuserunblock":
+                        if(chatTitle.getaModel().getId().equals(id)){
+                            chatBottom.setVisible(false);
+                            chatBottom.removeall();
+                            chatBottom.setVisible(true);
+                        }
+                            listblocked.remove(id);
+                        break;
+                    case "updateuserblock":
+                        if(chatTitle.getaModel().getId().equals(id)){
+                            chatBottom.setBlock("userblocked");
+                            chatTitle.hideblock();
+                        }
+                        listblocked.add(id);
+                        break;    
+                }   
+            }
         });
         add(chatTitle,"wrap");
         add(chatBody,"wrap");
@@ -90,8 +150,18 @@ public class Chat extends javax.swing.JPanel {
     public void setUser(AccountModel am){
         chatTitle.setuser(am);
         chatTitle.loadblockuser();
+        chatBottom.setVisible(true);
         chatBottom.setaModel(am);
         chatBottom.setGroup(null);
+        if(listblock.contains(am.getId())){
+            System.out.println("co vao");
+            chatBottom.setBlock("userblock");
+            chatTitle.hideblock();
+        }
+        if(listblocked.contains(am.getId())){
+            chatBottom.setBlock("userblocked");
+            chatTitle.hideblock();
+        }
     }
     public void setSystem(){
         chatTitle.setSystem();
@@ -101,6 +171,7 @@ public class Chat extends javax.swing.JPanel {
     public void setGroup(GroupModel gr){
         chatTitle.setGroup(gr);
         chatTitle.loadexitgr();
+        chatBottom.setVisible(true);
         chatBottom.setGroup(gr);
         chatBottom.setaModel(null);
     }

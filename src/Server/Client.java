@@ -52,7 +52,7 @@ public class Client{
             while (true) {
                 try { 
                     String msg = read.readLine();
-                    System.out.println("Da nhan: "+msg);
+                    //System.out.println("Da nhan: "+msg);
                     if(!msg.contains("hello#~")){
                         msg = UtilsAES.DecryptText(sessionkey,msg);
                         System.out.println("giai: "+msg);
@@ -62,7 +62,7 @@ public class Client{
                     switch(type){
                         case "hello":
                             sessionkey = UtilsAES.generateKey();
-                            System.out.println("ss: "+sessionkey);
+                            //System.out.println("ss: "+sessionkey);
                             String tmpa = UtilsRSA.EncryptText(sessionkey,message[1]);
                             write.write("hello#~"+tmpa);
                             write.newLine();
@@ -112,6 +112,14 @@ public class Client{
                             }
                             if(message[1].equals("false")){
                                 PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
+                            }
+                            break;
+                        case "blockuser":
+                            if(message[1].contains("updateuserunblock") || message[1].contains("updateuserblock")){
+                               PublicEvent.getInstance().getEventChat().updateUserBlock(message[1]);
+                            }
+                            else{
+                                PublicEvent.getInstance().getEventChat().loadBlock(message[1]);
                             }
                             break;
                     } 
