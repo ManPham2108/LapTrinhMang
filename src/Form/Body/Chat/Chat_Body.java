@@ -1,6 +1,6 @@
-
 package Form.Body.Chat;
 
+import Sticker.Sticker;
 import component.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -9,45 +9,58 @@ import java.awt.event.AdjustmentListener;
 import javax.swing.JScrollBar;
 import net.miginfocom.swing.MigLayout;
 
-
 public class Chat_Body extends javax.swing.JPanel {
-
 
     public Chat_Body() {
         initComponents();
         init();
     }
-    private void init(){
+
+    private void init() {
         body.setLayout(new MigLayout("fillx", "", "5[bottom]5"));
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
+
     //them tin nhan bên trái
-    public void addItemLeft(String text){
+    public void addItemLeft(String text) {
         Chat_Left itemLeft = new Chat_Left();
-        System.out.println(text);
-        itemLeft.setText(text);
+        String[] message = text.split("\\###");
+        if (message.length == 2 && message[0].equals("***sticker")) {
+            itemLeft.setSticker(Sticker.getInstance().getSticker(Integer.valueOf(message[1])).toSize(60, 60).getIcon());
+        } else {
+            System.out.println(text);
+            itemLeft.setText(text);
+        }
         //item.setUserProfile(user);
-        body.add(itemLeft,"wrap,w ::50%");
+        body.add(itemLeft, "wrap,w ::50%");
         //50% set chiều rộng
         repaint();
         revalidate();
         scrollToBottom();
     }
+
     //them tin nhan bên phải
-    public void addItemRight(String text){   
-        Chat_Right itemRight  = new Chat_Right();
-        itemRight.setText(text);
-        body.add(itemRight,"wrap, al right,w ::50%");
+    public void addItemRight(String text) {
+        Chat_Right itemRight = new Chat_Right();
+        String[] message = text.split("\\###");
+        if (message.length == 2 && message[0].equals("***sticker")) {
+            itemRight.setSticker(Sticker.getInstance().getSticker(Integer.valueOf(message[1])).toSize(60, 60).getIcon());
+        }
+        else{
+            itemRight.setText(text);
+        }
+        body.add(itemRight, "wrap, al right,w ::50%");
         //50% set chiều rộng
         repaint();
-        revalidate();  
+        revalidate();
         scrollToBottom();
     }
-    public void removeItemRight(){
+
+    public void removeItemRight() {
         body.removeAll();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
