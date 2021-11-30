@@ -36,6 +36,7 @@ public class ThreadClient implements Runnable{
     private String otp = null;
     private String sessionkey = null;
     private String keyrsa;
+    private GroupDAL gr;
     public String getId() {
         return id;
     }
@@ -43,11 +44,12 @@ public class ThreadClient implements Runnable{
     public void setId(String id) {
         this.id = id;
     }
-    public ThreadClient(Socket s,BufferedReader read, BufferedWriter write,String keyrsa) {
+    public ThreadClient(Socket s,BufferedReader read, BufferedWriter write,String keyrsa) throws Exception {
         this.s = s;
         this.read = read;
         this.write = write;
         this.keyrsa = keyrsa;
+        gr = new GroupDAL();
     }
     public ThreadClient(){};
     @Override
@@ -64,7 +66,7 @@ public class ThreadClient implements Runnable{
                 String reccive = Reccive();
                 if(!reccive.contains("hello#~")){
                      reccive = UtilsAES.DecryptText(sessionkey, reccive);
-                     System.out.println("server nhan: "+reccive);
+                     //System.out.println("server nhan: "+reccive);
                 }
                 String[] message = reccive.split("#~");
                 switch (message[0]){
@@ -86,9 +88,8 @@ public class ThreadClient implements Runnable{
                         saveMessage(smm.getFromUserId(), smm.getToUserId(), smm.getMessage());
                         break;
                     case "messagegroup":
-                        GroupDAL group = new GroupDAL();
                         SendMessageModel mesgroup = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
-                        ArrayList<String> list = group.allUserInGroup(mesgroup.getToUserId());
+                        ArrayList<String> list = gr.allUserInGroup(mesgroup.getToUserId());
                         list.remove(mesgroup.getFromUserId());
                         for(String s:list){
                             for(ThreadClient tc : server.listUserLogin){
@@ -102,7 +103,7 @@ public class ThreadClient implements Runnable{
                         break;
                     case "OTP":
                         OtpAuthentication authen = new OtpAuthentication();
-                         otp = String.valueOf(authen.randomOtp());
+                        otp = String.valueOf(authen.randomOtp());
                         authen.sendMail(message[1], otp);
                         break;
                     case "authenotp":
@@ -137,6 +138,12 @@ public class ThreadClient implements Runnable{
                             }
                             ac.deleteBlockUser(iduser, iduserblock);
                         }
+                        if(type.equals("blockgroup")){
+                            gr.updateBlockGroup(iduser, iduserblock,"True");
+                        }
+                        if(type.equals("unblockgroup")){
+                            gr.updateBlockGroup(iduser, iduserblock,"False");
+                        }
                         break;
                     case "register":
                         AccountModel userRegister = new AccountModel();
@@ -146,9 +153,20 @@ public class ThreadClient implements Runnable{
                         break;
                     case "creategroup":
                         GroupModel g = gson.fromJson(message[1],new TypeToken<GroupModel>() {}.getType());
-                        GroupDAL gr = new GroupDAL();
                         gr.insert(g);
+                        String grnew = convertArToString(gr.updateGrNew());
+                        for(String l:g.getListUserGroup()){
+                            for(ThreadClient t:server.listUserLogin){
+                                if(l.equals(t.getId())){
+                                    t.send("loadgroup#~loadgrnew#~"+grnew);
+                                    break;
+                                }
+                            }
+                        }
                         saveLog(g.getListUserGroup().get(0)+" create group "+g.getNameGroup());
+                        break;
+                    case "exitgroup":
+                        gr.deleteUserInGr(message[1], message[2]);
                         break;
                     case "updateuser":
                         AccountModel updateuser = new AccountModel();
@@ -191,12 +209,11 @@ public class ThreadClient implements Runnable{
         StringTokenizer st = new StringTokenizer(account,"<,");
         //System.out.println(st.nextToken());
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
-        
         if(am == null){
-            send("loginfaile#~");
+            send("loginfaile#~wrongaccount");
         }
         if(checkUserLoging(am.getId())){
-            System.out.println("Co chu");
+            send("loginfaile#~notsuccess");
         }
         else{
             setId(am.getId());
@@ -221,17 +238,16 @@ public class ThreadClient implements Runnable{
     }
     public boolean checkUserLoging(String id){
         for(ThreadClient tc : server.listUserLogin){
-            if(tc.getId()!= null &&tc.getId().equals(id)){
+            if(tc.getId()!= null && tc.getId().equals(id)){
                 return true;
             }
         }
         return false;
     }
     public void loadListGroup(String iduser) throws Exception{
-        GroupDAL group = new GroupDAL();
-        ArrayList<GroupModel> g = group.getGroupUser(iduser);
+        ArrayList<GroupModel> g = gr.getGroupUser(iduser);
         String listgroup = convertArToString(g);
-        send("loadgroup#~"+listgroup);
+        send("loadgroup#~load#~"+listgroup);
     }
     public void loadListUser(AccountModel ab){
         //set trạng thái cho user đang online
@@ -261,16 +277,19 @@ public class ThreadClient implements Runnable{
                 tc.send("status#~"+status+"#~"+id);
             }
         }
-        
     }
     public void loadListUserBlock(String iduser) throws Exception{
         String userblock = convertArToString(ac.listUserblock(iduser));
         String userblocked = convertArToString(ac.listUserBlocked(iduser));
+        String groupblock = convertArToString(gr.loadListGroupBlock(iduser));
         if(!userblock.equals("[]")){
             send("blockuser#~userblock^&"+userblock);
         }
         if(!userblocked.equals("[]")){
             send("blockuser#~userblocked^&"+userblocked);
+        }
+        if(!groupblock.equals("[]")){
+            send("blockuser#~blockgroup^&"+groupblock);
         }
     }
     public void saveLog(String log) throws IOException{
@@ -329,14 +348,13 @@ public class ThreadClient implements Runnable{
         }
     }
     public void saveMessageGroup(String iduser,String groupid,String message) throws IOException{
-        String url = "./src/Server/SaveMessage/G"+groupid+".txt";
+        String url = "./src/Server/SaveMessage/"+groupid+".txt";
         BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url).getAbsoluteFile(),true));
         savemessage.write(iduser+"#!~"+message+"\n");
         savemessage.close();
     }
     public void loadMessageGroup(String iduser,String groupid) throws FileNotFoundException, IOException{
         String url = "./src/Server/SaveMessage/"+groupid+".txt";
-        System.out.println("Gr "+groupid);
         File files = new File(url);
         if(files.exists()){
             BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(url)));
@@ -347,9 +365,6 @@ public class ThreadClient implements Runnable{
                 line = read.readLine();
             }
             read.close();
-        }
-        else{
-            System.out.println("ko ton tai file");
         }
     }
     public void userLogout() throws IOException{
