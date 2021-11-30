@@ -251,7 +251,7 @@ public class CreateGroup extends javax.swing.JFrame {
     private void btnCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupActionPerformed
         // TODO add your handling code here:
         Gson gson = new Gson();
-        GroupModel group = new GroupModel("G102", txtNameGroup.getText(), listuserid);
+        GroupModel group = new GroupModel(null, txtNameGroup.getText(), listuserid);
         String creategroup = gson.toJson(group);
         try {
             Client.getInstance().send("creategroup#~"+creategroup);

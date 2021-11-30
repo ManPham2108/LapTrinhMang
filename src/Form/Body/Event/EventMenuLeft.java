@@ -17,5 +17,6 @@ public interface EventMenuLeft {
     public void addlistUser(ArrayList<AccountModel> listuser);
     public void updateStatusOnline(String Id);
     public void updateStatusOffline(String Id);
-    public void listGroup(ArrayList<GroupModel> listgroup);
+    public void listGroup(ArrayList<GroupModel> listgroup,String status);
+    public void exitGroup(GroupModel gr);
 }

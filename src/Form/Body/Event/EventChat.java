@@ -11,5 +11,6 @@ public interface EventChat {
     public void removeAllChatBody();
     public void loadMessage(String text);
     public void loadBlock(String text);
+    public void loadListBlock(String text);
     public void updateUserBlock(String text);
 }

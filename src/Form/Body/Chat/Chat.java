@@ -28,6 +28,7 @@ public class Chat extends javax.swing.JPanel {
     private Chat_Bottom chatBottom;
     private ArrayList<String> listblock = new ArrayList<>();
     private ArrayList<String> listblocked = new ArrayList<>();
+    private ArrayList<String> listblockgroup = new ArrayList<>();
     private Gson g = new Gson();
     public Chat() throws IOException {
         initComponents();
@@ -47,7 +48,7 @@ public class Chat extends javax.swing.JPanel {
             @Override
             public void reciveMessage(String text) {          
                 String[] message = text.split("#-~");
-                System.out.println(text);
+                //System.out.println(text);
                 String userid = message[0];
                 String msg = message[1].replace("%20","\r\n");
                 if(chatTitle.getaModel() == null && userid.equals("system")){
@@ -58,17 +59,16 @@ public class Chat extends javax.swing.JPanel {
                         System.out.println("useridaaaaa "+userid);
                         chatBody.addItemLeft(msg);
                     }
-                    if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid)){
+                    if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid) && !listblockgroup.contains(userid)){
                         chatBody.addItemLeft(msg);
                     }
                 }
             }
             @Override
             public void removeAllChatBody(){
-                chatBody.removeItemRight();
+                chatBody.removeall();
                 chatBottom.removeall();
             }
-
             @Override
             public void loadMessage(String text) {
                 String[] a = text.split("#-~");
@@ -87,36 +87,43 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.addItemLeft(message);
                 }
             }
+
+            @Override
+            public void loadListBlock(String text) {
+                StringTokenizer tmp = new StringTokenizer(text,"^&");
+                String type = tmp.nextToken();
+                String list = tmp.nextToken();
+                if(type.equals("userblock")){
+                    listblock = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
+                }
+                if(type.equals("userblocked")){
+                    listblocked = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
+                }
+                if(type.equals("blockgroup")){
+                    listblockgroup = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
+                }
+            }
             public void loadBlock(String text) {
-                if(text.contains("load")){
-                    String[] ab = text.split(";");
-                    chatBottom.setBlock("userblock");
-                    chatTitle.hideblock();
-                    listblock.add(ab[1]);
-                }
-                if(text.contains("updateremoveblock")){
-                    String [] a = text.split(";");
-                    int i = 0;
-                    for(String b : listblock){
-                        if(b.equals(a[1])){
-                            listblock.remove(i);
-                            break;
-                        }
-                        i++;
-                    }
-                }
-                if(!text.contains("update") && !text.contains("load")){
-                    StringTokenizer tmp = new StringTokenizer(text,"^&");
-                    String type = tmp.nextToken();
-                    String list = tmp.nextToken();
-                    if(type.equals("userblock")){
-                        listblock = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
-                        System.err.println(listblock);
-                    }
-                    if(type.equals("userblocked")){
-                        listblocked = g.fromJson(list,new TypeToken<ArrayList<String>>() {}.getType());
-                    }
-                }
+                String[] ab = text.split(";");
+                String type = ab[0];
+                switch(type){
+                    case "load":
+                        chatBottom.setBlock("userblock");
+                        chatTitle.hideblock();
+                        listblock.add(ab[1]);
+                        break;
+                    case "updateremoveblock":
+                        listblock.remove(ab[1]);
+                        break;
+                    case "loadblockgroup":
+                        chatBottom.setBlock("userblock");
+                        chatTitle.hideblock();
+                        listblockgroup.add(ab[1]);
+                        break;
+                    case "updateremoveblockgroup":
+                        listblockgroup.remove(ab[1]);
+                        break;
+                } 
             }
 
             @Override
@@ -174,6 +181,10 @@ public class Chat extends javax.swing.JPanel {
         chatBottom.setVisible(true);
         chatBottom.setGroup(gr);
         chatBottom.setaModel(null);
+        if(listblockgroup.contains(gr.getIdGroup())){
+            chatBottom.setBlock("userblock");
+            chatTitle.hideblock();
+        }
     }
     //@//SuppressWarnings("unchecked");
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -75,8 +75,29 @@ public class Menu_left extends javax.swing.JPanel {
                 }
             }
             @Override
-            public void listGroup(ArrayList<GroupModel> listgroup) {
-                listGroup = listgroup;
+            public void listGroup(ArrayList<GroupModel> listgroup,String status) {
+                if(status.equals("load")){
+                    listGroup = listgroup;
+                }
+                if(status.equals("loadgrnew")){
+                    listGroup.addAll(listgroup);
+                    if(menuGroup.isSelected()){
+                        showGroup();
+                    }
+                }
+            }
+            @Override
+            public void exitGroup(GroupModel gr) {
+                int i = 0;
+                for(GroupModel g : listGroup){
+                    if(g.getIdGroup().equals(gr.getIdGroup())){
+                        listGroup.remove(i);
+                        break;
+                    }
+                    i++;
+                }
+                PublicEvent.getInstance().getEventChat().removeAllChatBody();
+                showGroup();
             }
         });
     }
@@ -87,7 +108,6 @@ public class Menu_left extends javax.swing.JPanel {
         }
         refreshMenuList();
     }
-
     private void showGroup() {
         menuList.removeAll();
         for (GroupModel gm : listGroup) {
@@ -95,13 +115,11 @@ public class Menu_left extends javax.swing.JPanel {
         }
         refreshMenuList();
     }
-
     private void showSystem() {
         menuList.removeAll();
         menuList.add(new Item_System("System"),"wrap");
         refreshMenuList();
     }
-
     private void refreshMenuList() {
         menuList.repaint();
         menuList.revalidate();

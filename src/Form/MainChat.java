@@ -62,12 +62,16 @@ public class MainChat extends javax.swing.JFrame {
             }
             
             @Override
-            public void BlockUser() {
+            public void BlockUser(String text) {
                 home.setVisible(false);
                 login1.setVisible(true);
-                JOptionPane.showMessageDialog(null, "Bạn đã bị hệ thống chặn");
+                if(text.equals("notsuccess")){
+                    JOptionPane.showMessageDialog(null, "Tài khoản đã có người đăng nhập");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Bạn đã bị hệ thống chặn");
+                }
             }
-
             @Override
             public void logout() {
                 home.setVisible(false);

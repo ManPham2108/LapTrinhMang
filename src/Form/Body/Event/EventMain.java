@@ -10,6 +10,6 @@ public interface EventMain {
     public void SelectUser(AccountModel ac);
     public void SelectSystem();
     public void SelectGroup(GroupModel gr);
-    public void BlockUser();
+    public void BlockUser(String text);
     public void logout();
 }

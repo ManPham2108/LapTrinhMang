@@ -1156,3 +1156,63 @@
 2021-11-29 22:50:59 User Id 1 login success
 2021-11-29 22:51:18 User Id 1 logout
 2021-11-29 22:51:22 User Id null logout
+2021-11-30 10:54:27 User Id 1 login success
+2021-11-30 10:54:44 User Id 2 login success
+2021-11-30 10:55:29 User Id 1 logout
+2021-11-30 10:55:29 User Id 2 logout
+2021-11-30 11:01:22 User Id null logout
+2021-11-30 11:01:28 User Id null logout
+2021-11-30 11:01:35 User Id null logout
+2021-11-30 11:11:48 User Id 1 login success
+2021-11-30 11:12:22 User Id 1 logout
+2021-11-30 11:12:37 User Id 1 login success
+2021-11-30 11:12:43 User Id 1 logout
+2021-11-30 11:18:01 User Id 1 login success
+2021-11-30 11:18:14 User Id 2 login success
+2021-11-30 11:18:29 User Id 1 logout
+2021-11-30 11:18:53 User Id 2 logout
+2021-11-30 11:22:24 User Id 1 login success
+2021-11-30 11:22:31 User Id 2 login success
+2021-11-30 11:23:06 User Id 1 logout
+2021-11-30 11:23:08 User Id 2 logout
+2021-11-30 11:27:20 User Id 1 login success
+2021-11-30 11:27:51 User Id 2 login success
+2021-11-30 11:28:23 User Id 2 logout
+2021-11-30 11:28:24 User Id 1 logout
+2021-11-30 13:16:37 User Id 1 login success
+2021-11-30 13:18:17 User Id 1 logout
+2021-11-30 13:21:32 User Id 1 login success
+2021-11-30 13:21:58 User Id 1 logout
+2021-11-30 13:29:06 User Id 1 login success
+2021-11-30 13:29:49 User Id 1 logout
+2021-11-30 13:33:24 User Id 1 login success
+2021-11-30 13:33:35 User Id 1 logout
+2021-11-30 13:35:59 User Id 1 login success
+2021-11-30 13:36:14 User Id 1 logout
+2021-11-30 13:44:22 User Id 1 login success
+2021-11-30 13:44:40 User Id null logout
+2021-11-30 13:44:40 User Id 1 logout
+2021-11-30 13:44:55 User Id 1 login success
+2021-11-30 13:45:00 User Id 1 logout
+2021-11-30 14:23:44 User Id 1 login success
+2021-11-30 14:23:56 User Id 1 logout
+2021-11-30 14:25:10 User Id null logout
+2021-11-30 14:25:23 User Id 1 login success
+2021-11-30 14:25:39 User Id 1 logout
+2021-11-30 14:28:43 User Id 1 login success
+2021-11-30 14:28:59 1 create group Bạn Hỡi
+2021-11-30 14:29:27 User Id 2 login success
+2021-11-30 14:29:53 2 create group SayYeah
+2021-11-30 14:30:09 User Id 2 logout
+2021-11-30 14:30:10 User Id 1 logout
+2021-11-30 14:32:46 User Id 1 login success
+2021-11-30 14:33:00 User Id 2 login success
+2021-11-30 14:33:48 1 create group SayYeah
+2021-11-30 14:36:14 User Id 2 logout
+2021-11-30 14:36:16 User Id 1 logout
+2021-11-30 14:36:51 User Id 1 login success
+2021-11-30 14:37:02 User Id 2 login success
+2021-11-30 14:37:21 2 create group Ôiiii
+2021-11-30 14:37:40 1 create group Ôiii dồiiiii
+2021-11-30 14:37:49 User Id 1 logout
+2021-11-30 14:37:50 User Id 2 logout

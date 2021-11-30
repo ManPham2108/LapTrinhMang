@@ -28,7 +28,7 @@ public class Server {
     public BufferedReader read;
     public BufferedWriter write;
     
-    public void startServer() throws IOException{
+    public void startServer() throws IOException, Exception{
         serverSocket = new ServerSocket(9001);
         System.out.println("Server is listening....");
         UtilsRSA.GenerateKeys();
@@ -122,7 +122,7 @@ public class Server {
             }
         }
     });
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws IOException, Exception
     {
         Server sv = new Server();
         sv.startServer();

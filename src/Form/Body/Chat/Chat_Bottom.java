@@ -136,19 +136,25 @@ public class Chat_Bottom extends javax.swing.JPanel {
         btnerror.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnerror.setVisible(false);
-                removeAll();
-                init();
-                try {
-                    Client.getInstance().send("blockuser#~unblock^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
-                    PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblock;"+aModel.getId());
+                try { 
+                    btnerror.setVisible(false);
+                    removeAll();
+                    init();
+                    if(group!=null){
+                        Client.getInstance().send("blockuser#~unblockgroup^&"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
+                        PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblockgroup;"+group.getIdGroup());
+                    }
+                    if(aModel!=null){
+                        Client.getInstance().send("blockuser#~unblock^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
+                        PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblock;"+aModel.getId());
+                    }      
                 } catch (IOException ex) {
                 }  
             }
         });
         if(type.equals("userblock")){
             panel.removeAll();
-            lberror.setText("Bạn đã chặn người này");
+            lberror.setText("Bạn đã chặn");
             System.err.println("vo luôn");
             panel.add(lberror);
             panel.add(btnerror);

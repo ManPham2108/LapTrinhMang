@@ -57,7 +57,7 @@ public class Chat_Body extends javax.swing.JPanel {
         scrollToBottom();
     }
 
-    public void removeItemRight() {
+    public void removeall() {
         body.removeAll();
     }
     

@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,12 +76,22 @@ public class Client{
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
                             break;
                         case "loginfaile":
-                            PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
+                            if(message[1].equals("wrongaccount")){
+                                PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
+                            }
+                            if(message[1].equals("notsuccess")){
+                                PublicEvent.getInstance().getEventMain().BlockUser(message[1]);
+                            }
                             break;
                         case "loadgroup":
                             Gson g = new Gson();
-                            ArrayList<GroupModel> listgroup = g.fromJson(message[1],new TypeToken<ArrayList<GroupModel>>() {}.getType());
-                            PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup);
+                            ArrayList<GroupModel> listgroup = g.fromJson(message[2],new TypeToken<ArrayList<GroupModel>>() {}.getType());
+                            if(message[1].equals("load")){
+                                PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
+                            }
+                            if(message[1].equals("loadgrnew")){
+                                PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
+                            }
                             break;
                         case "ClientToClient":
                               PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
@@ -95,7 +106,7 @@ public class Client{
                             }
                             break;
                         case "block":
-                            PublicEvent.getInstance().getEventMain().BlockUser();
+                            PublicEvent.getInstance().getEventMain().BlockUser(type);
                             break;
                         case "messagesystem":
                             PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
@@ -119,7 +130,7 @@ public class Client{
                                PublicEvent.getInstance().getEventChat().updateUserBlock(message[1]);
                             }
                             else{
-                                PublicEvent.getInstance().getEventChat().loadBlock(message[1]);
+                                PublicEvent.getInstance().getEventChat().loadListBlock(message[1]);
                             }
                             break;
                     } 
