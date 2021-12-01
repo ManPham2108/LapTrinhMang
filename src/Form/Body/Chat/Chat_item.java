@@ -34,7 +34,7 @@ public class Chat_item extends javax.swing.JLayeredPane {
         cmd.setContentAreaFilled(false);
         cmd.setFocusable(false);
         cmd.setForeground(new Color(30, 121, 213));
-        cmd.setFont(new java.awt.Font("sansserif", 1, 13));
+        cmd.setFont(new java.awt.Font("sansserif", 1, 10));
         txt.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         layer.add(cmd);
         add(layer, 0);

@@ -31,7 +31,7 @@ public class ThreadClient implements Runnable{
     private Socket s;
     private AccountDAL ac = new AccountDAL();
     private Gson gson = new Gson();
-    private String id;
+    private String id = null;
     private Server server = new Server();
     private String sessionkey = null;
     private String keyrsa;
@@ -188,12 +188,7 @@ public class ThreadClient implements Runnable{
                     case "logout":
                         updateStatus(message[1], "false");
                         saveLog("User Id "+message[1]+" logout");
-                        for(ThreadClient tc : server.listUserLogin){
-                            if(tc.getId()==null || tc.getId().equals(message[1])){
-                                tc.setId("");
-                                break;
-                            }
-                        }
+                        setId(null);
                         break;
                 }
             } catch (Exception ex) {
@@ -252,7 +247,8 @@ public class ThreadClient implements Runnable{
     }
     public void loadListUser(AccountModel ab){
         //set trạng thái cho user đang online
-        for(AccountModel am : ac.allAccountInfor){
+        AccountDAL acc = new AccountDAL();
+        for(AccountModel am : acc.allAccountInfor){
             for(ThreadClient tc : server.listUserLogin){
                 if(am.getId().equals(tc.getId())){
                     am.setStatus(true);
@@ -260,15 +256,14 @@ public class ThreadClient implements Runnable{
                 }
             }
         }
-        
-        for(AccountModel a : ac.allAccountInfor){
+        for(AccountModel a : acc.allAccountInfor){
             if(a.getId().equals(ab.getId())){
-                int i = ac.allAccountInfor.indexOf(a);
-                ac.allAccountInfor.remove(i);
+                int i = acc.allAccountInfor.indexOf(a);
+                acc.allAccountInfor.remove(i);
                 break;
             }
         }
-        String listuser = convertArToString(ac.allAccountInfor);
+        String listuser = convertArToString(acc.allAccountInfor);
         String user = convertArToString(ab);
         send("loginsucess#~"+listuser+"#~"+user);
     }

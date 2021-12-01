@@ -84,7 +84,7 @@ public class Server {
                                         tc.send("block#~");
                                         tc.updateStatus(tc.getId(), "false");
                                         tc.saveLog("User Id "+tc.getId()+" is blocked");
-                                        tc.setId("");
+                                        tc.setId(null);
                                         break;
                                     } catch (Exception ex) {
                                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

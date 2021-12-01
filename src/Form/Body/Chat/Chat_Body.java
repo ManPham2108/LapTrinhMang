@@ -33,7 +33,7 @@ public class Chat_Body extends javax.swing.JPanel {
             itemLeft.setText(text);
         }
         itemLeft.setUserProfile(user);
-        body.add(itemLeft, "wrap, w 100::80%");
+        body.add(itemLeft, "wrap, w 100::50%");
         //50% set chiều rộng
         repaint();
         revalidate();
