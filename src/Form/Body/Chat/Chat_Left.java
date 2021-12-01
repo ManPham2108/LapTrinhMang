@@ -14,7 +14,6 @@ public class Chat_Left extends javax.swing.JLayeredPane {
     public void setText(String text){
         txt.setText(text);
     }
-    
     public void setSticker(Icon icon){
         txt.hideText();
         txt.setSticker(true, icon);

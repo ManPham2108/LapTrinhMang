@@ -3,6 +3,7 @@ package Form.Body.Chat;
 import Form.Body.Event.PublicEvent;
 import Form.MainChat;
 import Model.AccountModel;
+import Model.GroupModel;
 import Model.SendMessageModel;
 import Server.Client;
 import Sticker.Model_Sticker;
@@ -31,7 +32,7 @@ import net.miginfocom.swing.MigLayout;
 public class Chat_PanelMore extends javax.swing.JPanel {
 
     private AccountModel aModel;
-
+    private GroupModel group;
     public AccountModel getaModel() {
         return aModel;
     }
@@ -40,6 +41,14 @@ public class Chat_PanelMore extends javax.swing.JPanel {
         this.aModel = aModel;
     }
 
+    public GroupModel getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupModel group) {
+        this.group = group;
+    }
+    
     public Chat_PanelMore() {
         initComponents();
         init();
@@ -111,15 +120,20 @@ public class Chat_PanelMore extends javax.swing.JPanel {
     }
 
     public void sendSticker(String text) {
-        if (aModel != null) {
-            try {
+        try {
+            if (aModel != null) {
                 PublicEvent.getInstance().getEventChat().sendMessage(text);
                 SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n", "%20"));
                 Client.getInstance().send("ClientToClient#~" + convertArToString(smm));
-            } catch (IOException ex) {
-                Logger.getLogger(Chat_PanelMore.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+            if(group != null){
+                PublicEvent.getInstance().getEventChat().sendMessage(text);
+                 SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20"));
+                 Client.getInstance().send("messagegroup#~"+convertArToString(smm)+"#~"+Client.getInstance().User.getFullName());
+            }
+        } catch (Exception e) {
+            
+        } 
     }
 
     public String convertArToString(Object object){

@@ -7,8 +7,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class P_UpdateInfo extends javax.swing.JPanel {
@@ -172,7 +170,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         String user = gson.toJson(updateuser);
         try {
             Client.getInstance().send("updateuser#~"+user);
-            JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
+            //JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
             //Client.getInstance().User = updateuser;
             PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
             PublicEvent.getInstance().getEventMain().logout();

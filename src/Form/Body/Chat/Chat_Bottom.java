@@ -16,11 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -47,6 +50,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
 
     public void setGroup(GroupModel group) {
         this.group = group;
+        panelMore.setGroup(group);
     }
     
     public Chat_Bottom() {
@@ -63,15 +67,25 @@ public class Chat_Bottom extends javax.swing.JPanel {
         JScrollPane scroll = new JScrollPane();
         scroll.setBorder(null);
         txt = new JIMSendTextPane();
-        txt.addKeyListener(new KeyAdapter() {
+        //remove keybling enter in txt
+        txt.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"none");
+        txt.addKeyListener(new KeyListener(){
             @Override
-            public void keyTyped(KeyEvent ke) {
+            public void keyPressed(KeyEvent e) {
                 refresh();
-                if (ke.getKeyChar() == 10 && ke.isControlDown()) {
-                    //  user press controll + enter
-                    send(txt);
-                }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                   send(txt);
+               }
             }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+            
         });
         txt.setHintText("Nhập tin nhắn");
         scroll.setViewportView(txt);
@@ -92,7 +106,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 send(txt);
-            }          
+            }
         });
         cmdMore = new JButton();
         cmdMore.setBorder(null);
@@ -137,9 +151,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try { 
-                    btnerror.setVisible(false);
-                    removeAll();
-                    init();
+                    
                     if(group!=null){
                         Client.getInstance().send("blockuser#~unblockgroup^&"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
                         PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblockgroup;"+group.getIdGroup());
@@ -149,7 +161,10 @@ public class Chat_Bottom extends javax.swing.JPanel {
                         PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblock;"+aModel.getId());
                     }      
                 } catch (IOException ex) {
-                }  
+                }
+                btnerror.setVisible(false);
+                removeAll();
+                init();  
             }
         });
         if(type.equals("userblock")){
@@ -177,7 +192,7 @@ public class Chat_Bottom extends javax.swing.JPanel {
                 }
                 if(group!=null){
                    SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20"));
-                   Client.getInstance().send("messagegroup#~"+convertArToString(smm));
+                   Client.getInstance().send("messagegroup#~"+convertArToString(smm)+"#~"+Client.getInstance().User.getFullName());
                 }
                 txt.setText("");
                 txt.grabFocus();

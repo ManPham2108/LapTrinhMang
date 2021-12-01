@@ -52,7 +52,8 @@ public final class AccountDAL {
     }
     public static void main(String[] args) throws Exception {
         AccountDAL ac = new AccountDAL();
-        ac.insertBlockUser("1","2");
+        ac.getUser("a", "a");
+        
 
     }
     public AccountModel getUser(String user,String pass) throws Exception{

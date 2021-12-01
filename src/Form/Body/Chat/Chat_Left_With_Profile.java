@@ -2,6 +2,7 @@
 package Form.Body.Chat;
 
 import java.awt.Color;
+import javax.swing.Icon;
 
 public class Chat_Left_With_Profile extends javax.swing.JLayeredPane {
 
@@ -14,6 +15,10 @@ public class Chat_Left_With_Profile extends javax.swing.JLayeredPane {
     }
     public void setText(String text){
         txt.setText(text);
+    }
+    public void setSticker(Icon icon){
+        txt.hideText();
+        txt.setSticker(true, icon);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

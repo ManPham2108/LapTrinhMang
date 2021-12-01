@@ -4,6 +4,7 @@ package Form.Body;
 import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.EventMenuLeft;
 import Form.Body.Event.PublicEvent;
+import Form.UpdateInfo.BodyUpdateInfo;
 import Form.UpdateInfo.FormUpdateInfo;
 import Model.AccountModel;
 import Model.GroupModel;
@@ -323,6 +324,8 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
         FormUpdateInfo update = new FormUpdateInfo();
+//        BodyUpdateInfo body = new BodyUpdateInfo();
+//        body.setVisible(true);
         update.setVisible(true);
     }//GEN-LAST:event_imageAvatar1MouseClicked
 

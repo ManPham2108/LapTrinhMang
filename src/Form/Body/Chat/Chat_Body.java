@@ -23,17 +23,17 @@ public class Chat_Body extends javax.swing.JPanel {
     }
 
     //them tin nhan bên trái
-    public void addItemLeft(String text) {
-        Chat_Left itemLeft = new Chat_Left();
+    public void addItemLeft(String text,String user) {
+        //Chat_Left itemLeft = new Chat_Left();
+        Chat_Left_With_Profile itemLeft = new Chat_Left_With_Profile();
         String[] message = text.split("\\###");
         if (message.length == 2 && message[0].equals("***sticker")) {
             itemLeft.setSticker(Sticker.getInstance().getSticker(Integer.valueOf(message[1])).toSize(60, 60).getIcon());
         } else {
-            System.out.println(text);
             itemLeft.setText(text);
         }
-        //item.setUserProfile(user);
-        body.add(itemLeft, "wrap,w ::50%");
+        itemLeft.setUserProfile(user);
+        body.add(itemLeft, "wrap, w 100::80%");
         //50% set chiều rộng
         repaint();
         revalidate();

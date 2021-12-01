@@ -8,35 +8,18 @@ public class BodyUpdateInfo extends javax.swing.JPanel {
         initComponents();
         init();
     }
-
+    
     private void init() {
-        PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
-            @Override
-            public void updateInfo() {
-                //new FormUpdateInfo().close();
-            }
-
-            @Override
-            public void changePassword() {
-                // TODO: Change password and close form update
-            }
-
-            @Override
-            public void goUpdateInfo() {
-                slide.show(0);
-            }
-
-            @Override
-            public void goChangePassword() {
-                slide.show(1);
-            }
-        });
-
         P_UpdateInfo p_UpdateInfo = new P_UpdateInfo();
         P_ChangePassword p_ChangePassword = new P_ChangePassword();
         slide.init(p_UpdateInfo, p_ChangePassword);
     }
-
+    public void goUpdate(){
+        slide.show(0);
+    }
+    public void goChangePass(){
+        slide.show(1);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

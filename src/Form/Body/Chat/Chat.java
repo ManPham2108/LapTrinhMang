@@ -19,10 +19,6 @@ import java.util.StringTokenizer;
 import jdk.nashorn.internal.ir.BreakableNode;
 import net.miginfocom.swing.MigLayout;
 public class Chat extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Menu_left
-     */
     private Chat_Title chatTitle;
     private Chat_Body chatBody;
     private Chat_Bottom chatBottom;
@@ -51,16 +47,20 @@ public class Chat extends javax.swing.JPanel {
                 //System.out.println(text);
                 String userid = message[0];
                 String msg = message[1].replace("%20","\r\n");
+                String username = null;
+                if(message.length==3){
+                    username = message[2];
+                }
                 if(chatTitle.getaModel() == null && userid.equals("system")){
-                    chatBody.addItemLeft(msg);
+                    chatBody.addItemLeft(msg,userid);
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
                         System.out.println("useridaaaaa "+userid);
-                        chatBody.addItemLeft(msg);
+                        chatBody.addItemLeft(msg,chatTitle.getaModel().getFullName());
                     }
                     if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid) && !listblockgroup.contains(userid)){
-                        chatBody.addItemLeft(msg);
+                        chatBody.addItemLeft(msg,username);
                     }
                 }
             }
@@ -74,8 +74,12 @@ public class Chat extends javax.swing.JPanel {
                 String[] a = text.split("#-~");
                 String userid = a[0];
                 String message = a[1].replace("%20","\r\n");
+                String username = null;
+                if(a.length==3){
+                    username = a[2];
+                }
                 if(chatTitle.getaModel()!=null && chatTitle.getaModel().getId().equals(userid)){
-                    chatBody.addItemLeft(message);
+                    chatBody.addItemLeft(message,chatTitle.getaModel().getFullName());
                 }
                 if(chatTitle.getaModel()!=null && Client.getInstance().User.getId().equals(userid)){
                    chatBody.addItemRight(message);
@@ -84,7 +88,7 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.addItemRight(message);
                 }
                 if(chatTitle.getaModel()==null && !Client.getInstance().User.getId().equals(userid)){
-                    chatBody.addItemLeft(message);
+                    chatBody.addItemLeft(message,username);
                 }
             }
 
@@ -133,15 +137,15 @@ public class Chat extends javax.swing.JPanel {
                 String id = st.nextToken();
                 switch(type){
                     case "updateuserunblock":
-                        if(chatTitle.getaModel().getId().equals(id)){
+                        if(chatTitle.getGroup()==null && chatTitle.getaModel() != null &&chatTitle.getaModel().getId().equals(id)){
                             chatBottom.setVisible(false);
                             chatBottom.removeall();
                             chatBottom.setVisible(true);
                         }
-                            listblocked.remove(id);
+                        listblocked.remove(id);
                         break;
                     case "updateuserblock":
-                        if(chatTitle.getaModel().getId().equals(id)){
+                        if(chatTitle.getGroup()==null && chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(id)){
                             chatBottom.setBlock("userblocked");
                             chatTitle.hideblock();
                         }
@@ -161,7 +165,7 @@ public class Chat extends javax.swing.JPanel {
         chatBottom.setaModel(am);
         chatBottom.setGroup(null);
         if(listblock.contains(am.getId())){
-            System.out.println("co vao");
+            //System.out.println("co vao");
             chatBottom.setBlock("userblock");
             chatTitle.hideblock();
         }

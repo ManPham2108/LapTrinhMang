@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger; 
+import jdk.nashorn.internal.ir.BreakableNode;
 
 public class ThreadClient implements Runnable{
     public BufferedReader read;
@@ -89,17 +90,18 @@ public class ThreadClient implements Runnable{
                         break;
                     case "messagegroup":
                         SendMessageModel mesgroup = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
+                        String username = message[2];
                         ArrayList<String> list = gr.allUserInGroup(mesgroup.getToUserId());
                         list.remove(mesgroup.getFromUserId());
                         for(String s:list){
                             for(ThreadClient tc : server.listUserLogin){
                                 if(tc.getId().equals(s)){
-                                    tc.send("ClientToClient#~"+mesgroup.getToUserId()+"#-~"+mesgroup.getMessage());
+                                    tc.send("ClientToClient#~"+mesgroup.getToUserId()+"#-~"+mesgroup.getMessage()+"#-~"+username);
                                     break;
                                 }
                             }
                         }
-                        saveMessageGroup(mesgroup.getFromUserId(), mesgroup.getToUserId(), mesgroup.getMessage());
+                        saveMessageGroup(mesgroup.getFromUserId(), mesgroup.getToUserId(), mesgroup.getMessage(),username);
                         break;
                     case "OTP":
                         OtpAuthentication authen = new OtpAuthentication();
@@ -209,13 +211,15 @@ public class ThreadClient implements Runnable{
         StringTokenizer st = new StringTokenizer(account,"<,");
         //System.out.println(st.nextToken());
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
-        if(am == null){
+        System.out.println(am);
+        if(am==null){
+            System.out.println(am);
             send("loginfaile#~wrongaccount");
         }
-        if(checkUserLoging(am.getId())){
+        if(am!=null && checkUserLoging(am.getId())){
             send("loginfaile#~notsuccess");
         }
-        else{
+        if(am!=null && checkUserLoging(am.getId())==false){
             setId(am.getId());
             if(am.getBlock().equals("True")){
                 send("block#~");
@@ -233,7 +237,7 @@ public class ThreadClient implements Runnable{
                 loadListUserBlock(am.getId());
                 //lưu log user login
                 saveLog("User Id "+am.getId()+" login success");
-            }   
+            }
         }  
     }
     public boolean checkUserLoging(String id){
@@ -347,10 +351,10 @@ public class ThreadClient implements Runnable{
             read.close();
         }
     }
-    public void saveMessageGroup(String iduser,String groupid,String message) throws IOException{
+    public void saveMessageGroup(String iduser,String groupid,String message,String username) throws IOException{
         String url = "./src/Server/SaveMessage/"+groupid+".txt";
         BufferedWriter savemessage = new BufferedWriter(new FileWriter(new File(url).getAbsoluteFile(),true));
-        savemessage.write(iduser+"#!~"+message+"\n");
+        savemessage.write(iduser+"#!~"+message.trim()+"#!~"+username+"\n");
         savemessage.close();
     }
     public void loadMessageGroup(String iduser,String groupid) throws FileNotFoundException, IOException{
@@ -361,7 +365,7 @@ public class ThreadClient implements Runnable{
             String line = read.readLine();
             while(line!=null){
                 String[] a = line.trim().split("#!~");
-                send("loadmessage#~yes#~"+a[0]+"#-~"+a[1]);
+                send("loadmessage#~yes#~"+a[0]+"#-~"+a[1]+"#-~"+a[2]);
                 line = read.readLine();
             }
             read.close();

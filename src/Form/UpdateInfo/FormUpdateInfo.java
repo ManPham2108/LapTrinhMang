@@ -4,7 +4,6 @@ import Form.Body.Event.EventUpdateInfo;
 import Form.Body.Event.PublicEvent;
 
 public class FormUpdateInfo extends javax.swing.JFrame {
-
     public FormUpdateInfo() {
         initComponents();
         setLocationRelativeTo(null);
@@ -14,26 +13,24 @@ public class FormUpdateInfo extends javax.swing.JFrame {
         PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
             @Override
             public void updateInfo() {
-                //new FormUpdateInfo().close();
                 dispose();
             }
 
             @Override
             public void changePassword() {
-                // TODO: Change password and close form update
+                dispose();
             }
 
             @Override
             public void goUpdateInfo() {
+                bodyUpdateInfo1.goUpdate();
             }
 
             @Override
             public void goChangePassword() {
+                bodyUpdateInfo1.goChangePass();
             }
         });
-    }
-    public void close(){
-        dispose();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -98,7 +95,6 @@ public class FormUpdateInfo extends javax.swing.JFrame {
 
     private void btnCloseUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseUpdateActionPerformed
         dispose();
-        
     }//GEN-LAST:event_btnCloseUpdateActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
