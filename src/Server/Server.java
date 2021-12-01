@@ -51,11 +51,12 @@ public class Server {
                 AccountDAL ac = new AccountDAL();
                 Scanner sc = new Scanner(System.in);
                 String command = sc.nextLine();
-                if(!command.contains(">")){
+                if(!command.contains(">") || command.equals("help")){
                     System.out.println("Sai cú pháp");
                     System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
                     System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
                     System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                    System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
                     System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                 }
                 else{
@@ -81,6 +82,9 @@ public class Server {
                                 if(tc.getId().equals(userid)){
                                     try {
                                         tc.send("block#~");
+                                        tc.updateStatus(tc.getId(), "false");
+                                        tc.saveLog("User Id "+tc.getId()+" is blocked");
+                                        tc.setId("");
                                         break;
                                     } catch (Exception ex) {
                                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,6 +119,7 @@ public class Server {
                             System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
                             System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
                             System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                            System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
                             System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                             break;
                     }

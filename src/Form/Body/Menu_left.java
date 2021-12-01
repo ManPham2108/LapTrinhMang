@@ -12,7 +12,10 @@ import Server.Client;
 import com.google.gson.Gson;
 import component.ScrollBar;
 import java.awt.Component;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
 
 public class Menu_left extends javax.swing.JPanel {
@@ -137,7 +140,8 @@ public class Menu_left extends javax.swing.JPanel {
         menuList = new javax.swing.JPanel();
         menuInfor = new javax.swing.JLayeredPane();
         imageAvatar1 = new component.ImageAvatar();
-        imageAvatar2 = new component.ImageAvatar();
+        logout = new component.ImageAvatar();
+        createGr = new component.ImageAvatar();
         jPanel1 = new javax.swing.JPanel();
         txtName = new javax.swing.JLabel();
 
@@ -209,7 +213,7 @@ public class Menu_left extends javax.swing.JPanel {
 
         sp.setViewportView(menuList);
 
-        menuInfor.setBackground(new java.awt.Color(51, 255, 255));
+        menuInfor.setBackground(new java.awt.Color(153, 255, 255));
         menuInfor.setOpaque(true);
 
         imageAvatar1.setBackground(new java.awt.Color(255, 255, 255));
@@ -222,34 +226,45 @@ public class Menu_left extends javax.swing.JPanel {
             }
         });
 
-        imageAvatar2.setBorderSize(0);
-        imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/add-user-group.png"))); // NOI18N
-        imageAvatar2.addMouseListener(new java.awt.event.MouseAdapter() {
+        logout.setBorderSize(0);
+        logout.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/logout.png"))); // NOI18N
+        logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                imageAvatar2MouseClicked(evt);
+                logoutMouseClicked(evt);
+            }
+        });
+
+        createGr.setBorderSize(0);
+        createGr.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/add-user-group.png"))); // NOI18N
+        createGr.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createGrMouseClicked(evt);
             }
         });
 
         menuInfor.setLayer(imageAvatar1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        menuInfor.setLayer(imageAvatar2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        menuInfor.setLayer(logout, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        menuInfor.setLayer(createGr, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout menuInforLayout = new javax.swing.GroupLayout(menuInfor);
         menuInfor.setLayout(menuInforLayout);
         menuInforLayout.setHorizontalGroup(
             menuInforLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-            .addComponent(imageAvatar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(createGr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuInforLayout.setVerticalGroup(
             menuInforLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuInforLayout.createSequentialGroup()
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(createGr, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(51, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
         txtName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -324,22 +339,31 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void imageAvatar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar1MouseClicked
         FormUpdateInfo update = new FormUpdateInfo();
-//        BodyUpdateInfo body = new BodyUpdateInfo();
-//        body.setVisible(true);
         update.setVisible(true);
     }//GEN-LAST:event_imageAvatar1MouseClicked
 
-    private void imageAvatar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAvatar2MouseClicked
+    private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
+        PublicEvent.getInstance().getEventMain().logout();
+        try {
+            Client.getInstance().send("logout#~"+Client.getInstance().User.getId());
+        } catch (IOException ex) {
+            Logger.getLogger(Menu_left.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_logoutMouseClicked
+
+    private void createGrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createGrMouseClicked
+        // TODO add your handling code here:
         CreateGroup cg = new CreateGroup();
         cg.setVisible(true);
         cg.listUser(listPeople);
-    }//GEN-LAST:event_imageAvatar2MouseClicked
+    }//GEN-LAST:event_createGrMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private component.ImageAvatar createGr;
     private component.ImageAvatar imageAvatar1;
-    private component.ImageAvatar imageAvatar2;
     private javax.swing.JPanel jPanel1;
+    private component.ImageAvatar logout;
     private javax.swing.JLayeredPane menu;
     private component.MenuButton menuBox;
     private component.MenuButton menuGroup;

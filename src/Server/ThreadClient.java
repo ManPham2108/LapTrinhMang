@@ -24,7 +24,6 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger; 
-import jdk.nashorn.internal.ir.BreakableNode;
 
 public class ThreadClient implements Runnable{
     public BufferedReader read;
@@ -34,7 +33,6 @@ public class ThreadClient implements Runnable{
     private Gson gson = new Gson();
     private String id;
     private Server server = new Server();
-    private String otp = null;
     private String sessionkey = null;
     private String keyrsa;
     private GroupDAL gr;
@@ -62,6 +60,7 @@ public class ThreadClient implements Runnable{
         } catch (IOException ex) {
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String otp = null;
         while (true) {            
             try {
                 String reccive = Reccive();
@@ -165,7 +164,7 @@ public class ThreadClient implements Runnable{
                                 }
                             }
                         }
-                        saveLog(g.getListUserGroup().get(0)+" create group "+g.getNameGroup());
+                        saveLog("User Id "+g.getListUserGroup().get(0)+" create group "+g.getNameGroup());
                         break;
                     case "exitgroup":
                         gr.deleteUserInGr(message[1], message[2]);
@@ -174,7 +173,7 @@ public class ThreadClient implements Runnable{
                         AccountModel updateuser = new AccountModel();
                         updateuser = gson.fromJson(message[1],new TypeToken<AccountModel>() {}.getType());
                         ac.UpdateInfor(updateuser);
-                        saveLog(updateuser.getId()+" update information account");
+                        saveLog("User Id "+updateuser.getId()+" update information account");
                         break;
                     case "loadmessage":
                         StringTokenizer load = new StringTokenizer(message[1],"^&");
@@ -211,20 +210,18 @@ public class ThreadClient implements Runnable{
         StringTokenizer st = new StringTokenizer(account,"<,");
         //System.out.println(st.nextToken());
         AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
-        System.out.println(am);
         if(am==null){
-            System.out.println(am);
             send("loginfaile#~wrongaccount");
         }
         if(am!=null && checkUserLoging(am.getId())){
             send("loginfaile#~notsuccess");
         }
         if(am!=null && checkUserLoging(am.getId())==false){
-            setId(am.getId());
             if(am.getBlock().equals("True")){
                 send("block#~");
             }
             else{
+                setId(am.getId());
                 System.out.println(am.getFullName()+" login sucess");              
                 am.setStatus(true);
                 //cập nhật trạng thái user online

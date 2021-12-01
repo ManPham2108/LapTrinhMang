@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Server;
 
 import Encrypt.UtilsAES;
@@ -19,7 +14,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,7 +143,7 @@ public class Client{
     };
     public void send(String message) throws IOException{
         String ma=UtilsAES.EncryptText(sessionkey,message);
-        System.out.println("Da gui: "+ma);
+        //System.out.println("Da gui: "+ma);
         write.write(ma);
         write.newLine();
         write.flush();

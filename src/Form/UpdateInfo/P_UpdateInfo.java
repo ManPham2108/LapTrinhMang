@@ -170,8 +170,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         String user = gson.toJson(updateuser);
         try {
             Client.getInstance().send("updateuser#~"+user);
-            //JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
-            //Client.getInstance().User = updateuser;
+            JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
             PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
             PublicEvent.getInstance().getEventMain().logout();
             Client.getInstance().send("logout#~"+updateuser.getId());

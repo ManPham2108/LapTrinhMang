@@ -77,7 +77,6 @@ public class MainChat extends javax.swing.JFrame {
                 home.setVisible(false);
                 login1.setVisible(true);
             }
-           
         });
     }
     @SuppressWarnings("unchecked")
