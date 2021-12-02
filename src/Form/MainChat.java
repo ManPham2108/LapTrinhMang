@@ -60,7 +60,7 @@ public class MainChat extends javax.swing.JFrame {
             public void SelectSystem() {
                 home.setSystem();
             }
-            
+
             @Override
             public void BlockUser(String text) {
                 home.setVisible(false);

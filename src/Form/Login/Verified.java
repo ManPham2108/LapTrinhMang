@@ -36,7 +36,7 @@ public class Verified extends javax.swing.JFrame {
         dongho();
     }
     public void dongho() {
-        new Timer(1000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 
+        new Timer(10000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(second == -1){
@@ -45,7 +45,13 @@ public class Verified extends javax.swing.JFrame {
                 }
                 timeOut.setText(minute+":"+second--);
                 if(second == 0 && minute == 0){
-                    JOptionPane.showMessageDialog(rootPane, "Da het thoi gian");
+                    JOptionPane.showMessageDialog(rootPane, "Hết hạn mã OTP");
+                    try {
+                        Client.getInstance().send("authenotp#~timeout#~");
+                    } catch (IOException ex) {
+                        Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dispose();
                 }
             }
         }).start();
@@ -71,8 +77,7 @@ public class Verified extends javax.swing.JFrame {
                 lberror.setVisible(true);
             }
         });
-    }
-    
+    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -208,13 +213,14 @@ public class Verified extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseVerifiedActionPerformed
 
     private void cmdVerifiedOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdVerifiedOTPActionPerformed
-        
-        try {
-            Client.getInstance().send("authenotp#~"+txtOTP.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
+        String otp = txtOTP.getText();
+        if(!otp.equals("")){
+            try {
+                Client.getInstance().send("authenotp#~check#~"+otp);
+            } catch (IOException ex) {
+                Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-       
     }//GEN-LAST:event_cmdVerifiedOTPActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

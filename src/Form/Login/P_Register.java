@@ -1,5 +1,6 @@
 package Form.Login;
 
+import Form.Body.Event.EventCheckUserName;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Server.Client;
@@ -222,7 +223,7 @@ public class P_Register extends javax.swing.JPanel {
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
         int fail = 0;
         if(isFullname(txtFullName.getText())==false){
-            errorFullName.setText("Fullname không được chưa số và kí tự đặt biệt");
+            errorFullName.setText("Họ và tên không được chứ số và kí tự đặt biệt");
             fail++;
         }
         else{
@@ -240,14 +241,15 @@ public class P_Register extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null,isPassword(txtPass.getText()));
             fail++;
         }
+        //System.out.println("Lỗi sai: "+fail);
         if(fail == 0){
             try {
                 String gender;
                 if(btnFemale.isSelected()){
-                    gender = "Female";
+                    gender = "Nữ";
                 }
                 else{
-                    gender = "Male";
+                    gender = "Nam";
                 }
                 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
                 String DateOfBirth=sdf.format(jDateBirth.getDate());
@@ -256,7 +258,17 @@ public class P_Register extends javax.swing.JPanel {
                 ver.setUserregist(userRegister);
                 try {
                     Client.getInstance().send("OTP#~"+userRegister.getUsername());
-                    ver.setVisible(true);
+                    PublicEvent.getInstance().addEventCheckUserName(new EventCheckUserName() {
+                        @Override
+                        public void checkUserName(String status) {
+                            if(status.equals("true")){
+                                ver.setVisible(true);
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Tài khoản đã có người đăng ký");
+                            }
+                        }
+                    });
                     
                 } catch (IOException ex) {
                     Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
@@ -300,14 +312,17 @@ public class P_Register extends javax.swing.JPanel {
         if(m3.find() == false){
             result += "Mật khẩu phải có ít nhất 1 kí tự đặt biệt\n";
         }
-        if(password.contains("''")){
-            result += "Mật khẩu không được chứa ''\n";
+        if(password.contains("'")){
+            result += "Mật khẩu không được chứa '\n";
         }
         if(password.contains("--")){
             result += "Mật khẩu không được chứa --\n";
         }
-        if(password.contains("#~")){
-            result += "Mật khẩu không được chứa #~";
+        if(password.contains("#")){
+            result += "Mật khẩu không được chứa #";
+        }
+        if(password.contains("~")){
+            result += "Mật khẩu không được chứa #";
         }
         if(password.contains(" ")){
             result += "Mật khẩu không được chứa khoảng chắn";

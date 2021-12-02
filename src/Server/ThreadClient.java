@@ -103,17 +103,30 @@ public class ThreadClient implements Runnable{
                         saveMessageGroup(mesgroup.getFromUserId(), mesgroup.getToUserId(), mesgroup.getMessage(),username);
                         break;
                     case "OTP":
-                        OtpAuthentication authen = new OtpAuthentication();
-                        otp = String.valueOf(authen.randomOtp());
-                        authen.sendMail(message[1], otp);
-                        break;
-                    case "authenotp":
-                        if(message[1].equals(otp)){
-                            send("authenotp#~true");
-                            otp="";
+                        AccountDAL check = new AccountDAL();
+                        if(check.getAllAccount("Username='"+message[1]+"'", null).size()>0){
+                            //System.out.println("Lỗiiiiiiiiiii");
+                            send("checkuser#~false");
                         }
                         else{
-                            send("authenotp#~false");
+                            send("checkuser#~true");
+                            OtpAuthentication authen = new OtpAuthentication();
+                            otp = String.valueOf(authen.randomOtp());
+                            authen.sendMail(message[1], otp);
+                        }
+                        break;
+                    case "authenotp":
+                        if(message[1].equals("check")){
+                            if(message[2].equals(otp)){
+                                send("authenotp#~true");
+                                otp=null;
+                            }
+                            else{
+                                send("authenotp#~false");
+                            }
+                        }
+                        if(message[1].equals("timeout")){
+                            otp = null;
                         }
                         break;
                     case "blockuser":

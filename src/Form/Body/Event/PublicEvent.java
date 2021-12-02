@@ -11,6 +11,7 @@ public class PublicEvent {
     private EventLoginSuccess eventLoginSuccess;
     private EventUpdateInfo eventUpdateInfo;
     private EventAuthenOtp eventAuthenOtp;
+    private EventCheckUserName eventCheckUserName;
     public static PublicEvent getInstance() {
         if (instance == null) {
             instance = new PublicEvent();
@@ -21,7 +22,6 @@ public class PublicEvent {
     private PublicEvent() {
 
     }
-
     public void addEventMain(EventMain event) {
         this.eventMain = event;
     }
@@ -77,6 +77,14 @@ public class PublicEvent {
 
     public void addEventAuthenOtp(EventAuthenOtp eventAuthenOtp) {
         this.eventAuthenOtp = eventAuthenOtp;
+    }
+
+    public EventCheckUserName getEventCheckUserName() {
+        return eventCheckUserName;
+    }
+
+    public void addEventCheckUserName(EventCheckUserName eventCheckUserName) {
+        this.eventCheckUserName = eventCheckUserName;
     }
     
 }

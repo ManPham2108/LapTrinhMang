@@ -16,8 +16,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
 public class Client{
     static Client instance;
     private Socket socket=null;
@@ -118,6 +116,9 @@ public class Client{
                             if(message[1].equals("false")){
                                 PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
                             }
+                            break;
+                        case "checkuser":
+                            PublicEvent.getInstance().getEventCheckUserName().checkUserName(message[1]);
                             break;
                         case "blockuser":
                             if(message[1].contains("updateuserunblock") || message[1].contains("updateuserblock")){
