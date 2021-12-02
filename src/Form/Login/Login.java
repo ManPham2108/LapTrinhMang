@@ -57,7 +57,7 @@ public class Login extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        pic.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/login_image.png"))); // NOI18N
+        pic.setImage(new javax.swing.ImageIcon(getClass().getResource("/Image/istockphoto-1281337303-170667a.jpg"))); // NOI18N
 
         javax.swing.GroupLayout picLayout = new javax.swing.GroupLayout(pic);
         pic.setLayout(picLayout);
