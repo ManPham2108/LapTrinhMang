@@ -5,12 +5,21 @@ import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Server.Client;
 import com.google.gson.Gson;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class Verified extends javax.swing.JFrame {
     private AccountModel userregist;
+    int minute = 10;
+    int second = 0;
 
     public AccountModel getUserregist() {
         return userregist;
@@ -20,10 +29,26 @@ public class Verified extends javax.swing.JFrame {
         this.userregist = userregist;
     }
     
-    public Verified() {
+    public Verified() throws InterruptedException {
         initComponents();
         setLocationRelativeTo(null);
         init();
+        dongho();
+    }
+    public void dongho() {
+        new Timer(1000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(second == -1){
+                    minute--;
+                    second = 59;
+                }
+                timeOut.setText(minute+":"+second--);
+                if(second == 0 && minute == 0){
+                    JOptionPane.showMessageDialog(rootPane, "Da het thoi gian");
+                }
+            }
+        }).start();
     }
     private void init(){
         lberror.setVisible(false);
@@ -39,6 +64,7 @@ public class Verified extends javax.swing.JFrame {
                     Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 dispose();
+                
             }
             @Override
             public void authenFaile() {
@@ -58,6 +84,7 @@ public class Verified extends javax.swing.JFrame {
         cmdVerifiedOTP = new javax.swing.JButton();
         lbVerified = new javax.swing.JLabel();
         lberror = new javax.swing.JLabel();
+        timeOut = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -114,23 +141,31 @@ public class Verified extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(lbVerified)
-                .addGap(18, 18, 18)
-                .addComponent(txtOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(txtOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lberror)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdVerifiedOTP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
+
+        timeOut.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        timeOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeOut.setText("10:00");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(602, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCloseVerified)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(193, 193, 193)
+                .addComponent(timeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(178, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -142,7 +177,9 @@ public class Verified extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addComponent(btnCloseVerified)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(timeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(129, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(18, Short.MAX_VALUE)
@@ -213,7 +250,11 @@ public class Verified extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Verified().setVisible(true);
+                try {
+                    new Verified().setVisible(true);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -225,6 +266,7 @@ public class Verified extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbVerified;
     private javax.swing.JLabel lberror;
+    private javax.swing.JLabel timeOut;
     private javax.swing.JTextField txtOTP;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 
 public class P_Register extends javax.swing.JPanel {
@@ -39,6 +42,10 @@ public class P_Register extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jDateBirth = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
+        errorFullName = new javax.swing.JLabel();
+        errorUserName = new javax.swing.JLabel();
+        errorPassword = new javax.swing.JLabel();
+        errorConfirmPassword = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -97,6 +104,14 @@ public class P_Register extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Date invalid !");
 
+        errorFullName.setForeground(new java.awt.Color(255, 0, 0));
+
+        errorUserName.setForeground(new java.awt.Color(255, 0, 0));
+
+        errorPassword.setForeground(new java.awt.Color(255, 0, 0));
+
+        errorConfirmPassword.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,12 +124,8 @@ public class P_Register extends javax.swing.JPanel {
                     .addComponent(cmdRegister, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPass, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtUsername)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtConfirmPass, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtFullName)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -127,7 +138,23 @@ public class P_Register extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateBirth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))))
+                            .addComponent(jDateBirth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorConfirmPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,7 +163,9 @@ public class P_Register extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(lbTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(errorFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -155,15 +184,21 @@ public class P_Register extends javax.swing.JPanel {
                 .addGap(1, 1, 1)
                 .addComponent(jLabel7)
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(errorUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(errorPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(errorConfirmPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -179,31 +214,109 @@ public class P_Register extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackLoginActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-
-        String gender;
-        if(btnFemale.isSelected()){
-            gender = "Female";
+        int fail = 0;
+        if(isFullname(txtFullName.getText())==false){
+            errorFullName.setText("Fullname không được chưa số và kí tự đặt biệt");
+            fail++;
         }
         else{
-            gender = "Male";
+            errorFullName.setText("");
         }
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String DateOfBirth=sdf.format(jDateBirth.getDate());
-        Verified ver = new Verified();
-        AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
-        ver.setUserregist(userRegister);
-        try {
-            Client.getInstance().send("OTP#~"+userRegister.getUsername());
-            ver.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
+        if(isEmailAddress(txtUsername.getText())==false){
+            errorUserName.setText("Email không  hợp lệ");
+            fail++;
         }
+        else{
+            errorUserName.setText("");
+        }
+        if(!isPassword(txtPass.getText()).equals("Mật khẩu hợp lệ")){
+//            errorPassword.setText(isPassword(txtPass.getText()));
+            JOptionPane.showMessageDialog(null,isPassword(txtPass.getText()));
+            fail++;
+        }
+        if(fail == 0){
+            try {
+                String gender;
+                if(btnFemale.isSelected()){
+                    gender = "Female";
+                }
+                else{
+                    gender = "Male";
+                }
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                String DateOfBirth=sdf.format(jDateBirth.getDate());
+                Verified ver = new Verified();
+                AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
+                ver.setUserregist(userRegister);
+                try {
+                    Client.getInstance().send("OTP#~"+userRegister.getUsername());
+                    ver.setVisible(true);
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        else{
+            JOptionPane.showMessageDialog(null,"Đăng ký thất bại");
+        }
+        
     }//GEN-LAST:event_cmdRegisterActionPerformed
-
+    public boolean isEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+    public boolean isFullname(String str) {
+        String expression = "^[a-zA-Z\\s]+"; 
+        return str.matches(expression);        
+    }
+    public String isPassword(String password){
+        String result = "";
+        if(password.length() < 8){
+            result += "Mật khẩu phải có ít nhất 8 kí tự\n";
+        }
+        Pattern p = Pattern.compile("([0-9])");
+        Matcher m = p.matcher(password);
+        if(m.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 số\n";
+        }
+        Pattern p2 = Pattern.compile("([A-Z])");
+        Matcher m2 = p2.matcher(password);
+        if(m2.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 chữ hoa\n";
+        }
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(password);
+        if(m3.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 kí tự đặt biệt\n";
+        }
+        if(password.contains("''")){
+            result += "Mật khẩu không được chứa ''\n";
+        }
+        if(password.contains("--")){
+            result += "Mật khẩu không được chứa --\n";
+        }
+        if(password.contains("#~")){
+            result += "Mật khẩu không được chứa #~";
+        }
+        if(password.contains(" ")){
+            result += "Mật khẩu không được chứa khoảng chắn";
+        }
+        if(result.length() != 0){
+            return result;
+        }
+        else{
+            return "Mật khẩu hợp lệ";    
+        }
+    }
     private void btnFemaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFemaleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFemaleActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton btnFemale;
@@ -211,6 +324,10 @@ public class P_Register extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cmdBackLogin;
     private javax.swing.JButton cmdRegister;
+    private javax.swing.JLabel errorConfirmPassword;
+    private javax.swing.JLabel errorFullName;
+    private javax.swing.JLabel errorPassword;
+    private javax.swing.JLabel errorUserName;
     private com.toedter.calendar.JDateChooser jDateBirth;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

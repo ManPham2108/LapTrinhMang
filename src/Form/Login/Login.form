@@ -55,7 +55,7 @@
     <Container class="component.PictureBox" name="pic">
       <Properties>
         <Property name="image" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Image/login_image.png"/>
+          <Image iconType="3" name="/Image/istockphoto-1281337303-170667a.jpg"/>
         </Property>
       </Properties>
 
