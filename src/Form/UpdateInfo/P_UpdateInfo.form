@@ -40,7 +40,7 @@
                               <Component id="btnMale" min="-2" pref="79" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnFemale" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="52" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -103,12 +103,12 @@
           <Color blue="57" green="57" red="57" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Change Information"/>
+        <Property name="text" type="java.lang.String" value="TH&#xd4;NG TIN C&#xc1; NH&#xc2;N"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="cmdUpdateInfo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Change"/>
+        <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdUpdateInfoActionPerformed"/>
@@ -122,7 +122,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ce" green="80" red="f" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Back Change Password"/>
+        <Property name="text" type="java.lang.String" value="THAY &#x110;&#x1ed4;I M&#x1eac;T KH&#x1ea8;U"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -134,8 +134,11 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Date of Birth"/>
+        <Property name="text" type="java.lang.String" value="NG&#xc0;Y SINH"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFullName">
@@ -146,7 +149,7 @@
           <ComponentRef name="buttonGroup1"/>
         </Property>
         <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="Male"/>
+        <Property name="text" type="java.lang.String" value="Nam"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="btnFemale">
@@ -154,17 +157,23 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Female"/>
+        <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Full Name"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="H&#x1ecc; V&#xc0; T&#xca;N"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Gender"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="GI&#x1eda;I T&#xcd;NH"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateBirth">

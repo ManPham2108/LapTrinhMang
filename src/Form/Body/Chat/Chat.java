@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Form.Body.Chat;
 
 import Form.Body.Event.EventChat;
@@ -46,7 +42,7 @@ public class Chat extends javax.swing.JPanel {
                 String[] message = text.split("#-~");
                 //System.out.println(text);
                 String userid = message[0];
-                String msg = message[1].replace("%20","\r\n");
+                String msg = message[1].replace("%20#1%","\r\n");
                 String username = null;
                 if(message.length==3){
                     username = message[2];
@@ -73,7 +69,7 @@ public class Chat extends javax.swing.JPanel {
             public void loadMessage(String text) {
                 String[] a = text.split("#-~");
                 String userid = a[0];
-                String message = a[1].replace("%20","\r\n");
+                String message = a[1].replace("%20#1%","\r\n");
                 String username = null;
                 if(a.length==3){
                     username = a[2];

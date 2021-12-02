@@ -34,13 +34,13 @@ public class P_Login extends javax.swing.JPanel {
         lbTitle.setFont(new java.awt.Font("sansserif", 0, 30)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("Login");
+        lbTitle.setText("ĐĂNG NHẬP");
 
-        jLabel1.setText("User Name");
+        jLabel1.setText("TÀI KHOẢN");
 
-        jLabel2.setText("Password");
+        jLabel2.setText("MẬT KHẨU");
 
-        cmdLogin.setText("Login");
+        cmdLogin.setText("ĐĂNG NHẬP");
         cmdLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdLoginActionPerformed(evt);
@@ -49,7 +49,7 @@ public class P_Login extends javax.swing.JPanel {
 
         cmdRegister.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         cmdRegister.setForeground(new java.awt.Color(15, 128, 206));
-        cmdRegister.setText("Register");
+        cmdRegister.setText("ĐĂNG KÝ TÀI KHOẢN");
         cmdRegister.setContentAreaFilled(false);
         cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdRegister.addActionListener(new java.awt.event.ActionListener() {

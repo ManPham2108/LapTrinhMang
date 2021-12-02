@@ -14,7 +14,11 @@ public class Chat_Left_With_Profile extends javax.swing.JLayeredPane {
         txt.setUserProfile(user);
     }
     public void setText(String text){
-        txt.setText(text);
+        if (text.equals("")) {
+            txt.hideText();
+        } else {
+            txt.setText(text);
+        }
     }
     public void setSticker(Icon icon){
         txt.hideText();

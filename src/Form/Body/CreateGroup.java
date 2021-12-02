@@ -32,7 +32,7 @@ public class CreateGroup extends javax.swing.JFrame {
         tblListUser.setDefaultRenderer(Object.class, new ButtonRenderer());
         dm = new DefaultTableModel(
                 new Object[][]{},
-                new Object[]{"Name", "Delete"}) {
+                new Object[]{"HỌ VÀ TÊN", "XÓA THÀNH VIÊN"}) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
@@ -77,7 +77,7 @@ public class CreateGroup extends javax.swing.JFrame {
         });
 
         btnCreateGroup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnCreateGroup.setText("CREATE");
+        btnCreateGroup.setText("TẠO NHÓM");
         btnCreateGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateGroupActionPerformed(evt);
@@ -85,17 +85,17 @@ public class CreateGroup extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Name group:");
+        jLabel1.setText("TÊN NHÓM");
 
         txtNameGroup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         lbTitle.setFont(new java.awt.Font("sansserif", 0, 30)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("GROUP");
+        lbTitle.setText("TẠO NHÓM");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Select user:");
+        jLabel2.setText("THÊM THÀNH VIÊN");
 
         cmdCloseGroup.setText("X");
         cmdCloseGroup.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +155,6 @@ public class CreateGroup extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -163,7 +162,8 @@ public class CreateGroup extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cbListUser, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(txtNameGroup)))))
+                                    .addComponent(txtNameGroup)))
+                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -219,7 +219,7 @@ public class CreateGroup extends javax.swing.JFrame {
             if(listuserid.contains(userid)==false){
                 listuserid.add(userid);
             } 
-            JButton btn = new JButton("Delete");
+            JButton btn = new JButton("XÓA");
             dm.addRow(new Object[]{
                 cbListUser.getSelectedItem(),
                 btn

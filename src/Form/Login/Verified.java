@@ -81,7 +81,7 @@ public class Verified extends javax.swing.JFrame {
 
         txtOTP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        cmdVerifiedOTP.setText("Enter");
+        cmdVerifiedOTP.setText("XÁC NHẬN");
         cmdVerifiedOTP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdVerifiedOTPActionPerformed(evt);
@@ -91,10 +91,10 @@ public class Verified extends javax.swing.JFrame {
         lbVerified.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
         lbVerified.setForeground(new java.awt.Color(87, 87, 87));
         lbVerified.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbVerified.setText("Your OTP");
+        lbVerified.setText("MÃ XÁC NHẬN");
 
         lberror.setForeground(new java.awt.Color(255, 0, 51));
-        lberror.setText("Incorrect !");
+        lberror.setText("MÃ XÁC NHẬN CHƯA ĐÚNG");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
 
 public class Menu_left extends javax.swing.JPanel {
@@ -343,11 +344,15 @@ public class Menu_left extends javax.swing.JPanel {
     }//GEN-LAST:event_imageAvatar1MouseClicked
 
     private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
-        PublicEvent.getInstance().getEventMain().logout();
-        try {
-            Client.getInstance().send("logout#~"+Client.getInstance().User.getId());
-        } catch (IOException ex) {
-            Logger.getLogger(Menu_left.class.getName()).log(Level.SEVERE, null, ex);
+        Object[] options = {"Có","Không"};
+        int result = JOptionPane.showOptionDialog(null, "Bạn có muốnd đăng xuất không", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+        if(result==JOptionPane.YES_OPTION){
+            PublicEvent.getInstance().getEventMain().logout();
+            try {
+                Client.getInstance().send("logout#~"+Client.getInstance().User.getId());
+            } catch (IOException ex) {
+                Logger.getLogger(Menu_left.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_logoutMouseClicked
 

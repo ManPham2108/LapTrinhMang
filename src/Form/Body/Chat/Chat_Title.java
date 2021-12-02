@@ -8,6 +8,7 @@ import Server.Client;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 public class Chat_Title extends javax.swing.JPanel {
@@ -136,10 +137,14 @@ public class Chat_Title extends javax.swing.JPanel {
 
     private void lbexitgrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbexitgrMouseClicked
         try {
-            if(group!=null){
-                Client.getInstance().send("exitgroup#~"+group.getIdGroup()+"#~"+Client.getInstance().User.getId());
-                GroupModel gm = new GroupModel(group.getIdGroup(),group.getNameGroup());
-                PublicEvent.getInstance().getEventMenuLeft().exitGroup(gm);
+            Object[] options = {"Có","Không"};
+            int result = JOptionPane.showOptionDialog(null, "Bạn có muốn rời nhóm không", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+            if(result == JOptionPane.YES_OPTION){
+                if(group!=null){
+                    Client.getInstance().send("exitgroup#~"+group.getIdGroup()+"#~"+Client.getInstance().User.getId());
+                    GroupModel gm = new GroupModel(group.getIdGroup(),group.getNameGroup());
+                    PublicEvent.getInstance().getEventMenuLeft().exitGroup(gm);
+                }
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -149,14 +154,18 @@ public class Chat_Title extends javax.swing.JPanel {
     private void lbblockmsgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbblockmsgMouseClicked
         // TODO add your handling code here:
         try{
-            if(aModel!=null){
-                PublicEvent.getInstance().getEventChat().loadBlock("load;"+aModel.getId());
-                Client.getInstance().send("blockuser#~block^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
-            }
-            if(group!=null){
-                PublicEvent.getInstance().getEventChat().loadBlock("loadblockgroup;"+group.getIdGroup());
-                Client.getInstance().send("blockuser#~blockgroup^&"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
-            }
+            Object[] options = {"Có chặn","Không"};
+            int result = JOptionPane.showOptionDialog(null, "Bạn có muốn chặn không", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+            if(result == JOptionPane.YES_OPTION){
+                if(aModel!=null){
+                    PublicEvent.getInstance().getEventChat().loadBlock("load;"+aModel.getId());
+                    Client.getInstance().send("blockuser#~block^&"+Client.getInstance().User.getId()+"^&"+aModel.getId());
+                }
+                if(group!=null){
+                    PublicEvent.getInstance().getEventChat().loadBlock("loadblockgroup;"+group.getIdGroup());
+                    Client.getInstance().send("blockuser#~blockgroup^&"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
+                }
+            } 
         }catch (IOException ex){
             System.out.println(ex);
         }

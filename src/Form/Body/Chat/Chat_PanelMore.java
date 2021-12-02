@@ -16,10 +16,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -123,12 +120,12 @@ public class Chat_PanelMore extends javax.swing.JPanel {
         try {
             if (aModel != null) {
                 PublicEvent.getInstance().getEventChat().sendMessage(text);
-                SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n", "%20"));
+                SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n", "%20#1%"));
                 Client.getInstance().send("ClientToClient#~" + convertArToString(smm));
             }
             if(group != null){
                 PublicEvent.getInstance().getEventChat().sendMessage(text);
-                 SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20"));
+                 SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20#1%"));
                  Client.getInstance().send("messagegroup#~"+convertArToString(smm)+"#~"+Client.getInstance().User.getFullName());
             }
         } catch (Exception e) {

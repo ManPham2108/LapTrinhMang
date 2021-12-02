@@ -187,11 +187,11 @@ public class Chat_Bottom extends javax.swing.JPanel {
             if(!text.equals("")){
                 PublicEvent.getInstance().getEventChat().sendMessage(text);
                 if(aModel!=null){
-                    SendMessageModel  smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n","%20"));
+                    SendMessageModel  smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), text.replace("\r\n","%20#1%"));
                     Client.getInstance().send("ClientToClient#~"+convertArToString(smm));
                 }
                 if(group!=null){
-                   SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20"));
+                   SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), text.replace("\r\n","%20#1%"));
                    Client.getInstance().send("messagegroup#~"+convertArToString(smm)+"#~"+Client.getInstance().User.getFullName());
                 }
                 txt.setText("");

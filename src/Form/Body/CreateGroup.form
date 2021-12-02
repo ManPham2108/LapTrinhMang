@@ -65,7 +65,6 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="73" pref="73" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbTitle" alignment="0" min="-2" pref="376" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -77,6 +76,7 @@
                                       <Component id="txtNameGroup" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="lbTitle" min="-2" pref="376" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -140,7 +140,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="CREATE"/>
+            <Property name="text" type="java.lang.String" value="T&#x1ea0;O NH&#xd3;M"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateGroupActionPerformed"/>
@@ -151,7 +151,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Name group:"/>
+            <Property name="text" type="java.lang.String" value="T&#xca;N NH&#xd3;M"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNameGroup">
@@ -170,7 +170,7 @@
               <Color blue="57" green="57" red="57" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="GROUP"/>
+            <Property name="text" type="java.lang.String" value="T&#x1ea0;O NH&#xd3;M"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
@@ -178,7 +178,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Select user:"/>
+            <Property name="text" type="java.lang.String" value="TH&#xca;M TH&#xc0;NH VI&#xca;N"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="cmdCloseGroup">

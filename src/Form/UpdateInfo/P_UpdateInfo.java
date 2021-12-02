@@ -18,7 +18,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     private void init(){
         this.user = Client.getInstance().User;
         txtFullName.setText(user.getFullName());
-        if(user.getGender().equals("Male")){
+        if(user.getGender().equals("Nam")){
             btnMale.setSelected(true);
         }
         else{
@@ -48,9 +48,9 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         lbTitle.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("Change Information");
+        lbTitle.setText("THÔNG TIN CÁ NHÂN");
 
-        cmdUpdateInfo.setText("Change");
+        cmdUpdateInfo.setText("Cập nhật");
         cmdUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdUpdateInfoActionPerformed(evt);
@@ -59,7 +59,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
 
         cmdBackChangePassword.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         cmdBackChangePassword.setForeground(new java.awt.Color(15, 128, 206));
-        cmdBackChangePassword.setText("Back Change Password");
+        cmdBackChangePassword.setText("THAY ĐỔI MẬT KHẨU");
         cmdBackChangePassword.setContentAreaFilled(false);
         cmdBackChangePassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdBackChangePassword.addActionListener(new java.awt.event.ActionListener() {
@@ -68,19 +68,22 @@ public class P_UpdateInfo extends javax.swing.JPanel {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Date of Birth");
+        jLabel4.setText("NGÀY SINH");
 
         buttonGroup1.add(btnMale);
         btnMale.setSelected(true);
-        btnMale.setText("Male");
+        btnMale.setText("Nam");
 
         buttonGroup1.add(btnFemale);
-        btnFemale.setText("Female");
+        btnFemale.setText("Nữ");
 
-        jLabel5.setText("Full Name");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("HỌ VÀ TÊN");
 
-        jLabel6.setText("Gender");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("GIỚI TÍNH");
 
         jDateBirth.setToolTipText("");
         jDateBirth.setDateFormatString("yyyy/MM/dd");
@@ -107,7 +110,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                                 .addComponent(btnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnFemale)
-                                .addGap(0, 32, Short.MAX_VALUE)))
+                                .addGap(0, 52, Short.MAX_VALUE)))
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,31 +158,34 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         String gender;
         Gson gson = new Gson();
         if(btnFemale.isSelected()){
-            gender = "Female";
+            gender = "Nữ";
         }
         else{
-            gender = "Male";
+            gender = "Nam";
         }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String DateOfBirth=sdf.format(jDateBirth.getDate());
-        AccountModel updateuser = new AccountModel();
-        updateuser.setId(user.getId());
-        updateuser.setFullName(txtFullName.getText());
-        updateuser.setGender(gender);
-        updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
-        String user = gson.toJson(updateuser);
-        try {
-            Client.getInstance().send("updateuser#~"+user);
-            JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
-            PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
-            PublicEvent.getInstance().getEventMain().logout();
-            Client.getInstance().send("logout#~"+updateuser.getId());
-        } catch (IOException ex) {
-            
+        String dateuser = sdf.format(user.getDateOfBirth());//
+        if(txtFullName.getText().equals(user.getFullName()) && gender.equals(user.getGender()) && DateOfBirth.equals(dateuser)){
+            JOptionPane.showMessageDialog(null, "Không có thông tin nào được thay đổi","Thông báo",JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        
-        
+        else{
+            AccountModel updateuser = new AccountModel();
+            updateuser.setId(user.getId());
+            updateuser.setFullName(txtFullName.getText());
+            updateuser.setGender(gender);
+            updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
+            String user = gson.toJson(updateuser);
+            try {
+                Client.getInstance().send("updateuser#~"+user);
+                //JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
+                PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
+                PublicEvent.getInstance().getEventMain().logout();
+                Client.getInstance().send("logout#~"+updateuser.getId());
+            } catch (IOException ex) {
+
+            }
+        }
     }//GEN-LAST:event_cmdUpdateInfoActionPerformed
 
 

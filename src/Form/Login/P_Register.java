@@ -45,13 +45,15 @@ public class P_Register extends javax.swing.JPanel {
         lbTitle.setFont(new java.awt.Font("sansserif", 0, 30)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("Register");
+        lbTitle.setText("ĐĂNG KÍ TÀI KHOẢN");
 
-        jLabel1.setText("User Name");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("TÀI KHOẢN");
 
-        jLabel2.setText("Password");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("MẬT KHẨU");
 
-        cmdRegister.setText("Register");
+        cmdRegister.setText("ĐĂNG KÍ");
         cmdRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdRegisterActionPerformed(evt);
@@ -60,7 +62,7 @@ public class P_Register extends javax.swing.JPanel {
 
         cmdBackLogin.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         cmdBackLogin.setForeground(new java.awt.Color(15, 128, 206));
-        cmdBackLogin.setText("Back Login");
+        cmdBackLogin.setText("QUAY LẠI ĐĂNG NHẬP");
         cmdBackLogin.setContentAreaFilled(false);
         cmdBackLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdBackLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -69,33 +71,37 @@ public class P_Register extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Confirm Password");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("XÁC NHẬN MẬT KHẨU");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Date of Birth");
+        jLabel4.setText("NGÀY SINH");
 
         buttonGroup1.add(btnMale);
         btnMale.setSelected(true);
-        btnMale.setText("Male");
+        btnMale.setText("Nam");
 
         buttonGroup1.add(btnFemale);
-        btnFemale.setText("Female");
+        btnFemale.setText("Nữ");
         btnFemale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFemaleActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Full Name");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("HỌ VÀ TÊN");
 
-        jLabel6.setText("Gender");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("GIỚI TÍNH");
 
         jDateBirth.setToolTipText("");
         jDateBirth.setDateFormatString("yyyy/MM/dd");
 
         jLabel7.setForeground(new java.awt.Color(255, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Date invalid !");
+        jLabel7.setText("Sai ngày sinh");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,7 +128,7 @@ public class P_Register extends javax.swing.JPanel {
                                 .addComponent(btnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnFemale)
-                                .addGap(0, 32, Short.MAX_VALUE)))
+                                .addGap(0, 52, Short.MAX_VALUE)))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

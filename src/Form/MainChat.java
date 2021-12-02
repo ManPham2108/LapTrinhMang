@@ -45,6 +45,7 @@ public class MainChat extends javax.swing.JFrame {
             public void initChat() {
                 home.setVisible(true);
                 login1.setVisible(false);
+                home.remove();
             }
             @Override
             public void SelectUser(AccountModel ac) {

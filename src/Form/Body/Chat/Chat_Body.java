@@ -33,11 +33,11 @@ public class Chat_Body extends javax.swing.JPanel {
             itemLeft.setText(text);
         }
         itemLeft.setUserProfile(user);
-        body.add(itemLeft, "wrap, w 100::50%");
+        body.add(itemLeft, "wrap, w 100::80%");
         //50% set chiều rộng
-        repaint();
-        revalidate();
-        scrollToBottom();
+        body.repaint();
+        body.revalidate();
+        //scrollToBottom();
     }
 
     //them tin nhan bên phải
@@ -59,6 +59,8 @@ public class Chat_Body extends javax.swing.JPanel {
 
     public void removeall() {
         body.removeAll();
+        repaint();
+        revalidate();
     }
     
     @SuppressWarnings("unchecked")

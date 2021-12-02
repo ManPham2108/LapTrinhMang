@@ -31,11 +31,12 @@ public class P_ChangePassword extends javax.swing.JPanel {
         lbTitle.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(87, 87, 87));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("Change Password");
+        lbTitle.setText("ĐỔI MẬT KHẨU");
 
-        jLabel2.setText("New Password");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("MẬT KHẨU MỚI");
 
-        cmdChangePassword.setText("Change");
+        cmdChangePassword.setText("CẬP NHẬT");
         cmdChangePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdChangePasswordActionPerformed(evt);
@@ -44,7 +45,7 @@ public class P_ChangePassword extends javax.swing.JPanel {
 
         cmdBackInfo.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         cmdBackInfo.setForeground(new java.awt.Color(15, 128, 206));
-        cmdBackInfo.setText("Back Information");
+        cmdBackInfo.setText("QUAY LẠI THÔNG TIN CÁ NHÂN");
         cmdBackInfo.setContentAreaFilled(false);
         cmdBackInfo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdBackInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -53,9 +54,11 @@ public class P_ChangePassword extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Confirm New Password");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("XÁC NHẬN MẬT KHẨU");
 
-        jLabel7.setText("Old Password");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("MẬT KHẨU CŨ");
 
         lbErrOldPass.setForeground(new java.awt.Color(255, 0, 51));
         lbErrOldPass.setText("Old password incorrect !");
