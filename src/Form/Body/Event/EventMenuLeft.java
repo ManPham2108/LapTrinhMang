@@ -18,5 +18,6 @@ public interface EventMenuLeft {
     public void updateStatusOnline(String Id);
     public void updateStatusOffline(String Id);
     public void listGroup(ArrayList<GroupModel> listgroup,String status);
+    public void NotifiMsg(String iduser,String type,Boolean status);
     public void exitGroup(GroupModel gr);
 }

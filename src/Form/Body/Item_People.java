@@ -1,6 +1,5 @@
 
 package Form.Body;
-
 import Form.Body.Chat.Chat_Title;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
@@ -38,6 +37,18 @@ public class Item_People extends javax.swing.JPanel {
         }
         else{
             lbStatus.setVisible(false);
+        }
+    }
+    public void updateNotiMsg(Boolean status){
+        if(status){
+            lbName.setVisible(false);
+            lbName.setFont(new java.awt.Font("Time New Roman", 3, 14));
+            lbName.setVisible(true);
+        }
+        else{
+            lbName.setVisible(false);
+            lbName.setFont(new java.awt.Font("Tahoma", 0, 14));
+            lbName.setVisible(true);
         }
     }
     private void init(){

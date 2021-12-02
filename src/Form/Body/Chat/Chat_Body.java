@@ -37,7 +37,7 @@ public class Chat_Body extends javax.swing.JPanel {
         //50% set chiều rộng
         body.repaint();
         body.revalidate();
-        //scrollToBottom();
+        scrollToBottom();
     }
 
     //them tin nhan bên phải

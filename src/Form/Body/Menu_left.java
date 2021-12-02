@@ -22,6 +22,8 @@ import net.miginfocom.swing.MigLayout;
 public class Menu_left extends javax.swing.JPanel {
     private ArrayList<AccountModel> listPeople  = new ArrayList<>();
     private ArrayList<GroupModel> listGroup  = new ArrayList<>();
+    private ArrayList<String> listnotiIndi = new ArrayList<>();
+    private ArrayList<String> listnotiGr = new ArrayList<>();
     private Gson gson = new Gson();
     public Menu_left() {
         initComponents();
@@ -79,6 +81,39 @@ public class Menu_left extends javax.swing.JPanel {
                     }
                 }
             }
+
+            @Override
+            public void NotifiMsg(String userid,String type,Boolean status) {
+                if(menuMessage.isSelected() && type.equals("individual")){
+                    for(Component com : menuList.getComponents()){
+                        Item_People item = (Item_People) com;
+                        if(item.getUser().getId().equals(userid)){
+                            item.updateNotiMsg(status);
+                            break;
+                        }                                                
+                    }     
+                }
+                else{
+                    if(!userid.contains("G")){
+                        listnotiIndi.add(userid);
+                    }
+                }
+                if(menuGroup.isSelected() && type.equals("group")){
+                    for(Component comm : menuList.getComponents()){
+                        Item_Group itemgr = (Item_Group) comm;
+                        if(itemgr.getGroup().getIdGroup().equals(userid)){
+                            itemgr.updateNotiMsg(status);
+                            break;
+                        }                                                
+                    }
+                }
+                else{
+                    if(userid.contains("G")){
+                        listnotiGr.add(userid);
+                    }
+                }
+                
+            }
             @Override
             public void listGroup(ArrayList<GroupModel> listgroup,String status) {
                 if(status.equals("load")){
@@ -86,6 +121,7 @@ public class Menu_left extends javax.swing.JPanel {
                 }
                 if(status.equals("loadgrnew")){
                     listGroup.addAll(listgroup);
+                    JOptionPane.showMessageDialog(null, "Bạn vừa được mời vào nhóm "+listgroup.get(0).getNameGroup(),"Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     if(menuGroup.isSelected()){
                         showGroup();
                     }
@@ -310,21 +346,43 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
         if (!menuMessage.isSelected()) {
-            
             menuMessage.setSelected(true);
             menuGroup.setSelected(false);
             menuBox.setSelected(false);
             showPeople();
+            if(menuMessage.isSelected()){
+                for(String a : listnotiIndi){
+                    for(Component com : menuList.getComponents()){
+                        Item_People item = (Item_People) com;
+                        if(item.getUser().getId().equals(a)){
+                            item.updateNotiMsg(true);
+                            break;
+                        }                                                
+                    }
+                }
+                listnotiIndi.removeAll(listnotiIndi);
+            }
         }
     }//GEN-LAST:event_menuMessageActionPerformed
 
     private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
        if (!menuGroup.isSelected()) {
-           
             menuMessage.setSelected(false);
             menuGroup.setSelected(true);
             menuBox.setSelected(false);
             showGroup();
+            if(menuGroup.isSelected()){
+                for(String ab : listnotiGr){
+                    for(Component com : menuList.getComponents()){
+                        Item_Group itemgr = (Item_Group) com;
+                        if(itemgr.getGroup().getIdGroup().equals(ab)){
+                            itemgr.updateNotiMsg(true);
+                            break;
+                        }                                                
+                    }
+                }
+                listnotiGr.removeAll(listnotiGr);
+            }
        }
     }//GEN-LAST:event_menuGroupActionPerformed
 

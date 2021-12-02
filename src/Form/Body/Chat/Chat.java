@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
 import jdk.nashorn.internal.ir.BreakableNode;
 import net.miginfocom.swing.MigLayout;
 public class Chat extends javax.swing.JPanel {
@@ -44,15 +45,22 @@ public class Chat extends javax.swing.JPanel {
                 String userid = message[0];
                 String msg = message[1].replace("%20#1%","\r\n");
                 String username = null;
+                if(chatTitle.getaModel()== null || !chatTitle.getaModel().getId().equals(userid) || userid.equals("system")){
+                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"individual",true);
+                }
+                if(chatTitle.getGroup() == null || !chatTitle.getGroup().getIdGroup().equals(userid) || userid.equals("system")){
+                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"group",true);
+                }
                 if(message.length==3){
                     username = message[2];
                 }
                 if(chatTitle.getaModel() == null && userid.equals("system")){
+                    JOptionPane.showMessageDialog(null, msg,"Thông báo từ hệ thống",JOptionPane.INFORMATION_MESSAGE);
                     chatBody.addItemLeft(msg,userid);
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
-                        System.out.println("useridaaaaa "+userid);
+                        //System.out.println("useridaaaaa "+userid);
                         chatBody.addItemLeft(msg,chatTitle.getaModel().getFullName());
                     }
                     if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid) && !listblockgroup.contains(userid)){
@@ -76,6 +84,7 @@ public class Chat extends javax.swing.JPanel {
                 }
                 if(chatTitle.getaModel()!=null && chatTitle.getaModel().getId().equals(userid)){
                     chatBody.addItemLeft(message,chatTitle.getaModel().getFullName());
+                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"individual",false);
                 }
                 if(chatTitle.getaModel()!=null && Client.getInstance().User.getId().equals(userid)){
                    chatBody.addItemRight(message);
@@ -85,6 +94,7 @@ public class Chat extends javax.swing.JPanel {
                 }
                 if(chatTitle.getaModel()==null && !Client.getInstance().User.getId().equals(userid)){
                     chatBody.addItemLeft(message,username);
+                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(chatTitle.getGroup().getIdGroup(),"group",false);
                 }
             }
 
