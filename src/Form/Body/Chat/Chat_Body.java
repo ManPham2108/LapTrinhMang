@@ -47,10 +47,12 @@ public class Chat_Body extends javax.swing.JPanel {
             FileModel file = g.fromJson(message[1], FileModel.class);
             if(file.getExtFile().equals(".png") || file.getExtFile().equals(".jpg")
                     || file.getExtFile().equals(".jpeg") || file.getExtFile().equals(".bmp")
-                    || file.getExtFile().equals(".gif"))
+                    || file.getExtFile().equals(".gif")){
                 itemLeft.setFile(file, true);
-            else
-                itemLeft.setFile(file, false);
+            }
+            else{
+                 itemLeft.setFile(file, false);
+            }    
         }
         else {
             itemLeft.setText(text);
@@ -78,10 +80,12 @@ public class Chat_Body extends javax.swing.JPanel {
             FileModel file = g.fromJson(message[1], FileModel.class);
             if(file.getExtFile().equals(".png") || file.getExtFile().equals(".jpg")
                     || file.getExtFile().equals(".jpeg") || file.getExtFile().equals(".bmp")
-                    || file.getExtFile().equals(".gif"))
+                    || file.getExtFile().equals(".gif")){
                 itemRight.setFile(file, true);
-            else
+            }
+            else{
                 itemRight.setFile(file, false);
+            } 
         }
         else{
             itemRight.setText(text);

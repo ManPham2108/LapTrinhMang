@@ -119,11 +119,11 @@ public class Chat_PanelMore extends javax.swing.JPanel {
                     SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), message);
                     Client.getInstance().send("ClientToClient#~" + convertArToString(smm));
                 }
-//                if (group != null) {
-//                    PublicEvent.getInstance().getEventChat().sendMessage(message);
-//                    SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), message);
-//                    Client.getInstance().send("messagegroup#~" + convertArToString(smm) + "#~" + Client.getInstance().User.getFullName());
-//                }
+                if (group != null) {
+                    PublicEvent.getInstance().getEventChat().sendMessage(message);
+                    SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), message);
+                    Client.getInstance().send("messagegroup#~" + convertArToString(smm) + "#~" + Client.getInstance().User.getFullName());
+                }
             }
 
         } catch (IOException ex) {
