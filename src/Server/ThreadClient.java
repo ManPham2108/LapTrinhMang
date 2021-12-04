@@ -195,9 +195,22 @@ public class ThreadClient implements Runnable{
                         break;
                     case "updateuser":
                         AccountModel updateuser = new AccountModel();
-                        updateuser = gson.fromJson(message[1],new TypeToken<AccountModel>() {}.getType());
-                        ac.UpdateInfor(updateuser);
-                        saveLog("User Id "+updateuser.getId()+" update information account");
+                        if(message[1].equals("infor")){
+                            updateuser = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
+                            ac.UpdateInfor(updateuser);
+                            saveLog("User Id "+updateuser.getId()+" update information account");
+                        }
+                        if(message[1].equals("checkpassold")){
+                            if(ac.checkPassOld(message[2], message[3])){
+                                send("confirmPass#~true");
+                            }
+                            else{
+                                send("confirmPass#~false");
+                            }
+                        }
+                        if(message[1].equals("updatepass")){
+                            ac.updatePass(message[2], message[3]);
+                        }
                         break;
                     case "loadmessage":
                         StringTokenizer load = new StringTokenizer(message[1],"^&");

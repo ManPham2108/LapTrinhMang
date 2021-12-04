@@ -87,6 +87,7 @@ public final class AccountDAL {
             
         }
     }
+    
     public void UpdateBlock(String userid,String status) throws Exception{
         HashMap<String, Object> hashAccount = new HashMap<>();
         hashAccount.put("Block", status);
@@ -99,6 +100,27 @@ public final class AccountDAL {
             hashUseriInfor.put("Gender", user.getGender());
             hashUseriInfor.put("DateOfBirth", user.getDateOfBirth());
             this.connect.update("accountinfor", hashUseriInfor, "Id='"+user.getId()+"'");
+        } catch (Exception ex) {
+            
+        }
+    }
+    public boolean checkPassOld(String iduser,String passold) throws Exception{
+        HashPassword hash = new HashPassword();
+        String passhash = hash.generateHash(passold);
+        if(getAllAccount("Id='"+iduser+"' and Password='"+passhash+"'", null).size()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public void updatePass(String iduser,String pass){
+        HashPassword hash = new HashPassword();
+        String passhash = hash.generateHash(pass);
+        try {
+            HashMap<String, Object> hashUserPass = new HashMap<>();
+            hashUserPass.put("Password",passhash );
+            this.connect.update("account", hashUserPass, "Id='"+iduser+"'");
         } catch (Exception ex) {
             
         }

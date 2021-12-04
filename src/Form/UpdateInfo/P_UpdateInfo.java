@@ -177,7 +177,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
             updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
             String user = gson.toJson(updateuser);
             try {
-                Client.getInstance().send("updateuser#~"+user);
+                Client.getInstance().send("updateuser#~infor"+user);
                 //JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
                 PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
                 PublicEvent.getInstance().getEventMain().logout();

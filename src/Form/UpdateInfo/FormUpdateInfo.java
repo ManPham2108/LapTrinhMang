@@ -17,8 +17,11 @@ public class FormUpdateInfo extends javax.swing.JFrame {
             }
 
             @Override
-            public void changePassword() {
-                dispose();
+            public void changePassword(String status) {
+                bodyUpdateInfo1.updatePass(status);
+                if(status.equals("true")){
+                    dispose();
+                }
             }
 
             @Override

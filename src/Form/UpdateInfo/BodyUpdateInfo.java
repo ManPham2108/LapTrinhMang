@@ -3,7 +3,7 @@ package Form.UpdateInfo;
 import Form.Body.Event.EventUpdateInfo;
 import Form.Body.Event.PublicEvent;
 public class BodyUpdateInfo extends javax.swing.JPanel {
-
+    private P_ChangePassword p_ChangePassword;
     public BodyUpdateInfo() {
         initComponents();
         init();
@@ -11,7 +11,7 @@ public class BodyUpdateInfo extends javax.swing.JPanel {
     
     private void init() {
         P_UpdateInfo p_UpdateInfo = new P_UpdateInfo();
-        P_ChangePassword p_ChangePassword = new P_ChangePassword();
+        p_ChangePassword = new P_ChangePassword();
         slide.init(p_UpdateInfo, p_ChangePassword);
     }
     public void goUpdate(){
@@ -19,6 +19,9 @@ public class BodyUpdateInfo extends javax.swing.JPanel {
     }
     public void goChangePass(){
         slide.show(1);
+    }
+    public void updatePass(String status){
+        p_ChangePassword.updatePass(status);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

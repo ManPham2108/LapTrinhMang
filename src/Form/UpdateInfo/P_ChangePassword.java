@@ -1,13 +1,40 @@
 package Form.UpdateInfo;
 
 import Form.Body.Event.PublicEvent;
+import Server.Client;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class P_ChangePassword extends javax.swing.JPanel {
-
+    private String pass;
+    private String passconf;
     public P_ChangePassword() {
         initComponents();
+        lbErrConfirmPass.setVisible(false);
+        lbErrNewPass.setVisible(false);
+        lbErrOldPass.setVisible(false);
     }
-
+    public void updatePass(String status){
+        if(status.equals("true")){
+            if(pass.equals(passconf)){
+                try {
+                    Client.getInstance().send("updateuser#~updatepass#~"+Client.getInstance().User.getId()+"#~"+pass);
+                    PublicEvent.getInstance().getEventMain().logout();
+                    Client.getInstance().send("logout#~"+Client.getInstance().User.getId());
+                } catch (IOException ex) {
+                    Logger.getLogger(P_ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else{
+                lbErrConfirmPass.setVisible(true);
+            }
+        }
+        else{
+            lbErrOldPass.setVisible(true);
+        }
+           
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,13 +88,13 @@ public class P_ChangePassword extends javax.swing.JPanel {
         jLabel7.setText("MẬT KHẨU CŨ");
 
         lbErrOldPass.setForeground(new java.awt.Color(255, 0, 51));
-        lbErrOldPass.setText("Old password incorrect !");
+        lbErrOldPass.setText("Mật khẩu không đúng");
 
         lbErrConfirmPass.setForeground(new java.awt.Color(255, 0, 51));
-        lbErrConfirmPass.setText("Confirm don't match with new password !");
+        lbErrConfirmPass.setText("Không khớp với mật khẩu mới");
 
         lbErrNewPass.setForeground(new java.awt.Color(255, 0, 51));
-        lbErrNewPass.setText("Same old password !");
+        lbErrNewPass.setText("Trùng với mật khẩu cũ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,7 +153,24 @@ public class P_ChangePassword extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackInfoActionPerformed
 
     private void cmdChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdChangePasswordActionPerformed
-
+        pass = txtNewPass.getText();
+        passconf = txtConfirmPass.getText();
+        String passold =txtOldPass.getText();
+        if(passold.equals(pass)){
+            lbErrNewPass.setVisible(true);
+        }
+        else{
+            if(pass.equals(passconf)){
+                try {
+                    Client.getInstance().send("updateuser#~checkpassold#~"+Client.getInstance().User.getId()+"#~"+passold);
+                } catch (IOException ex) {
+                    Logger.getLogger(P_ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else{
+                lbErrConfirmPass.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_cmdChangePasswordActionPerformed
 
 

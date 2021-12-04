@@ -121,6 +121,9 @@ public class Client{
                                 PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
                             }
                             break;
+                        case "confirmPass":
+                            PublicEvent.getInstance().getEventUpdateInfo().changePassword(message[1]);
+                            break;
                         case "checkuser":
                             PublicEvent.getInstance().getEventCheckUserName().checkUserName(message[1]);
                             break;
