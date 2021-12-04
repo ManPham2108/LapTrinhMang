@@ -1,5 +1,4 @@
 package Server;
-
 import Database.AccountDAL;
 import Database.GroupDAL;
 import Encrypt.UtilsAES;
@@ -101,6 +100,18 @@ public class ThreadClient implements Runnable{
                             }
                         }
                         saveMessageGroup(mesgroup.getFromUserId(), mesgroup.getToUserId(), mesgroup.getMessage(),username);
+                        break;
+                    case "seenmsg":
+                        for(ThreadClient tccc : server.listUserLogin){
+                            if(tccc.getId()!=null && tccc.getId().equals(message[1])){
+                                tccc.send("seenmsg#~"+message[2]);
+                                //System.out.println("Co");
+                                break;
+                            }
+//                            else{
+//                                System.out.println("loi r");
+//                            }
+                        }
                         break;
                     case "OTP":
                         AccountDAL check = new AccountDAL();

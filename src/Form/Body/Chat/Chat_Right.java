@@ -13,9 +13,10 @@ public class Chat_Right extends javax.swing.JLayeredPane {
     }
     public void setText(String text){
         txt.setText(text);
-        //txt.seen();
     }
-    
+    public void setSeen(){
+        txt.seen();
+    }
     public void setSticker(Icon icon){
         txt.hideText();
         txt.setSticker(true, icon);

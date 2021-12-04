@@ -1,16 +1,26 @@
 package Form.Body.Chat;
-
 import Sticker.Sticker;
 import component.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import static java.lang.System.out;
 import javax.swing.JScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 public class Chat_Body extends javax.swing.JPanel {
+    private Chat_Right seen = new Chat_Right();
+    private int check;
 
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
+    
     public Chat_Body() {
         initComponents();
         init();
@@ -34,12 +44,15 @@ public class Chat_Body extends javax.swing.JPanel {
         }
         itemLeft.setUserProfile(user);
         body.add(itemLeft, "wrap, w 100::80%");
+       
         //50% set chiều rộng
         body.repaint();
         body.revalidate();
         scrollToBottom();
     }
-
+    public void check(){
+         check++;
+    }
     //them tin nhan bên phải
     public void addItemRight(String text) {
         Chat_Right itemRight = new Chat_Right();
@@ -56,7 +69,19 @@ public class Chat_Body extends javax.swing.JPanel {
         revalidate();
         scrollToBottom();
     }
-
+    public void addseen(){
+        seen.setSeen();
+        body.add(seen,"wrap, al right,w ::50%");
+        repaint();
+        revalidate();
+        scrollToBottom();
+    }
+    public void removeseen(){
+        body.remove(seen);
+        //System.out.println(body.list(out));
+        repaint();
+        revalidate();
+    }
     public void removeall() {
         body.removeAll();
         repaint();
@@ -80,7 +105,7 @@ public class Chat_Body extends javax.swing.JPanel {
         body.setLayout(bodyLayout);
         bodyLayout.setHorizontalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 826, Short.MAX_VALUE)
+            .addGap(0, 829, Short.MAX_VALUE)
         );
         bodyLayout.setVerticalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

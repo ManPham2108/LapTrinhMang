@@ -70,6 +70,7 @@ public class Item_People extends javax.swing.JPanel {
                 chattitle.loadblockuser();
                 try {
                     Client.getInstance().send("loadmessage#~"+Client.getInstance().User.getId()+"^&"+user.getId());
+                    Client.getInstance().send("seenmsg#~"+user.getId()+"#~"+Client.getInstance().User.getId());
                 } catch (IOException ex) {
                     Logger.getLogger(Item_People.class.getName()).log(Level.SEVERE, null, ex);
                 }

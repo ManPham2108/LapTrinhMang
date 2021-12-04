@@ -11,7 +11,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import jdk.nashorn.internal.ir.BreakableNode;
 import net.miginfocom.swing.MigLayout;
@@ -22,6 +25,7 @@ public class Chat extends javax.swing.JPanel {
     private ArrayList<String> listblock = new ArrayList<>();
     private ArrayList<String> listblocked = new ArrayList<>();
     private ArrayList<String> listblockgroup = new ArrayList<>();
+    private HashSet<String> listuserseen = new HashSet<>();
     private Gson g = new Gson();
     public Chat() throws IOException {
         initComponents();
@@ -36,7 +40,25 @@ public class Chat extends javax.swing.JPanel {
         PublicEvent.getInstance().addEventChat(new EventChat(){
             @Override
             public void sendMessage(String text) {
-                    chatBody.addItemRight(text);
+                chatBody.removeseen();
+                chatBody.setCheck(0);
+                listuserseen.remove(chatTitle.getaModel().getId());
+                System.out.println("đã xóa"+listuserseen.size());
+                chatBody.addItemRight(text);
+            }
+
+            @Override
+            public void seenMessage(String userid) {
+                if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid) && chatBody.getCheck()==0){
+                    chatBody.removeseen();
+                    chatBody.addseen();
+                    listuserseen.add(userid);
+                    System.out.println("Moi Them if 1 "+listuserseen.size());
+                }
+                if(chatTitle.getaModel() != null && !chatTitle.getaModel().getId().equals(userid)){
+                    listuserseen.add(userid);
+                    System.out.println("Moi Them if 2 "+listuserseen.size());
+                }
             }
             @Override
             public void reciveMessage(String text) {          
@@ -61,7 +83,14 @@ public class Chat extends javax.swing.JPanel {
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
                         //System.out.println("useridaaaaa "+userid);
+                        chatBody.removeseen();
                         chatBody.addItemLeft(msg,chatTitle.getaModel().getFullName());
+                        chatBody.check();
+                        try {
+                            Client.getInstance().send("seenmsg#~"+userid+"#~"+Client.getInstance().User.getId());
+                        } catch (IOException ex) {
+                            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     if(chatTitle.getGroup() != null && chatTitle.getGroup().getIdGroup().equals(userid) && !listblockgroup.contains(userid)){
                         chatBody.addItemLeft(msg,username);
@@ -84,10 +113,19 @@ public class Chat extends javax.swing.JPanel {
                 }
                 if(chatTitle.getaModel()!=null && chatTitle.getaModel().getId().equals(userid)){
                     chatBody.addItemLeft(message,chatTitle.getaModel().getFullName());
+                    chatBody.check();
+                    chatBody.removeseen();
                     PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"individual",false);
                 }
                 if(chatTitle.getaModel()!=null && Client.getInstance().User.getId().equals(userid)){
                    chatBody.addItemRight(message);
+                   chatBody.setCheck(0);
+                   for(String s : listuserseen){
+                       if(s.equals(chatTitle.getaModel().getId())){
+                           chatBody.addseen();
+                           break;
+                       }
+                   }
                 }
                 if(chatTitle.getaModel()==null && Client.getInstance().User.getId().equals(userid)){
                     chatBody.addItemRight(message);

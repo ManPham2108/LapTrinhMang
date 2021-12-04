@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdk.nashorn.internal.ir.BreakableNode;
 public class Client{
     static Client instance;
     private Socket socket=null;
@@ -85,9 +86,6 @@ public class Client{
                                 PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
                             }
                             break;
-                        case "ClientToClient":
-                              PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
-                              break;
                         case "status":
                             String status = message[1];
                             if(status.equals("true")){
@@ -96,6 +94,12 @@ public class Client{
                             if(status.equals("false")){
                                 PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(message[2]);
                             }
+                            break;
+                        case "ClientToClient":
+                            PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
+                            break;
+                        case "seenmsg":
+                            PublicEvent.getInstance().getEventChat().seenMessage(message[1]);
                             break;
                         case "block":
                             PublicEvent.getInstance().getEventMain().BlockUser(type);
@@ -144,7 +148,7 @@ public class Client{
     };
     public void send(String message) throws IOException{
         String ma=UtilsAES.EncryptText(sessionkey,message);
-        //System.out.println("Da gui: "+ma);
+        System.out.println("Da gui: "+message);
         write.write(ma);
         write.newLine();
         write.flush();
