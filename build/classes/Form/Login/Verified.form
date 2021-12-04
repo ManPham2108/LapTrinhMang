@@ -156,7 +156,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="cmdVerifiedOTP">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Enter"/>
+                <Property name="text" type="java.lang.String" value="X&#xc1;C NH&#x1eac;N"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdVerifiedOTPActionPerformed"/>
@@ -171,7 +171,7 @@
                   <Color blue="57" green="57" red="57" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Your OTP"/>
+                <Property name="text" type="java.lang.String" value="M&#xc3; X&#xc1;C NH&#x1eac;N"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lberror">
@@ -179,7 +179,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="0" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Incorrect !"/>
+                <Property name="text" type="java.lang.String" value="M&#xc3; X&#xc1;C NH&#x1eac;N CH&#x1af;A &#x110;&#xda;NG"/>
               </Properties>
             </Component>
           </SubComponents>

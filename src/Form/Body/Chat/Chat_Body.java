@@ -1,5 +1,7 @@
 package Form.Body.Chat;
+import Model.FileModel;
 import Sticker.Sticker;
+import com.google.gson.Gson;
 import component.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -39,7 +41,18 @@ public class Chat_Body extends javax.swing.JPanel {
         String[] message = text.split("\\###");
         if (message.length == 2 && message[0].equals("***sticker")) {
             itemLeft.setSticker(Sticker.getInstance().getSticker(Integer.valueOf(message[1])).toSize(60, 60).getIcon());
-        } else {
+        }
+        else if(message.length == 2 && message[0].equals("***file")){
+            Gson g = new Gson();
+            FileModel file = g.fromJson(message[1], FileModel.class);
+            if(file.getExtFile().equals(".png") || file.getExtFile().equals(".jpg")
+                    || file.getExtFile().equals(".jpeg") || file.getExtFile().equals(".bmp")
+                    || file.getExtFile().equals(".gif"))
+                itemLeft.setFile(file, true);
+            else
+                itemLeft.setFile(file, false);
+        }
+        else {
             itemLeft.setText(text);
         }
         itemLeft.setUserProfile(user);
@@ -59,6 +72,16 @@ public class Chat_Body extends javax.swing.JPanel {
         String[] message = text.split("\\###");
         if (message.length == 2 && message[0].equals("***sticker")) {
             itemRight.setSticker(Sticker.getInstance().getSticker(Integer.valueOf(message[1])).toSize(60, 60).getIcon());
+        }
+        else if(message.length == 2 && message[0].equals("***file")){
+            Gson g = new Gson();
+            FileModel file = g.fromJson(message[1], FileModel.class);
+            if(file.getExtFile().equals(".png") || file.getExtFile().equals(".jpg")
+                    || file.getExtFile().equals(".jpeg") || file.getExtFile().equals(".bmp")
+                    || file.getExtFile().equals(".gif"))
+                itemRight.setFile(file, true);
+            else
+                itemRight.setFile(file, false);
         }
         else{
             itemRight.setText(text);
