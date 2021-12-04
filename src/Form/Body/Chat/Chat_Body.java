@@ -58,8 +58,7 @@ public class Chat_Body extends javax.swing.JPanel {
             itemLeft.setText(text);
         }
         itemLeft.setUserProfile(user);
-        body.add(itemLeft, "wrap, w 100::80%");
-       
+        body.add(itemLeft, "wrap, w 100::50%");
         //50% set chiều rộng
         body.repaint();
         body.revalidate();
@@ -132,7 +131,7 @@ public class Chat_Body extends javax.swing.JPanel {
         body.setLayout(bodyLayout);
         bodyLayout.setHorizontalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 829, Short.MAX_VALUE)
+            .addGap(0, 826, Short.MAX_VALUE)
         );
         bodyLayout.setVerticalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

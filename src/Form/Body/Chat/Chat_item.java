@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 public class Chat_item extends javax.swing.JLayeredPane {
 
-    private JLabel label;
 
     public Chat_item() {
         initComponents();
