@@ -1,6 +1,7 @@
 
 package Form.Body.Chat;
 
+import Model.FileModel;
 import java.awt.Color;
 import javax.swing.Icon;
 
@@ -17,6 +18,12 @@ public class Chat_Right extends javax.swing.JLayeredPane {
     public void setSeen(){
         txt.seen();
     }
+    
+    public void setFile(FileModel file, boolean isImage) {
+        txt.hideText();
+        txt.setFile(true, file, isImage);
+    }
+    
     public void setSticker(Icon icon){
         txt.hideText();
         txt.setSticker(true, icon);

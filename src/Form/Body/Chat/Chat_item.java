@@ -1,5 +1,6 @@
 package Form.Body.Chat;
 
+import Model.FileModel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -70,6 +71,24 @@ public class Chat_item extends javax.swing.JLayeredPane {
         add(layer);
         setBackground(null);
     }
+    
+    public void setFile(boolean right, FileModel fileModel, boolean isImage) {
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 5, 0, 5));
+        if(isImage){
+            Chat_Image chatImage = new Chat_Image(right);
+            chatImage.addImage(fileModel);
+            layer.add(chatImage);
+        }
+        else{   
+            Chat_File chatFile = new Chat_File();
+            chatFile.setFile(fileModel);
+            layer.add(chatFile);
+        }
+        add(layer);
+    }
+    
     public void hideText() {
         txt.setVisible(false);
     }

@@ -3,6 +3,7 @@ package Form.Body.Chat;
 import Form.Body.Event.PublicEvent;
 import Form.MainChat;
 import Model.AccountModel;
+import Model.FileModel;
 import Model.GroupModel;
 import Model.SendMessageModel;
 import Server.Client;
@@ -16,7 +17,12 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +34,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class Chat_PanelMore extends javax.swing.JPanel {
 
+    private final long SIZE_FILE_1MB = 1024L * 1024L;
     private AccountModel aModel;
     private GroupModel group;
     public AccountModel getaModel() {
@@ -75,11 +82,71 @@ public class Chat_PanelMore extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser ch = new JFileChooser();
-                ch.showOpenDialog(MainChat.getFrames()[0]);
-                //  Update next
+                ch.setMultiSelectionEnabled(false);
+                int option;
+                boolean valid = false;
+                while (!valid) {
+                    option = ch.showOpenDialog(MainChat.getFrames()[0]);
+                    if (option == JFileChooser.APPROVE_OPTION) {
+                        File fileSecleted = ch.getSelectedFile();
+                        if (fileSecleted.length() < SIZE_FILE_1MB) {
+                            sendFile(fileSecleted);
+                            valid = true;
+                            break;
+                        }
+                    }
+                    if (option == JFileChooser.CANCEL_OPTION) {
+                        break;
+                    }
+                }
             }
         });
         return cmd;
+    }
+    
+    public void sendFile(File fileSelected) {
+        try {
+            String message = "";
+            if (fileSelected != null) {
+                FileModel fileModel = new FileModel();
+                fileModel.setData(readFile(fileSelected));
+                fileModel.setExtFile(getExtensions(fileSelected.getAbsolutePath()));
+                fileModel.setFileSize(fileSelected.length());
+                fileModel.setNameFile(fileSelected.getName());
+                message = "***file###" + convertArToString(fileModel);
+                if (aModel != null) {
+                    PublicEvent.getInstance().getEventChat().sendMessage(message);
+                    SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), aModel.getId(), message);
+                    Client.getInstance().send("ClientToClient#~" + convertArToString(smm));
+                }
+//                if (group != null) {
+//                    PublicEvent.getInstance().getEventChat().sendMessage(message);
+//                    SendMessageModel smm = new SendMessageModel(Client.getInstance().User.getId(), group.getIdGroup(), message);
+//                    Client.getInstance().send("messagegroup#~" + convertArToString(smm) + "#~" + Client.getInstance().User.getFullName());
+//                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Chat_PanelMore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public synchronized byte[] readFile(File file) throws IOException {
+        RandomAccessFile accFile = new RandomAccessFile(file, "r");
+        long filepointer = accFile.getFilePointer();
+        long filelength = file.length();
+        if (filepointer != filelength) {
+            byte[] data = new byte[(int) filelength];
+            accFile.read(data);
+            accFile.close();
+            return data;
+        } else {
+            return null;
+        }
+    }
+    
+    private String getExtensions(String filePath) {
+        return filePath.substring(filePath.lastIndexOf("."), filePath.length());
     }
 
     private JButton getStickerStyle(List<Model_Sticker> listSticker) {
