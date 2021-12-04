@@ -42,9 +42,12 @@ public class Chat extends javax.swing.JPanel {
             public void sendMessage(String text) {
                 chatBody.removeseen();
                 chatBody.setCheck(0);
-                listuserseen.remove(chatTitle.getaModel().getId());
-                System.out.println("đã xóa"+listuserseen.size());
                 chatBody.addItemRight(text);
+                if(chatTitle.getaModel() != null){
+                    listuserseen.remove(chatTitle.getaModel().getId());
+                }
+                System.out.println("đã xóa"+listuserseen.size());
+                
             }
 
             @Override
