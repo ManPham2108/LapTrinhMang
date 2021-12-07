@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class P_UpdateInfo extends javax.swing.JPanel {
@@ -205,8 +207,17 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmdUpdateInfoActionPerformed
     private boolean isFullname(String str) {
-        String expression = "^[a-zA-Z\\s]+"; 
-        return str.matches(expression);        
+        Pattern p = Pattern.compile("([0-9])");
+        Matcher m = p.matcher(str);
+        if(m.find() == true){
+            return false;
+        }
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(str);
+        if(m3.find() == false){
+            return false;
+        }
+        return true;        
     }
     
 

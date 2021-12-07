@@ -2,14 +2,15 @@ package Form.Login;
 
 import Form.Body.Event.EventLogin;
 import Form.Body.Event.PublicEvent;
+import java.text.ParseException;
 
 public class Login extends javax.swing.JPanel {
-    public Login() {
+    public Login() throws ParseException {
         initComponents();
         init();
     }
     
-    private void init() {
+    private void init() throws ParseException {
         P_Login login = new P_Login();
         P_Register register = new P_Register();
         slide.init(login, register);

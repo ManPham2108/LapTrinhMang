@@ -2,6 +2,7 @@ package Form.Login;
 
 import Form.Body.Event.PublicEvent;
 import Server.Client;
+import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -39,6 +40,12 @@ public class P_Login extends javax.swing.JPanel {
         jLabel1.setText("TÀI KHOẢN");
 
         jLabel2.setText("MẬT KHẨU");
+
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
 
         cmdLogin.setText("ĐĂNG NHẬP");
         cmdLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -134,29 +141,34 @@ public class P_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdLoginActionPerformed
 
     private void cmdLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmdLoginKeyPressed
+        login();
+    }//GEN-LAST:event_cmdLoginKeyPressed
+    public void login(){
         int fail = 0;
         try {
-                String user = txtUser.getText();
-                String pass = txtPass.getText();
-                if(isEmailAddress(user)==false){
-                    txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
-                    fail++;
-                }
-                else{
-                    txtError.setText("");
-                }
-                if(!isPassword(pass).equals("Mật khẩu hợp lệ")){
-                    txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
-                    fail++;
-                }
-                if(fail==0){
-                    Client.getInstance().send("login#~"+user+"<,"+pass);
-                }
+            String user = txtUser.getText();
+            String pass = txtPass.getText();
+            if(isEmailAddress(user)==false){
+                txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
+                fail++;
+            }
+            else{
+                txtError.setText("");
+            }
+            if(!isPassword(pass).equals("Mật khẩu hợp lệ")){
+                txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
+                fail++;
+            }
+            if(fail==0){
+                Client.getInstance().send("login#~"+user+"<,"+pass);
+            }
             
         } catch (Exception e) {
         }
-        
-    }//GEN-LAST:event_cmdLoginKeyPressed
+    }
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        // bo sung sau
+    }//GEN-LAST:event_txtPassKeyPressed
     private boolean isEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);

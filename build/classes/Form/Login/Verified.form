@@ -126,7 +126,10 @@
                           <Component id="lbVerified" alignment="0" pref="284" max="32767" attributes="0"/>
                           <Component id="cmdVerifiedOTP" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtOTP" alignment="0" max="32767" attributes="0"/>
-                          <Component id="lberror" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                              <Component id="lberror" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="90" max="32767" attributes="0"/>
                   </Group>

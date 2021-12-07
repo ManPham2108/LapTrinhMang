@@ -27,8 +27,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lbName" pref="156" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="lbStatus" min="-2" pref="43" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="lbStatus" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>

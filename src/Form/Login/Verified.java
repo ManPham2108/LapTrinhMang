@@ -33,7 +33,7 @@ public class Verified extends javax.swing.JFrame {
         dongho();
     }
     private void dongho() {
-        new Timer(10000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 
+        new Timer(10, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 1000mili = 1s
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(second == -1){
