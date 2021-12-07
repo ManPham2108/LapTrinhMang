@@ -5,6 +5,9 @@ import Server.Client;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 public class P_ChangePassword extends javax.swing.JPanel {
     private String pass;
@@ -32,8 +35,7 @@ public class P_ChangePassword extends javax.swing.JPanel {
         }
         else{
             lbErrOldPass.setVisible(true);
-        }
-           
+        }    
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -156,23 +158,82 @@ public class P_ChangePassword extends javax.swing.JPanel {
         pass = txtNewPass.getText();
         passconf = txtConfirmPass.getText();
         String passold =txtOldPass.getText();
-        if(passold.equals(pass)){
-            lbErrNewPass.setVisible(true);
+        int fail = 0;
+        if(!isPassword(passold).equals("Mật khẩu hợp lệ")){
+            JOptionPane.showMessageDialog(null,isPassword(pass));
+            fail++;
         }
-        else{
-            if(pass.equals(passconf)){
-                try {
-                    Client.getInstance().send("updateuser#~checkpassold#~"+Client.getInstance().User.getId()+"#~"+passold);
-                } catch (IOException ex) {
-                    Logger.getLogger(P_ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if(!isPassword(pass).equals("Mật khẩu hợp lệ")){
+            JOptionPane.showMessageDialog(null,isPassword(pass));
+            fail++;
+        }
+        if(!isPassword(passconf).equals("Mật khẩu hợp lệ")){
+            JOptionPane.showMessageDialog(null,isPassword(pass));
+            fail++;
+        }
+        if(fail==0){
+            if(passold.equals(pass)){
+                lbErrNewPass.setVisible(true);
             }
             else{
-                lbErrConfirmPass.setVisible(true);
+                if(pass.equals(passconf)){
+                    try {
+                        Client.getInstance().send("updateuser#~checkpassold#~"+Client.getInstance().User.getId()+"#~"+passold);
+                    } catch (IOException ex) {
+                        Logger.getLogger(P_ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    lbErrConfirmPass.setVisible(true);
+                }
             }
         }
     }//GEN-LAST:event_cmdChangePasswordActionPerformed
-
+    private String isPassword(String password){
+        String result = "";
+        if(password.length() < 8){
+            result += "Mật khẩu phải có ít nhất 8 kí tự\n";
+        }
+        Pattern p = Pattern.compile("([0-9])");
+        Matcher m = p.matcher(password);
+        if(m.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 số\n";
+        }
+        Pattern p2 = Pattern.compile("([A-Z])");
+        Matcher m2 = p2.matcher(password);
+        if(m2.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 chữ hoa\n";
+        }
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(password);
+        if(m3.find() == false){
+            result += "Mật khẩu phải có ít nhất 1 kí tự đặt biệt\n";
+        }
+        if(password.contains("'")){
+            result += "Mật khẩu không được chứa '\n";
+        }
+        if(password.contains("--")){
+            result += "Mật khẩu không được chứa --\n";
+        }
+        if(password.contains("#")){
+            result += "Mật khẩu không được chứa #";
+        }
+        if(password.contains("~")){
+            result += "Mật khẩu không được chứa #";
+        }
+        if(password.contains(" ")){
+            result += "Mật khẩu không được chứa khoảng chắn";
+        }
+        if(password.contains("=")){
+            result += "Mật khẩu không được chứa dấu bằng";
+        }
+        if(result.length() != 0){
+            return result;
+        }
+        else{
+            return "Mật khẩu hợp lệ";    
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

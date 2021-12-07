@@ -8,7 +8,6 @@ public class PublicEvent {
     private EventChat eventChat;
     private EventLogin eventLogin;
     private EventMenuLeft eventmenuleft;
-    private EventLoginSuccess eventLoginSuccess;
     private EventUpdateInfo eventUpdateInfo;
     private EventAuthenOtp eventAuthenOtp;
     private EventCheckUserName eventCheckUserName;
@@ -40,9 +39,6 @@ public class PublicEvent {
     public void addEventMenuLeft(EventMenuLeft event){
         this.eventmenuleft = event;
     }
-    public void addEvenLoginSuccess(EventLoginSuccess event){
-        this.eventLoginSuccess = event;
-    }
     public void addEventUpdateInfo(EventUpdateInfo eventUpdateInfo) {
         this.eventUpdateInfo = eventUpdateInfo;
     }
@@ -63,9 +59,6 @@ public class PublicEvent {
     }
     public EventMenuLeft getEventMenuLeft(){
         return eventmenuleft;
-    }
-    public EventLoginSuccess getEvenLoginSuccess(){
-        return eventLoginSuccess;
     }
     public EventUpdateInfo getEventUpdateInfo() {
         return eventUpdateInfo;

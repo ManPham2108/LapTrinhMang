@@ -6,10 +6,7 @@ import Model.AccountModel;
 import Model.GroupModel;
 import Server.Client;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 
 public class Chat_Title extends javax.swing.JPanel {
    

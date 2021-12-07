@@ -1,4 +1,3 @@
-
 package Form.Body;
 
 import Form.Body.Event.PublicEvent;
@@ -10,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class Item_Group extends javax.swing.JPanel {
     private GroupModel group;

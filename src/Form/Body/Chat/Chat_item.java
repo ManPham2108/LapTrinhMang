@@ -44,15 +44,6 @@ public class Chat_item extends javax.swing.JLayeredPane {
         txt.setText(text);
     }
     public void seen() {
-//        JLayeredPane layer = new JLayeredPane();
-//        layer.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-//        layer.setBorder(new EmptyBorder(0, 0, 0, 0));//0, 5, 7, 5
-//        label = new JLabel("Đã xem");
-//        //Màu chữ đã xem
-//        label.setForeground(new Color(110, 110, 110));
-//        label.setHorizontalTextPosition(JLabel.CENTER);
-//        layer.add(label);
-//        add(layer);
         txt.setText("Đã xem");
         txt.setBorder(new EmptyBorder(0,0,0,0));
         txt.setFont(new java.awt.Font("sansserif", 0, 11));

@@ -1,34 +1,13 @@
-
 package Form.Body;
 
 import Form.Body.Event.PublicEvent;
-
 
 public class Item_System extends javax.swing.JPanel {
     public Item_System(String name){
         initComponents();
         lbName.setText(name);
         PublicEvent.getInstance().getEventChat().removeAllChatBody();
-        //init();
     }
-//    private void init(){
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//                setBackground(new Color(230,230,230));
-//            }
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//                setBackground(new Color(242,242,242));
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//                //PublicEvent.getInstance().getEventMain().SelectUser(user);
-//                //PublicEvent.getInstance().getEventChat().removeAllChatBody();
-//            }  
-//        });
-//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

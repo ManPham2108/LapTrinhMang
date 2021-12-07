@@ -2,9 +2,9 @@ package Form.Body.Event;
 
 public interface EventLogin {
 
-    public void login();
+    public void login(String text);
 
-    public void register();
+    public void register(String status);
 
     public void goRegister();
 

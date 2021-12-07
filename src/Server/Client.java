@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jdk.nashorn.internal.ir.BreakableNode;
+
 public class Client{
     static Client instance;
     private Socket socket=null;
@@ -56,7 +56,6 @@ public class Client{
                     switch(type){
                         case "hello":
                             sessionkey = UtilsAES.generateKey();
-                            //System.out.println("ss: "+sessionkey);
                             String tmpa = UtilsRSA.EncryptText(sessionkey,message[1]);
                             write.write("hello#~"+tmpa);
                             write.newLine();
@@ -65,12 +64,12 @@ public class Client{
                         case "loginsucess":
                             ArrayList<AccountModel> listUser= gson.fromJson(message[1],new TypeToken<ArrayList<AccountModel>>() {}.getType());
                             User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
-                            PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("success");
+                            PublicEvent.getInstance().getEventLogin().login("success");
                             PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
                             break;
                         case "loginfaile":
                             if(message[1].equals("wrongaccount")){
-                                PublicEvent.getInstance().getEvenLoginSuccess().LoginSuccess("Notsuccess");
+                                PublicEvent.getInstance().getEventLogin().login("Notsuccess");
                             }
                             if(message[1].equals("notsuccess")){
                                 PublicEvent.getInstance().getEventMain().BlockUser(message[1]);
@@ -125,7 +124,7 @@ public class Client{
                             PublicEvent.getInstance().getEventUpdateInfo().changePassword(message[1]);
                             break;
                         case "checkuser":
-                            PublicEvent.getInstance().getEventCheckUserName().checkUserName(message[1]);
+                            PublicEvent.getInstance().getEventLogin().register(message[1]);
                             break;
                         case "blockuser":
                             if(message[1].contains("updateuserunblock") || message[1].contains("updateuserblock")){

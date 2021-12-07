@@ -39,9 +39,10 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         btnMale = new javax.swing.JRadioButton();
         btnFemale = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        errorFullName = new javax.swing.JLabel();
         jDateBirth = new com.toedter.calendar.JDateChooser();
-        lbErrDate = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        errorNgaySinh = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -82,41 +83,51 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("HỌ VÀ TÊN");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("GIỚI TÍNH");
+        errorFullName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        errorFullName.setForeground(new java.awt.Color(255, 0, 0));
 
         jDateBirth.setToolTipText("");
         jDateBirth.setDateFormatString("yyyy/MM/dd");
 
-        lbErrDate.setForeground(new java.awt.Color(255, 0, 51));
-        lbErrDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("GIỚI TÍNH");
+
+        errorNgaySinh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        errorNgaySinh.setForeground(new java.awt.Color(255, 0, 0));
+        errorNgaySinh.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdBackChangePassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmdUpdateInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtFullName)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnFemale)
-                                .addGap(0, 52, Short.MAX_VALUE)))
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbErrDate, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(cmdBackChangePassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmdUpdateInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnFemale))
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateBirth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(errorFullName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFullName, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,26 +138,28 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel4))
+                .addGap(10, 10, 10)
+                .addComponent(errorFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnMale)
-                            .addComponent(btnFemale)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(2, 2, 2)
-                .addComponent(lbErrDate, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                            .addComponent(btnFemale))))
+                .addGap(7, 7, 7)
+                .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdUpdateInfo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdBackChangePassword)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -157,6 +170,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     private void cmdUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUpdateInfoActionPerformed
         String gender;
         Gson gson = new Gson();
+        String fullname = txtFullName.getText();
         if(btnFemale.isSelected()){
             gender = "Nữ";
         }
@@ -166,28 +180,35 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String DateOfBirth=sdf.format(jDateBirth.getDate());
         String dateuser = sdf.format(user.getDateOfBirth());//
-        if(txtFullName.getText().equals(user.getFullName()) && gender.equals(user.getGender()) && DateOfBirth.equals(dateuser)){
+        if(fullname.equals(user.getFullName()) && gender.equals(user.getGender()) && DateOfBirth.equals(dateuser)){
             JOptionPane.showMessageDialog(null, "Không có thông tin nào được thay đổi","Thông báo",JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            AccountModel updateuser = new AccountModel();
-            updateuser.setId(user.getId());
-            updateuser.setFullName(txtFullName.getText());
-            updateuser.setGender(gender);
-            updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
-            String user = gson.toJson(updateuser);
-            try {
-                Client.getInstance().send("updateuser#~infor"+user);
-                //JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
-                PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
-                PublicEvent.getInstance().getEventMain().logout();
-                Client.getInstance().send("logout#~"+updateuser.getId());
-            } catch (IOException ex) {
-
+            if(isFullname(txtFullName.getText())==false){
+                errorFullName.setText("Họ và tên không được chứ số và kí tự đặt biệt");
+            }
+            else{
+                AccountModel updateuser = new AccountModel();
+                updateuser.setId(user.getId());
+                updateuser.setFullName(txtFullName.getText());
+                updateuser.setGender(gender);
+                updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
+                String user = gson.toJson(updateuser);
+                try {
+                    Client.getInstance().send("updateuser#~infor"+user);
+                    PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
+                    PublicEvent.getInstance().getEventMain().logout();
+                    Client.getInstance().send("logout#~"+updateuser.getId());
+                } catch (IOException ex) {
+                }
             }
         }
     }//GEN-LAST:event_cmdUpdateInfoActionPerformed
-
+    private boolean isFullname(String str) {
+        String expression = "^[a-zA-Z\\s]+"; 
+        return str.matches(expression);        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton btnFemale;
@@ -195,11 +216,12 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cmdBackChangePassword;
     private javax.swing.JButton cmdUpdateInfo;
+    private javax.swing.JLabel errorFullName;
+    private javax.swing.JLabel errorNgaySinh;
     private com.toedter.calendar.JDateChooser jDateBirth;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel lbErrDate;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JTextField txtFullName;
     // End of variables declaration//GEN-END:variables

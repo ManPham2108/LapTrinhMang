@@ -1,4 +1,5 @@
 package Server;
+
 import Database.AccountDAL;
 import Database.GroupDAL;
 import Encrypt.UtilsAES;
@@ -25,8 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger; 
 
 public class ThreadClient implements Runnable{
-    public BufferedReader read;
-    public BufferedWriter write;
+    private BufferedReader read;
+    private BufferedWriter write;
     private Socket s;
     private AccountDAL ac = new AccountDAL();
     private Gson gson = new Gson();
@@ -74,7 +75,7 @@ public class ThreadClient implements Runnable{
                         System.out.println("key: "+sessionkey);
                         break;
                     case "login":
-                        checkUser(message[1]);
+                        checkUser(message[1],message[2]);
                         break;
                     case "ClientToClient":
                         SendMessageModel smm = gson.fromJson(message[1],new TypeToken<SendMessageModel>() {}.getType());
@@ -105,18 +106,13 @@ public class ThreadClient implements Runnable{
                         for(ThreadClient tccc : server.listUserLogin){
                             if(tccc.getId()!=null && tccc.getId().equals(message[1])){
                                 tccc.send("seenmsg#~"+message[2]);
-                                //System.out.println("Co");
                                 break;
                             }
-//                            else{
-//                                System.out.println("loi r");
-//                            }
                         }
                         break;
                     case "OTP":
                         AccountDAL check = new AccountDAL();
                         if(check.getAllAccount("Username='"+message[1]+"'", null).size()>0){
-                            //System.out.println("Lỗiiiiiiiiiii");
                             send("checkuser#~false");
                         }
                         else{
@@ -238,10 +234,8 @@ public class ThreadClient implements Runnable{
             Logger.getLogger(ThreadClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void checkUser(String account) throws IOException, Exception{
-        StringTokenizer st = new StringTokenizer(account,"<,");
-        //System.out.println(st.nextToken());
-        AccountModel am =  ac.getUser(st.nextToken(), st.nextToken());
+    public void checkUser(String user,String pass) throws IOException, Exception{
+        AccountModel am =  ac.getUser(user, pass);
         if(am==null){
             send("loginfaile#~wrongaccount");
         }

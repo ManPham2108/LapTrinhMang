@@ -14,18 +14,15 @@ import java.awt.Dimension;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import net.miginfocom.swing.MigLayout;
-
 
 public class Chat_Bottom extends javax.swing.JPanel {
     private AccountModel aModel;
@@ -85,7 +82,6 @@ public class Chat_Bottom extends javax.swing.JPanel {
             public void keyTyped(KeyEvent e) {
                 
             }
-            
         });
         txt.setHintText("Nhập tin nhắn");
         scroll.setViewportView(txt);
@@ -151,7 +147,6 @@ public class Chat_Bottom extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try { 
-                    
                     if(group!=null){
                         Client.getInstance().send("blockuser#~unblockgroup^&"+group.getIdGroup()+"^&"+Client.getInstance().User.getId());
                         PublicEvent.getInstance().getEventChat().loadBlock("updateremoveblockgroup;"+group.getIdGroup());
@@ -170,7 +165,6 @@ public class Chat_Bottom extends javax.swing.JPanel {
         if(type.equals("userblock")){
             panel.removeAll();
             lberror.setText("Bạn đã chặn");
-            System.err.println("vo luôn");
             panel.add(lberror);
             panel.add(btnerror);
         }

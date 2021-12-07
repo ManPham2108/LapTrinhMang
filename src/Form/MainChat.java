@@ -37,10 +37,6 @@ public class MainChat extends javax.swing.JFrame {
         home.setVisible(false);
         PublicEvent.getInstance().addEventMain(new EventMain(){
             @Override
-            public void showLoading(boolean show) {
-               
-            }
-            @Override
             public void initChat() {
                 home.setVisible(true);
                 login1.setVisible(false);

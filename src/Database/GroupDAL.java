@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public final class GroupDAL {
     MyConnectUnit connect;
-    public ArrayList<GroupModel> allGroup = new ArrayList<GroupModel>();
     public GroupDAL() throws Exception {
         this.connect = Database.DAL.getDAL();
     }
@@ -31,13 +30,6 @@ public final class GroupDAL {
             } 
         }
         return listGroup;
-    }
-    public static void main(String[] args) throws Exception {
-        GroupDAL gr = new GroupDAL();
-        gr.getGroupUser("1");
-        ArrayList<String> a = new  ArrayList<>();
-        a.add("006");
-        a.add("007");
     }
     public ArrayList<String> allUserInGroup(String idgroup) throws Exception{
         ResultSet rs = this.connect.Select("groupmember", "IdGroup='"+idgroup.substring(1)+"'");

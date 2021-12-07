@@ -1,4 +1,5 @@
 package Form.Body.Chat;
+
 import Model.FileModel;
 import Sticker.Sticker;
 import com.google.gson.Gson;
@@ -7,7 +8,6 @@ import java.awt.Adjustable;
 import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import static java.lang.System.out;
 import javax.swing.JScrollBar;
 import net.miginfocom.swing.MigLayout;
 
@@ -33,10 +33,8 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
-
-    //them tin nhan bên trái
+    
     public void addItemLeft(String text,String user) {
-        //Chat_Left itemLeft = new Chat_Left();
         Chat_Left_With_Profile itemLeft = new Chat_Left_With_Profile();
         String[] message = text.split("\\###");
         if (message.length == 2 && message[0].equals("***sticker")) {
@@ -59,7 +57,6 @@ public class Chat_Body extends javax.swing.JPanel {
         }
         itemLeft.setUserProfile(user);
         body.add(itemLeft, "wrap, w 100::50%");
-        //50% set chiều rộng
         body.repaint();
         body.revalidate();
         scrollToBottom();
@@ -67,7 +64,6 @@ public class Chat_Body extends javax.swing.JPanel {
     public void check(){
          check++;
     }
-    //them tin nhan bên phải
     public void addItemRight(String text) {
         Chat_Right itemRight = new Chat_Right();
         String[] message = text.split("\\###");
@@ -90,7 +86,6 @@ public class Chat_Body extends javax.swing.JPanel {
             itemRight.setText(text);
         }
         body.add(itemRight, "wrap, al right,w ::50%");
-        //50% set chiều rộng
         repaint();
         revalidate();
         scrollToBottom();
@@ -104,7 +99,6 @@ public class Chat_Body extends javax.swing.JPanel {
     }
     public void removeseen(){
         body.remove(seen);
-        //System.out.println(body.list(out));
         repaint();
         revalidate();
     }

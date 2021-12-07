@@ -1,13 +1,11 @@
 package Database;
 import Encrypt.HashPassword;
 import Model.AccountModel;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public final class AccountDAL {
     MyConnectUnit connect;
@@ -49,12 +47,6 @@ public final class AccountDAL {
             ));
         }
         return listAccountinfor;
-    }
-    public static void main(String[] args) throws Exception {
-        AccountDAL ac = new AccountDAL();
-        ac.getUser("a", "a");
-        
-
     }
     public AccountModel getUser(String user,String pass) throws Exception{
         HashPassword hash = new HashPassword();

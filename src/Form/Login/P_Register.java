@@ -1,10 +1,8 @@
 package Form.Login;
 
-import Form.Body.Event.EventCheckUserName;
 import Form.Body.Event.PublicEvent;
 import Model.AccountModel;
 import Server.Client;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -14,13 +12,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
-
 public class P_Register extends javax.swing.JPanel {
-
+    private Verified ver; 
     public P_Register() {
         initComponents();
     }
-
+    public void checkUserName(String status) {
+        if(status.equals("true")){
+            ver.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Tài khoản đã có người đăng ký");
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -237,11 +241,9 @@ public class P_Register extends javax.swing.JPanel {
             errorUserName.setText("");
         }
         if(!isPassword(txtPass.getText()).equals("Mật khẩu hợp lệ")){
-//            errorPassword.setText(isPassword(txtPass.getText()));
             JOptionPane.showMessageDialog(null,isPassword(txtPass.getText()));
             fail++;
         }
-        //System.out.println("Lỗi sai: "+fail);
         if(fail == 0){
             try {
                 String gender;
@@ -253,23 +255,11 @@ public class P_Register extends javax.swing.JPanel {
                 }
                 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
                 String DateOfBirth=sdf.format(jDateBirth.getDate());
-                Verified ver = new Verified();
+                ver = new Verified();
                 AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
                 ver.setUserregist(userRegister);
                 try {
                     Client.getInstance().send("OTP#~"+userRegister.getUsername());
-                    PublicEvent.getInstance().addEventCheckUserName(new EventCheckUserName() {
-                        @Override
-                        public void checkUserName(String status) {
-                            if(status.equals("true")){
-                                ver.setVisible(true);
-                            }
-                            else{
-                                JOptionPane.showMessageDialog(null, "Tài khoản đã có người đăng ký");
-                            }
-                        }
-                    });
-                    
                 } catch (IOException ex) {
                     Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -282,17 +272,17 @@ public class P_Register extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_cmdRegisterActionPerformed
-    public boolean isEmailAddress(String email) {
+    private boolean isEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
-    public boolean isFullname(String str) {
+    private boolean isFullname(String str) {
         String expression = "^[a-zA-Z\\s]+"; 
         return str.matches(expression);        
     }
-    public String isPassword(String password){
+    private String isPassword(String password){
         String result = "";
         if(password.length() < 8){
             result += "Mật khẩu phải có ít nhất 8 kí tự\n";
@@ -326,6 +316,9 @@ public class P_Register extends javax.swing.JPanel {
         }
         if(password.contains(" ")){
             result += "Mật khẩu không được chứa khoảng chắn";
+        }
+        if(password.contains("=")){
+            result += "Mật khẩu không được chứa dấu bằng";
         }
         if(result.length() != 0){
             return result;

@@ -1,4 +1,3 @@
-
 package Form.Body;
 
 import Form.Body.Chat.Chat;
@@ -9,13 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
 
-
-
 public class Home extends javax.swing.JLayeredPane {
 
-    /**
-     * Creates new form Home
-     */
     private Chat chat;
     public Home(){
         initComponents();

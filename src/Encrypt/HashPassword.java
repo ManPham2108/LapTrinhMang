@@ -20,7 +20,6 @@ public class HashPassword {
         }
         return hash;
     }
-    
     public boolean checkPassword(String passUser, String passInput){
         return generateHash(passInput).equals(passUser);
     }

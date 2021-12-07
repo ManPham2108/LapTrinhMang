@@ -11,6 +11,7 @@ public class FormUpdateInfo extends javax.swing.JFrame {
     }
     private void init(){
         PublicEvent.getInstance().addEventUpdateInfo(new EventUpdateInfo() {
+            
             @Override
             public void updateInfo() {
                 dispose();

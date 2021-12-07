@@ -2,32 +2,36 @@ package Form.Login;
 
 import Form.Body.Event.EventLogin;
 import Form.Body.Event.PublicEvent;
-import Form.MainChat;
 
 public class Login extends javax.swing.JPanel {
-
     public Login() {
         initComponents();
         init();
     }
     
     private void init() {
+        P_Login login = new P_Login();
+        P_Register register = new P_Register();
+        slide.init(login, register);
         PublicEvent.getInstance().addEventLogin(new EventLogin() {
             @Override
-            public void login() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PublicEvent.getInstance().getEventMain().showLoading(true);
-                        PublicEvent.getInstance().getEventMain().showLoading(false);
-                        PublicEvent.getInstance().getEventMain().initChat();
-                        setVisible(false);
-                    }
-                }).start();
+            public void login(String text) {
+                if(text.equals("success")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PublicEvent.getInstance().getEventMain().initChat();
+                            setVisible(false);
+                        }
+                    }).start();
+                }
+                else{
+                    login.loginfaile();
+                }
             }
             @Override
-            public void register() {
-                slide.show(0);
+            public void register(String status) {
+                register.checkUserName(status);
             }
             @Override
             public void goRegister() {
@@ -39,9 +43,7 @@ public class Login extends javax.swing.JPanel {
                 slide.show(0);
             }
         });
-        P_Login login = new P_Login();
-        P_Register register = new P_Register();
-        slide.init(login, register);
+        
     }
     
 

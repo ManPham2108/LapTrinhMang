@@ -1,7 +1,5 @@
 package Form.UpdateInfo;
 
-import Form.Body.Event.EventUpdateInfo;
-import Form.Body.Event.PublicEvent;
 public class BodyUpdateInfo extends javax.swing.JPanel {
     private P_ChangePassword p_ChangePassword;
     public BodyUpdateInfo() {

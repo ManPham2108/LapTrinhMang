@@ -1,4 +1,3 @@
-
 package Form.Body.Chat;
 
 import java.awt.Color;

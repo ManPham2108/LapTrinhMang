@@ -8,9 +8,6 @@ import com.google.gson.Gson;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,8 +15,8 @@ import javax.swing.Timer;
 
 public class Verified extends javax.swing.JFrame {
     private AccountModel userregist;
-    int minute = 10;
-    int second = 0;
+    private int minute = 10;
+    private int second = 0;
 
     public AccountModel getUserregist() {
         return userregist;
@@ -35,7 +32,7 @@ public class Verified extends javax.swing.JFrame {
         init();
         dongho();
     }
-    public void dongho() {
+    private void dongho() {
         new Timer(10000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,13 +61,12 @@ public class Verified extends javax.swing.JFrame {
                 Gson gson = new Gson();
                 String user = gson.toJson(getUserregist());
                 try {
-                    PublicEvent.getInstance().getEventLogin().register();
+                    PublicEvent.getInstance().getEventLogin().goLogin();
                     Client.getInstance().send("register#~"+user);
                 } catch (IOException ex) {
                     Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 dispose();
-                
             }
             @Override
             public void authenFaile() {
@@ -138,7 +134,9 @@ public class Verified extends javax.swing.JFrame {
                     .addComponent(lbVerified, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                     .addComponent(cmdVerifiedOTP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtOTP)
-                    .addComponent(lberror, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(lberror)))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(

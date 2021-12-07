@@ -1,4 +1,3 @@
-
 package Form.Body.Chat;
 
 import Form.Body.Event.EventChat;
@@ -9,15 +8,14 @@ import Server.Client;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import jdk.nashorn.internal.ir.BreakableNode;
 import net.miginfocom.swing.MigLayout;
+
 public class Chat extends javax.swing.JPanel {
     private Chat_Title chatTitle;
     private Chat_Body chatBody;
@@ -45,9 +43,7 @@ public class Chat extends javax.swing.JPanel {
                 chatBody.addItemRight(text);
                 if(chatTitle.getaModel() != null){
                     listuserseen.remove(chatTitle.getaModel().getId());
-                }
-                System.out.println("đã xóa"+listuserseen.size());
-                
+                }  
             }
 
             @Override
@@ -56,17 +52,14 @@ public class Chat extends javax.swing.JPanel {
                     chatBody.removeseen();
                     chatBody.addseen();
                     listuserseen.add(userid);
-                    System.out.println("Moi Them if 1 "+listuserseen.size());
                 }
                 if(chatTitle.getaModel() != null && !chatTitle.getaModel().getId().equals(userid)){
                     listuserseen.add(userid);
-                    System.out.println("Moi Them if 2 "+listuserseen.size());
                 }
             }
             @Override
             public void reciveMessage(String text) {          
                 String[] message = text.split("#-~");
-                //System.out.println(text);
                 String userid = message[0];
                 String msg = message[1].replace("%20#1%","\r\n");
                 String username = null;
@@ -85,7 +78,6 @@ public class Chat extends javax.swing.JPanel {
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
-                        //System.out.println("useridaaaaa "+userid);
                         chatBody.removeseen();
                         chatBody.addItemLeft(msg,chatTitle.getaModel().getFullName());
                         chatBody.check();
@@ -212,7 +204,6 @@ public class Chat extends javax.swing.JPanel {
         chatBottom.setaModel(am);
         chatBottom.setGroup(null);
         if(listblock.contains(am.getId())){
-            //System.out.println("co vao");
             chatBottom.setBlock("userblock");
             chatTitle.hideblock();
         }

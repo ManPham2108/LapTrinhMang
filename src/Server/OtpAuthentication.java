@@ -50,9 +50,4 @@ public class OtpAuthentication {
         transport.close();
         System.out.println("xog");
     }
-    public static void main(String[] args) throws MessagingException {
-        OtpAuthentication otp = new OtpAuthentication();            
-        //System.out.println(otp.randomOtp());  
-        otp.sendMail("man21082015@gmail.com", String.valueOf(otp.randomOtp()));
-    }
 }

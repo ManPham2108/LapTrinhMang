@@ -60,14 +60,6 @@ public class ComponentResizer extends MouseAdapter{
 	{
 		this(new Insets(5, 5, 5, 5), new Dimension(1, 1));
 	}
-
-	/**
-	 *  Convenience contructor. All borders are resizable in increments of
-	 *  a single pixel. Components can be registered when the class is created
-	 *  or they can be registered separately afterwards.
-	 *
-	 *  @param components components to be automatically registered
-	 */
 	public ComponentResizer(Component... components)
 	{
 		this(new Insets(5, 5, 5, 5), new Dimension(1, 1), components);
