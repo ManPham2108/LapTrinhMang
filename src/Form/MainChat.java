@@ -10,6 +10,7 @@ import component.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -19,11 +20,11 @@ import javax.swing.JOptionPane;
 public class MainChat extends javax.swing.JFrame {
     public Chat_Title chatTitel ;
     public Chat_Bottom chatBottom;
-    public MainChat() throws IOException {
+    public MainChat(){
          initComponents();
          init(); 
     }
-    private void init () throws IOException{
+    private void init (){
         chatTitel= new Chat_Title();
         chatBottom = new Chat_Bottom();
         setIconImage(new ImageIcon(getClass().getResource("/Image/icon.png")).getImage());
@@ -244,11 +245,7 @@ public class MainChat extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new MainChat().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(MainChat.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new MainChat().setVisible(true);
             }
         });
     }

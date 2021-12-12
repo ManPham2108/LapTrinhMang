@@ -3,16 +3,19 @@ package Form.Login;
 import Form.Body.Event.EventLogin;
 import Form.Body.Event.PublicEvent;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Login extends javax.swing.JPanel {
-    public Login() throws ParseException {
+    public Login(){
         initComponents();
         init();
     }
     
-    private void init() throws ParseException {
+    private void init(){
         P_Login login = new P_Login();
-        P_Register register = new P_Register();
+        P_Register register;
+        register = new P_Register();
         slide.init(login, register);
         PublicEvent.getInstance().addEventLogin(new EventLogin() {
             @Override
@@ -38,13 +41,12 @@ public class Login extends javax.swing.JPanel {
             public void goRegister() {
                 slide.show(1);
             }
-
+            
             @Override
             public void goLogin() {
                 slide.show(0);
             }
         });
-        
     }
     
 

@@ -43,6 +43,11 @@ public class ThreadClient implements Runnable{
     public void setId(String id) {
         this.id = id;
     }
+
+    public Socket getS() {
+        return s;
+    }
+
     public ThreadClient(Socket s,BufferedReader read, BufferedWriter write,String keyrsa) throws Exception {
         this.s = s;
         this.read = read;
@@ -299,11 +304,14 @@ public class ThreadClient implements Runnable{
         send("loginsucess#~"+listuser+"#~"+user);
     }
     public void updateStatus(String id,String status) throws IOException{
-        for(ThreadClient tc : Server.listUserLogin){
-            if(tc.getId()!=null && !tc.getId().equals(id)){
-                tc.send("status#~"+status+"#~"+id);
+        if(id!=null){
+            for(ThreadClient tc : Server.listUserLogin){
+                if(tc.getId()!=null && !tc.getId().equals(id)){
+                    tc.send("status#~"+status+"#~"+id);
+                }
             }
         }
+        
     }
     public void loadListUserBlock(String iduser) throws Exception{
         String userblock = convertArToString(ac.listUserblock(iduser));
@@ -396,19 +404,21 @@ public class ThreadClient implements Runnable{
     }
     public void userLogout() throws IOException{
         //cập nhật trạng thái user offline
-        updateStatus(getId(),"false");
-        //save log user logout
-        saveLog("User Id "+getId()+" logout");
-        for(ThreadClient tc : server.listUserLogin){
-            if(tc.getId()==null || tc.getId().equals(getId())){
-                int i = server.listUserLogin.indexOf(tc);
-                server.listUserLogin.remove(i);
-                break;
+            updateStatus(getId(),"false");
+            //save log user logout
+            if(getId()!=null){
+                saveLog("User Id "+getId()+" logout");
             }
-        }
-        this.read.close();
-        this.write.close();
-        this.s.close();
+            for(ThreadClient tc : server.listUserLogin){
+                if(tc.getS().equals(getS())){
+                    int i = server.listUserLogin.indexOf(tc);
+                    server.listUserLogin.remove(i);
+                    break;
+                }
+            }
+            this.read.close();
+            this.write.close();
+            this.s.close();
     }
     public void send(String message){
         try {

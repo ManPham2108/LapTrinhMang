@@ -358,7 +358,7 @@ public class Menu_left extends javax.swing.JPanel {
                     }
                 }
                 listnotiIndi.removeAll(listnotiIndi);
-            }
+            }           
         }
     }//GEN-LAST:event_menuMessageActionPerformed
 

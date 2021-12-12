@@ -16,12 +16,16 @@ import javax.swing.JOptionPane;
 
 public class P_Register extends javax.swing.JPanel {
     private Verified ver; 
-    public P_Register() throws ParseException {
+    public P_Register(){
         initComponents();
-        lbErrorNS.setVisible(false);
-        java.util.Date date1 =  new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-12");              
-        jDateBirth.setDate(date1);
-
+        try {
+            lbErrorNS.setVisible(false);
+            java.util.Date date1 =  new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-12");              
+            jDateBirth.setDate(date1);
+            jDateBirth.getDateEditor().setEnabled(false);
+        } catch (Exception e) {
+        }
+        
     }
     public void checkUserName(String status) {
         if(status.equals("true")){
@@ -151,11 +155,11 @@ public class P_Register extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnFemale)
                                 .addGap(0, 29, Short.MAX_VALUE)))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbErrorNS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateBirth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbErrorNS)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -274,23 +278,19 @@ public class P_Register extends javax.swing.JPanel {
             
         }
         if(fail == 0){
+            String gender;
+            if(btnFemale.isSelected()){
+                gender = "Nữ";
+            }
+            else{
+                gender = "Nam";
+            }
+            ver = new Verified();
+            AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
+            ver.setUserregist(userRegister);
             try {
-                String gender;
-                if(btnFemale.isSelected()){
-                    gender = "Nữ";
-                }
-                else{
-                    gender = "Nam";
-                }
-                ver = new Verified();
-                AccountModel userRegister = new AccountModel(null, txtUsername.getText(), txtPass.getText(), txtFullName.getText(), gender,Date.valueOf(DateOfBirth));
-                ver.setUserregist(userRegister);
-                try {
-                    Client.getInstance().send("OTP#~"+userRegister.getUsername());
-                } catch (IOException ex) {
-                    Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (InterruptedException ex) {
+                Client.getInstance().send("OTP#~"+userRegister.getUsername());
+            } catch (IOException ex) {
                 Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
             } 
             }
@@ -300,7 +300,7 @@ public class P_Register extends javax.swing.JPanel {
         
     }//GEN-LAST:event_cmdRegisterActionPerformed
     private boolean isEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        String ePattern = "^[a-zA-Z0-9]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
@@ -316,7 +316,7 @@ public class P_Register extends javax.swing.JPanel {
         if(m3.find() == false){
             return false;
         }
-        return true;        
+        return true;          
     }
     private String isPassword(String password){
         String result = "";
@@ -363,7 +363,7 @@ public class P_Register extends javax.swing.JPanel {
             return "Mật khẩu hợp lệ";    
         }
     }
-    public long tinhngay(String ngaySinh) throws ParseException{
+    private long tinhngay(String ngaySinh) throws ParseException{
         java.util.Date now = new java.util.Date();
         String ngay = ngaySinh.substring(0,10);
         java.util.Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);

@@ -53,11 +53,6 @@ public class P_Login extends javax.swing.JPanel {
                 cmdLoginActionPerformed(evt);
             }
         });
-        cmdLogin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cmdLoginKeyPressed(evt);
-            }
-        });
 
         cmdRegister.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         cmdRegister.setForeground(new java.awt.Color(15, 128, 206));
@@ -118,6 +113,15 @@ public class P_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
+        login();
+    }//GEN-LAST:event_cmdLoginActionPerformed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            login();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
+    private void login(){
         int fail = 0;
         try {
             String user = txtUser.getText();
@@ -138,39 +142,9 @@ public class P_Login extends javax.swing.JPanel {
             }
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_cmdLoginActionPerformed
-
-    private void cmdLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmdLoginKeyPressed
-        login();
-    }//GEN-LAST:event_cmdLoginKeyPressed
-    public void login(){
-        int fail = 0;
-        try {
-            String user = txtUser.getText();
-            String pass = txtPass.getText();
-            if(isEmailAddress(user)==false){
-                txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
-                fail++;
-            }
-            else{
-                txtError.setText("");
-            }
-            if(!isPassword(pass).equals("Mật khẩu hợp lệ")){
-                txtError.setText("Tên đăng nhập hoặc mật khẩu không đúng");
-                fail++;
-            }
-            if(fail==0){
-                Client.getInstance().send("login#~"+user+"<,"+pass);
-            }
-            
-        } catch (Exception e) {
-        }
     }
-    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
-        // bo sung sau
-    }//GEN-LAST:event_txtPassKeyPressed
     private boolean isEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        String ePattern = "^[a-zA-Z0-9]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
@@ -205,7 +179,7 @@ public class P_Login extends javax.swing.JPanel {
             result += "Mật khẩu không được chứa #";
         }
         if(password.contains("~")){
-            result += "Mật khẩu không được chứa #";
+            result += "Mật khẩu không được chứa ~";
         }
         if(password.contains(" ")){
             result += "Mật khẩu không được chứa khoảng chắn";

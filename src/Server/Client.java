@@ -33,12 +33,16 @@ public class Client{
         }
         return instance;
     }
-    public void connect() throws IOException{ 
-        socket = new Socket(localhost, 9001);
-        read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        sessionkey = null;
-        t.start(); 
+    public void connect(){ 
+        try {
+            socket = new Socket(localhost, 9001);
+            read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            write = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            sessionkey = null;
+            t.start(); 
+        } catch (Exception e) {
+            System.out.println("Không tìm thấy server");
+        }
     }
     Thread t = new Thread(){
         @Override

@@ -6,7 +6,11 @@ import Server.Client;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -16,6 +20,9 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     public P_UpdateInfo() {
         initComponents();
         init();
+        jDateBirth.getDateEditor().setEnabled(false);
+        lbErrorNS.setVisible(false);
+        lbErrorFullName.setVisible(false);
     }
     private void init(){
         this.user = Client.getInstance().User;
@@ -41,10 +48,11 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         btnMale = new javax.swing.JRadioButton();
         btnFemale = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        errorFullName = new javax.swing.JLabel();
+        lbErrorFullName = new javax.swing.JLabel();
         jDateBirth = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         errorNgaySinh = new javax.swing.JLabel();
+        lbErrorNS = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -85,8 +93,9 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("HỌ VÀ TÊN");
 
-        errorFullName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        errorFullName.setForeground(new java.awt.Color(255, 0, 0));
+        lbErrorFullName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbErrorFullName.setForeground(new java.awt.Color(255, 0, 0));
+        lbErrorFullName.setText("Họ và tên không được chứa số và kí tự đặt biệt");
 
         jDateBirth.setToolTipText("");
         jDateBirth.setDateFormatString("yyyy/MM/dd");
@@ -97,6 +106,11 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         errorNgaySinh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         errorNgaySinh.setForeground(new java.awt.Color(255, 0, 0));
         errorNgaySinh.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lbErrorNS.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbErrorNS.setForeground(new java.awt.Color(255, 0, 0));
+        lbErrorNS.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbErrorNS.setText("Ngày sinh không hợp lệ (>=12)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -123,12 +137,14 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jDateBirth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(errorFullName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbErrorFullName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtFullName, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lbTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbErrorNS)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -141,7 +157,7 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(errorFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbErrorFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -156,7 +172,9 @@ public class P_UpdateInfo extends javax.swing.JPanel {
                             .addComponent(btnMale)
                             .addComponent(btnFemale))))
                 .addGap(7, 7, 7)
-                .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(errorNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbErrorNS))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdUpdateInfo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -170,40 +188,55 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackChangePasswordActionPerformed
 
     private void cmdUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUpdateInfoActionPerformed
-        String gender;
-        Gson gson = new Gson();
-        String fullname = txtFullName.getText();
-        if(btnFemale.isSelected()){
-            gender = "Nữ";
-        }
-        else{
-            gender = "Nam";
-        }
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String DateOfBirth=sdf.format(jDateBirth.getDate());
-        String dateuser = sdf.format(user.getDateOfBirth());//
-        if(fullname.equals(user.getFullName()) && gender.equals(user.getGender()) && DateOfBirth.equals(dateuser)){
-            JOptionPane.showMessageDialog(null, "Không có thông tin nào được thay đổi","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
-            if(isFullname(txtFullName.getText())==false){
-                errorFullName.setText("Họ và tên không được chứ số và kí tự đặt biệt");
+        try {
+            String gender;
+            Gson gson = new Gson();
+            String fullname = txtFullName.getText();
+            if(btnFemale.isSelected()){
+                gender = "Nữ";
             }
             else{
-                AccountModel updateuser = new AccountModel();
-                updateuser.setId(user.getId());
-                updateuser.setFullName(txtFullName.getText());
-                updateuser.setGender(gender);
-                updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
-                String user = gson.toJson(updateuser);
-                try {
-                    Client.getInstance().send("updateuser#~infor"+user);
+                gender = "Nam";
+            }
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            String DateOfBirth=sdf.format(jDateBirth.getDate());
+            String dateuser = sdf.format(user.getDateOfBirth());//
+            if(fullname.equals(user.getFullName()) && gender.equals(user.getGender()) && DateOfBirth.equals(dateuser)){
+                JOptionPane.showMessageDialog(null, "Không có thông tin nào được thay đổi","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                int fail = 0;
+                if(isFullname(txtFullName.getText())==false){
+                    lbErrorFullName.setVisible(true);
+                    fail++;
+                }
+                else{
+                    lbErrorFullName.setVisible(false);
+                }
+                if((tinhngay(DateOfBirth) / 365) < 13){
+                    lbErrorNS.setVisible(true);
+                    fail++;
+                }
+                else{
+                    lbErrorNS.setVisible(false);
+                }
+                if(fail==0){
+                    AccountModel updateuser = new AccountModel();
+                    updateuser.setId(user.getId());
+                    updateuser.setFullName(txtFullName.getText());
+                    updateuser.setGender(gender);
+                    updateuser.setBirdOfDate(Date.valueOf(DateOfBirth));
+                    String user = gson.toJson(updateuser);
+                    Client.getInstance().send("updateuser#~infor#~"+user);
                     PublicEvent.getInstance().getEventUpdateInfo().updateInfo();
                     PublicEvent.getInstance().getEventMain().logout();
                     Client.getInstance().send("logout#~"+updateuser.getId());
-                } catch (IOException ex) {
                 }
             }
+        } catch (ParseException ex) {
+            Logger.getLogger(P_UpdateInfo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(P_UpdateInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cmdUpdateInfoActionPerformed
     private boolean isFullname(String str) {
@@ -214,10 +247,20 @@ public class P_UpdateInfo extends javax.swing.JPanel {
         }
         Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m3 = p3.matcher(str);
-        if(m3.find() == false){
+        if(m3.find() == true){
             return false;
         }
         return true;        
+    }
+    private long tinhngay(String ngaySinh) throws ParseException{
+        java.util.Date now = new java.util.Date();
+        String ngay = ngaySinh.substring(0,10);
+        java.util.Date NgaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+        Calendar calendarNow=Calendar.getInstance();
+        Calendar calendarNgaySinh=Calendar.getInstance();
+        calendarNow.setTime(now);
+        calendarNgaySinh.setTime(NgaySinh);
+        return -(calendarNgaySinh.getTime().getTime()-calendarNow.getTime().getTime())/(24*3600*1000);
     }
     
 
@@ -227,12 +270,13 @@ public class P_UpdateInfo extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cmdBackChangePassword;
     private javax.swing.JButton cmdUpdateInfo;
-    private javax.swing.JLabel errorFullName;
     private javax.swing.JLabel errorNgaySinh;
     private com.toedter.calendar.JDateChooser jDateBirth;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel lbErrorFullName;
+    private javax.swing.JLabel lbErrorNS;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JTextField txtFullName;
     // End of variables declaration//GEN-END:variables

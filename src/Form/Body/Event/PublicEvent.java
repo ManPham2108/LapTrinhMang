@@ -1,7 +1,6 @@
 package Form.Body.Event;
 
 public class PublicEvent {
-
     private static PublicEvent instance;
     private EventMain eventMain;
     private EventImageView eventImageView;

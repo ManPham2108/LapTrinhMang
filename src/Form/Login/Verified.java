@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -26,14 +28,14 @@ public class Verified extends javax.swing.JFrame {
         this.userregist = userregist;
     }
     
-    public Verified() throws InterruptedException {
+    public Verified(){
         initComponents();
         setLocationRelativeTo(null);
         init();
         dongho();
     }
     private void dongho() {
-        new Timer(10, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 1000mili = 1s
+        new Timer(1000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 1000mili = 1s
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(second == -1){
@@ -73,7 +75,8 @@ public class Verified extends javax.swing.JFrame {
                 lberror.setVisible(true);
             }
         });
-    } 
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -209,17 +212,42 @@ public class Verified extends javax.swing.JFrame {
     private void btnCloseVerifiedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseVerifiedActionPerformed
         dispose();
     }//GEN-LAST:event_btnCloseVerifiedActionPerformed
-
+    
     private void cmdVerifiedOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdVerifiedOTPActionPerformed
         String otp = txtOTP.getText();
-        if(!otp.equals("")){
+        if(isOTP(otp)==true){
+            lberror.setVisible(false);
             try {
                 Client.getInstance().send("authenotp#~check#~"+otp);
             } catch (IOException ex) {
                 Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        else{
+            lberror.setVisible(true);
+        }
     }//GEN-LAST:event_cmdVerifiedOTPActionPerformed
+    private boolean isOTP(String str) {
+        Pattern p1 = Pattern.compile("([a-z])");
+        Matcher m1 = p1.matcher(str);
+        Pattern p2 = Pattern.compile("([A-Z])");
+        Matcher m2 = p2.matcher(str);
+        if(m1.find()==true){
+            return false;
+        }
+        if(m2.find() == true){
+            return false;
+        }
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(str);
+        if(m3.find() == true){
+            return false;
+        }
+        if(str.equals("")){
+            return false;
+        }
+        return true;
+    }    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -254,11 +282,7 @@ public class Verified extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Verified().setVisible(true);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Verified.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Verified().setVisible(true);
             }
         });
     }

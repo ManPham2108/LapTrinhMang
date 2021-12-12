@@ -219,7 +219,7 @@ public class P_ChangePassword extends javax.swing.JPanel {
             result += "Mật khẩu không được chứa #";
         }
         if(password.contains("~")){
-            result += "Mật khẩu không được chứa #";
+            result += "Mật khẩu không được chứa ~";
         }
         if(password.contains(" ")){
             result += "Mật khẩu không được chứa khoảng chắn";

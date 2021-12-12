@@ -20,7 +20,6 @@ public class Chat_Image extends javax.swing.JPanel {
         pic.setImage(image, file);
         add(pic, "wrap");
     }
-    
     private Dimension getAutoSize(Icon image, int w, int h) {
         if (w > image.getIconWidth()) {
             w = image.getIconWidth();

@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +32,7 @@ public class CreateGroup extends javax.swing.JFrame {
     }
 
     public void init() {
+        lbErrorGrName.setVisible(false);
         tblListUser.setDefaultRenderer(Object.class, new ButtonRenderer());
         dm = new DefaultTableModel(
                 new Object[][]{},
@@ -61,6 +65,7 @@ public class CreateGroup extends javax.swing.JFrame {
         cmdCloseGroup = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblListUser = new javax.swing.JTable();
+        lbErrorGrName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -142,33 +147,42 @@ public class CreateGroup extends javax.swing.JFrame {
             tblListUser.getColumnModel().getColumn(1).setPreferredWidth(30);
         }
 
+        lbErrorGrName.setBackground(new java.awt.Color(255, 255, 255));
+        lbErrorGrName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbErrorGrName.setForeground(new java.awt.Color(255, 0, 0));
+        lbErrorGrName.setText("Tên nhóm không được để trống và không chứa kí tự");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(467, Short.MAX_VALUE)
-                .addComponent(cmdCloseGroup)
-                .addGap(9, 9, 9))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(cmdCloseGroup)
+                        .addGap(9, 9, 9))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cbListUser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbListUser, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(txtNameGroup)))
-                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(55, 55, 55)
+                                    .addComponent(txtNameGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbErrorGrName)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
+                        .addGap(181, 181, 181)
                         .addComponent(btnCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -183,15 +197,17 @@ public class CreateGroup extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNameGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbErrorGrName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbListUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -250,16 +266,41 @@ public class CreateGroup extends javax.swing.JFrame {
     private void btnCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupActionPerformed
         // TODO add your handling code here:
         Gson gson = new Gson();
-        GroupModel group = new GroupModel(null, txtNameGroup.getText(), listuserid);
-        String creategroup = gson.toJson(group);
-        try {
-            Client.getInstance().send("creategroup#~"+creategroup);
-        } catch (IOException ex) {
-            Logger.getLogger(CreateGroup.class.getName()).log(Level.SEVERE, null, ex);
+        int fail = 0;
+        String namegr = txtNameGroup.getText();
+        if(isNameGr(namegr)==false){
+            lbErrorGrName.setVisible(true);
+            fail++;
         }
-        dispose();
+        else{
+            lbErrorGrName.setVisible(false);
+        }
+        if(listuserid.size()<3){
+            JOptionPane.showMessageDialog(null, "Nhóm phải từ 3 người trở lên");
+            fail++;
+        }
+        if(fail==0){
+            GroupModel group = new GroupModel(null, txtNameGroup.getText(), listuserid);
+            String creategroup = gson.toJson(group);
+            try {
+                Client.getInstance().send("creategroup#~"+creategroup);
+            } catch (IOException ex) {
+                Logger.getLogger(CreateGroup.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();
+        }
     }//GEN-LAST:event_btnCreateGroupActionPerformed
-
+    private boolean isNameGr(String str) {
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(str);
+        if(str.equals("")){
+            return false;
+        }
+        if(m3.find() == true){
+            return false;
+        }
+        return true;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -300,6 +341,7 @@ public class CreateGroup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbErrorGrName;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JTable tblListUser;
     private javax.swing.JTextField txtNameGroup;

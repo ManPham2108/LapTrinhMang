@@ -61,20 +61,24 @@ public class Chat extends javax.swing.JPanel {
             public void reciveMessage(String text) {          
                 String[] message = text.split("#-~");
                 String userid = message[0];
-                String msg = message[1].replace("%20#1%","\r\n");
+                String msg = message[1].replace("%20#1%","\r\n").replace("^1g*u~","#~").replace("`qh$v0", "#-~");
                 String username = null;
-                if(chatTitle.getaModel()== null || !chatTitle.getaModel().getId().equals(userid) || userid.equals("system")){
-                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"individual",true);
+                if(chatTitle.getaModel()== null || !chatTitle.getaModel().getId().equals(userid)){
+                    if(!userid.equals("system")){
+                        PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"individual",true);
+                    }
                 }
-                if(chatTitle.getGroup() == null || !chatTitle.getGroup().getIdGroup().equals(userid) || userid.equals("system")){
-                    PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"group",true);
+                if(chatTitle.getGroup() == null || !chatTitle.getGroup().getIdGroup().equals(userid)){
+                    if(!userid.equals("system")){
+                        PublicEvent.getInstance().getEventMenuLeft().NotifiMsg(userid,"group",true);
+                    }
                 }
                 if(message.length==3){
                     username = message[2];
                 }
-                if(chatTitle.getaModel() == null && userid.equals("system")){
-                    JOptionPane.showMessageDialog(null, msg,"Thông báo từ hệ thống",JOptionPane.INFORMATION_MESSAGE);
+                if(chatTitle.getaModel() == null && chatTitle.getGroup() == null){
                     chatBody.addItemLeft(msg,userid);
+                    JOptionPane.showMessageDialog(null, msg,"Thông báo từ hệ thống",JOptionPane.INFORMATION_MESSAGE); 
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){
@@ -101,7 +105,7 @@ public class Chat extends javax.swing.JPanel {
             public void loadMessage(String text) {
                 String[] a = text.split("#-~");
                 String userid = a[0];
-                String message = a[1].replace("%20#1%","\r\n");
+                String message = a[1].replace("%20#1%","\r\n").replace("^1g*u~","#~").replace("`qh$v0", "#-~");
                 String username = null;
                 if(a.length==3){
                     username = a[2];
