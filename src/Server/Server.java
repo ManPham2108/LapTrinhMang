@@ -14,6 +14,8 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Server {
@@ -39,6 +41,27 @@ public class Server {
             t.start();           
         }
     }
+    private boolean isUserId(String str) {
+        Pattern p1 = Pattern.compile("([a-z])");
+        Matcher m1 = p1.matcher(str);
+        Pattern p2 = Pattern.compile("([A-Z])");
+        Matcher m2 = p2.matcher(str);
+        if(m1.find()==true){
+            return false;
+        }
+        if(m2.find() == true){
+            return false;
+        }
+        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m3 = p3.matcher(str);
+        if(m3.find() == true){
+            return false;
+        }
+        if(str.equals("")){
+            return false;
+        }
+        return true;
+    }  
     Thread sendMessage = new Thread(new Runnable(){
         @Override
         public void run() {
@@ -46,7 +69,7 @@ public class Server {
                 AccountDAL ac = new AccountDAL();
                 Scanner sc = new Scanner(System.in);
                 String command = sc.nextLine();
-                if(!command.contains(">") || command.equals("help")){
+                if(command.equals("") || !command.contains(">")){
                     System.out.println("Sai cú pháp");
                     System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
                     System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
@@ -55,69 +78,112 @@ public class Server {
                     System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
                 }
                 else{
-                    StringTokenizer st = new StringTokenizer(command,">");
-                    switch(st.nextToken().toLowerCase()){
-                        case "alluser":
-                            AccountDAL dal = new AccountDAL();
-                            int sum = dal.allAccount.size();
-                            System.out.println("Sum user: "+sum);
-                            break;
-                        case "alluseronline":
-                            int sumuseronline=0;
-                            for(ThreadClient tc : listUserLogin){
-                                if(tc.getId() != null && !tc.getId().equals("")){
-                                    sumuseronline++;
+                    String [] cmd = command.split(">");
+                    if(cmd.length<3){
+                        switch(cmd[0]){
+                            case "alluser":
+                                if(cmd.length==1){
+                                    AccountDAL dal = new AccountDAL();
+                                    int sum = dal.allAccount.size();
+                                    System.out.println("Sum user: "+sum); 
                                 }
-                            }
-                            System.out.println("Sum user online: "+sumuseronline);
-                            break;
-                        case "block":
-                            String userid = st.nextToken();
-                            for(ThreadClient tc : listUserLogin){
-                                if(tc.getId().equals(userid)){
-                                    try {
-                                        tc.send("block#~");
-                                        tc.updateStatus(tc.getId(), "false");
-                                        tc.saveLog("User Id "+tc.getId()+" is blocked");
-                                        tc.setId(null);
-                                        break;
-                                    } catch (Exception ex) {
-                                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                                else{
+                                    System.out.println("Sai cú pháp");
+                                    System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                                    System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                                    System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                                    System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                                    System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                                }
+                                break;
+                            case "alluseronline":
+                                if(cmd.length==1){
+                                    int sumuseronline=0;
+                                    for(ThreadClient tc : listUserLogin){
+                                        if(tc.getId() != null && !tc.getId().equals("")){
+                                            sumuseronline++;
+                                        }
                                     }
-                                    
-                                }    
-                            }
-                            try {
-                                ac.UpdateBlock(userid, "True");
-                            } catch (Exception ex) {
-                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            break;
-                        case "unblock":
-                            String id = st.nextToken();
-                            try {
-                                ac.UpdateBlock(id, "False");
-                            } catch (Exception ex) {
-                                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            break;
-                        case "allmessage":
-                            String message = st.nextToken();
-                            for(ThreadClient tc : listUserLogin){
-                                if(tc.getId()!=null){
-                                    tc.send("messagesystem#~system#-~"+message);
-                                }    
-                            }
-                            break;
-                        default:
-                            System.out.println("Sai cú pháp");
-                            System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
-                            System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
-                            System.out.println("Nếu muốn block user hãy nhập: block>userid");
-                            System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
-                            System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
-                            break;
+                                    System.out.println("Sum user online: "+sumuseronline);
+                                }
+                                else{
+                                    System.out.println("Sai cú pháp");
+                                    System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                                    System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                                    System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                                    System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                                    System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                                }
+                                break;
+                            case "block":
+                                try {
+                                    String userid = cmd[1];
+                                    if(isUserId(userid)){
+                                        for(ThreadClient tc : listUserLogin){
+                                            if(tc.getId().equals(userid)){
+                                                tc.send("block#~");
+                                                tc.updateStatus(tc.getId(), "false");
+                                                tc.saveLog("User Id "+tc.getId()+" is blocked");
+                                                tc.setId(null);
+                                                break;
+                                            }    
+                                        }
+                                        ac.UpdateBlock(userid, "True");
+                                    }
+                                    else{
+                                        System.out.println("Sai cú pháp");
+                                        System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                                        System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                                        System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                                        System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                                        System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                                    }
+                                    break;
+                                } catch (Exception e) {
+                                } 
+                            case "unblock":
+                                try {
+                                    String id = cmd[1];
+                                    if(isUserId(id)){
+                                        ac.UpdateBlock(id, "False");
+                                    }
+                                    else{
+                                        System.out.println("Sai cú pháp");
+                                        System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                                        System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                                        System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                                        System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                                        System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                                    }
+                                    break;
+                                } catch (Exception e) {
+                                }
+                            case "allmessage":
+                                String message = cmd[1];
+                                for(ThreadClient tc : listUserLogin){
+                                    if(tc.getId()!=null){
+                                        tc.send("messagesystem#~system#-~"+message.replace("#~","^1g*u~").replace("#-~", "`qh$v0"));
+                                    }    
+                                }
+                                break;
+                            default:
+                                System.out.println("Sai cú pháp");
+                                System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                                System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                                System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                                System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                                System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                                break;
+                        }
                     }
+                    else{
+                        System.out.println("Sai cú pháp");
+                        System.out.println("Nếu muốn biết tổng user hãy nhập: alluser>");
+                        System.out.println("Nếu muốn biết tổng user online hãy nhập: alluseronline>");
+                        System.out.println("Nếu muốn block user hãy nhập: block>userid");
+                        System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
+                        System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
+                    }  
                 }              
             }
         }
