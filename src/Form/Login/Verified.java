@@ -19,6 +19,7 @@ public class Verified extends javax.swing.JFrame {
     private AccountModel userregist;
     private int minute = 10;
     private int second = 0;
+    private Timer timer;
 
     public AccountModel getUserregist() {
         return userregist;
@@ -32,10 +33,7 @@ public class Verified extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         init();
-        dongho();
-    }
-    private void dongho() {
-        new Timer(1000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 1000mili = 1s
+        timer = new Timer(1000, new ActionListener() {// 1 mili giây sẽ gọi hàm này 1 lần 1000mili = 1s
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(second == -1){
@@ -53,7 +51,8 @@ public class Verified extends javax.swing.JFrame {
                     dispose();
                 }
             }
-        }).start();
+        });
+        timer.start();
     }
     private void init(){
         lberror.setVisible(false);
@@ -65,6 +64,7 @@ public class Verified extends javax.swing.JFrame {
                 try {
                     PublicEvent.getInstance().getEventLogin().goLogin();
                     Client.getInstance().send("register#~"+user);
+                    timer.stop();
                 } catch (IOException ex) {
                     Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
                 }
