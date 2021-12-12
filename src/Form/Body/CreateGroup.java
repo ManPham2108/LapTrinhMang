@@ -233,12 +233,12 @@ public class CreateGroup extends javax.swing.JFrame {
             String userid = aruser.get(index-1).getId();
             if(listuserid.contains(userid)==false){
                 listuserid.add(userid);
+                JButton btn = new JButton("XÓA");
+                dm.addRow(new Object[]{
+                    cbListUser.getSelectedItem(),
+                    btn
+                });
             } 
-            JButton btn = new JButton("XÓA");
-            dm.addRow(new Object[]{
-                cbListUser.getSelectedItem(),
-                btn
-            });
         }
     }//GEN-LAST:event_cbListUserActionPerformed
 
