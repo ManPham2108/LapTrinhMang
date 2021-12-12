@@ -76,9 +76,13 @@ public class Chat extends javax.swing.JPanel {
                 if(message.length==3){
                     username = message[2];
                 }
-                if(chatTitle.getaModel() == null && chatTitle.getGroup() == null){
-                    chatBody.addItemLeft(msg,userid);
-                    //JOptionPane.showMessageDialog(null, msg,"Thông báo từ hệ thống",JOptionPane.INFORMATION_MESSAGE); 
+                if(userid.equals("system")){
+                    if(chatTitle.getaModel() == null && chatTitle.getGroup() == null){
+                        chatBody.addItemLeft(msg,userid);
+                    }
+                    if(chatTitle.getaModel() != null || chatTitle.getGroup() != null){
+                        JOptionPane.showMessageDialog(null, msg,"Thông báo từ hệ thống",JOptionPane.INFORMATION_MESSAGE); 
+                    }
                 }
                 else{
                     if(chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(userid)){

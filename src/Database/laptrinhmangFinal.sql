@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2021 at 10:10 AM
+-- Generation Time: Dec 12, 2021 at 04:51 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -105,12 +105,12 @@ CREATE TABLE IF NOT EXISTS `group` (
 
 INSERT INTO `group` (`Id`, `NameGroup`) VALUES
 (1, 'Bạn Bè'),
-(2, 'Bạn tôi'),
-(3, 'Chào'),
-(5, 'Bạn Hỡi'),
-(7, 'SayYeah'),
-(8, 'Ôiiii'),
-(9, 'Ôiii dồiiiii'),
+(2, 'Bạn thân'),
+(3, 'Test 1'),
+(5, 'Test 2'),
+(7, 'Test 3'),
+(8, 'Nhóm lập trình mạng'),
+(9, 'Nhóm Bạn'),
 (10, 'Lập trình mạng');
 
 -- --------------------------------------------------------

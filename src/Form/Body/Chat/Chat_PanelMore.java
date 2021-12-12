@@ -112,7 +112,7 @@ public class Chat_PanelMore extends javax.swing.JPanel {
                 fileModel.setData(readFile(fileSelected));
                 fileModel.setExtFile(getExtensions(fileSelected.getAbsolutePath()));
                 fileModel.setFileSize(fileSelected.length());
-                fileModel.setNameFile(fileSelected.getName());
+                fileModel.setNameFile(fileSelected.getName()); // convert file to string to send
                 message = "***file###" + convertArToString(fileModel);
                 if (aModel != null) {
                     PublicEvent.getInstance().getEventChat().sendMessage(message);

@@ -305,18 +305,14 @@ public class P_Register extends javax.swing.JPanel {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
-    private boolean isFullname(String str) {
-        Pattern p = Pattern.compile("([0-9])");
-        Matcher m = p.matcher(str);
-        if(m.find() == true){
-            return false;
+    private static boolean isFullname(String str) {
+        String errorText="1234567890!@#$%^&*()-_=+[{]};:'<,>.?/|/*-+.`~";
+        for(int i = 0; i<str.length();i++){
+            if(errorText.contains(String.valueOf(str.charAt(i)))){
+                return false;
+            }
         }
-        Pattern p3 = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-        Matcher m3 = p3.matcher(str);
-        if(m3.find() == false){
-            return false;
-        }
-        return true;          
+        return true;
     }
     private String isPassword(String password){
         String result = "";
