@@ -227,18 +227,18 @@ public class CreateGroup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbListUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListUserActionPerformed
-
+ 
         if (!cbListUser.getSelectedItem().equals("")){
             int index = cbListUser.getSelectedIndex();
             String userid = aruser.get(index-1).getId();
             if(listuserid.contains(userid)==false){
                 listuserid.add(userid);
-            } 
-            JButton btn = new JButton("XÓA");
-            dm.addRow(new Object[]{
-                cbListUser.getSelectedItem(),
-                btn
-            });
+                JButton btn = new JButton("XÓA");
+                dm.addRow(new Object[]{
+                    cbListUser.getSelectedItem(),
+                    btn
+                });
+            }  
         }
     }//GEN-LAST:event_cbListUserActionPerformed
 
