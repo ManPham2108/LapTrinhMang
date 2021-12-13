@@ -2268,3 +2268,11 @@
 2021-12-13 07:27:09 User Id 1 logout
 2021-12-13 07:27:12 User Id 1 login success
 2021-12-13 07:27:22 User Id 1 logout
+2021-12-13 07:48:08 man21082015@gmail.com register success
+2021-12-13 07:48:25 User Id 26 login success
+2021-12-13 07:48:34 User Id 26 update information account
+2021-12-13 07:48:34 User Id 26 logout
+2021-12-13 07:48:35 User Id 26 login success
+2021-12-13 07:48:37 User Id 26 update information account
+2021-12-13 07:48:37 User Id 26 logout
+2021-12-13 07:55:57 man21082015@gmail.com register success

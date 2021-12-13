@@ -91,7 +91,6 @@ public class Verified extends javax.swing.JFrame {
         timeOut = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(153, 0, 153));
         setUndecorated(true);
         setResizable(false);

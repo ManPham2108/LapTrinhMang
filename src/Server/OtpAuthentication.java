@@ -26,7 +26,7 @@ public class OtpAuthentication {
         Properties mailServerProperties;
         Session getMailSession;
         MimeMessage mailMessage;
-        // Step1: setup Mail Server
+        // Step1: setup Mail Server   
         mailServerProperties = System.getProperties();
         mailServerProperties.put("mail.smtp.port", "587");
         mailServerProperties.put("mail.smtp.auth", "true");
