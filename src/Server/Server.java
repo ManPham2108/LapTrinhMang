@@ -125,10 +125,10 @@ public class Server {
                                                 tc.updateStatus(tc.getId(), "false");
                                                 tc.saveLog("User Id "+tc.getId()+" is blocked");
                                                 tc.setId(null);
+                                                ac.UpdateBlock(userid, "True");
                                                 break;
                                             }    
                                         }
-                                        ac.UpdateBlock(userid, "True");
                                     }
                                     else{
                                         System.out.println("Sai cú pháp");

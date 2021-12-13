@@ -69,6 +69,7 @@ public class ThreadClient implements Runnable{
         while (true) {            
             try {
                 String reccive = Reccive();
+               
                 if(!reccive.contains("hello#~")){
                      reccive = UtilsAES.DecryptText(sessionkey, reccive);
                      //System.out.println("server nhan: "+reccive);

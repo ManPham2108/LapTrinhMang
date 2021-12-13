@@ -50,95 +50,97 @@ public class Client{
             while (true) {
                 try { 
                     String msg = read.readLine();
-                    //System.out.println("Da nhan: "+msg);
-                    if(!msg.contains("hello#~")){
-                        msg = UtilsAES.DecryptText(sessionkey,msg);
-                        System.out.println("giai: "+msg);
+                    if(msg!=null){
+                        //System.out.println("Da nhan: "+msg);
+                        if(!msg.contains("hello#~")){
+                            msg = UtilsAES.DecryptText(sessionkey,msg);
+                            //System.out.println("giai: "+msg);
+                        }
+                        String[] message = msg.split("#~");
+                        String type = message[0];
+                        switch(type){
+                            case "hello":
+                                sessionkey = UtilsAES.generateKey();
+                                String tmpa = UtilsRSA.EncryptText(sessionkey,message[1]);
+                                write.write("hello#~"+tmpa);
+                                write.newLine();
+                                write.flush();
+                                break;
+                            case "loginsucess":
+                                ArrayList<AccountModel> listUser= gson.fromJson(message[1],new TypeToken<ArrayList<AccountModel>>() {}.getType());
+                                User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
+                                PublicEvent.getInstance().getEventLogin().login("success");
+                                PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
+                                break;
+                            case "loginfaile":
+                                if(message[1].equals("wrongaccount")){
+                                    PublicEvent.getInstance().getEventLogin().login("Notsuccess");
+                                }
+                                if(message[1].equals("notsuccess")){
+                                    PublicEvent.getInstance().getEventMain().BlockUser(message[1]);
+                                }
+                                break;
+                            case "loadgroup":
+                                Gson g = new Gson();
+                                ArrayList<GroupModel> listgroup = g.fromJson(message[2],new TypeToken<ArrayList<GroupModel>>() {}.getType());
+                                if(message[1].equals("load")){
+                                    PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
+                                }
+                                if(message[1].equals("loadgrnew")){
+                                    PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
+                                }
+                                break;
+                            case "status":
+                                String status = message[1];
+                                if(status.equals("true")){
+                                    PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(message[2]);
+                                }
+                                if(status.equals("false")){
+                                    PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(message[2]);
+                                }
+                                break;
+                            case "ClientToClient":
+                                PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
+                                break;
+                            case "seenmsg":
+                                PublicEvent.getInstance().getEventChat().seenMessage(message[1]);
+                                break;
+                            case "block":
+                                PublicEvent.getInstance().getEventMain().BlockUser(type);
+                                break;
+                            case "messagesystem":
+                                PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
+                                break;
+                            case "loadmessage":
+                                String tmp = message[1];
+                                if(tmp.equals("yes")){
+                                    PublicEvent.getInstance().getEventChat().loadMessage(message[2].toString());
+                                }
+                                break;
+                            case "authenotp":
+                                if(message[1].equals("true")){
+                                    PublicEvent.getInstance().getEventAuthenOtp().authenSucess();
+                                }
+                                if(message[1].equals("false")){
+                                    PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
+                                }
+                                break;
+                            case "confirmPass":
+                                PublicEvent.getInstance().getEventUpdateInfo().changePassword(message[1]);
+                                break;
+                            case "checkuser":
+                                PublicEvent.getInstance().getEventLogin().register(message[1]);
+                                break;
+                            case "blockuser":
+                                if(message[1].contains("updateuserunblock") || message[1].contains("updateuserblock")){
+                                   PublicEvent.getInstance().getEventChat().updateUserBlock(message[1]);
+                                }
+                                else{
+                                    PublicEvent.getInstance().getEventChat().loadListBlock(message[1]);
+                                }
+                                break;
+                        } 
                     }
-                    String[] message = msg.split("#~");
-                    String type = message[0];
-                    switch(type){
-                        case "hello":
-                            sessionkey = UtilsAES.generateKey();
-                            String tmpa = UtilsRSA.EncryptText(sessionkey,message[1]);
-                            write.write("hello#~"+tmpa);
-                            write.newLine();
-                            write.flush();
-                            break;
-                        case "loginsucess":
-                            ArrayList<AccountModel> listUser= gson.fromJson(message[1],new TypeToken<ArrayList<AccountModel>>() {}.getType());
-                            User = gson.fromJson(message[2],new TypeToken<AccountModel>() {}.getType());
-                            PublicEvent.getInstance().getEventLogin().login("success");
-                            PublicEvent.getInstance().getEventMenuLeft().addlistUser(listUser);
-                            break;
-                        case "loginfaile":
-                            if(message[1].equals("wrongaccount")){
-                                PublicEvent.getInstance().getEventLogin().login("Notsuccess");
-                            }
-                            if(message[1].equals("notsuccess")){
-                                PublicEvent.getInstance().getEventMain().BlockUser(message[1]);
-                            }
-                            break;
-                        case "loadgroup":
-                            Gson g = new Gson();
-                            ArrayList<GroupModel> listgroup = g.fromJson(message[2],new TypeToken<ArrayList<GroupModel>>() {}.getType());
-                            if(message[1].equals("load")){
-                                PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
-                            }
-                            if(message[1].equals("loadgrnew")){
-                                PublicEvent.getInstance().getEventMenuLeft().listGroup(listgroup,message[1]);
-                            }
-                            break;
-                        case "status":
-                            String status = message[1];
-                            if(status.equals("true")){
-                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOnline(message[2]);
-                            }
-                            if(status.equals("false")){
-                                PublicEvent.getInstance().getEventMenuLeft().updateStatusOffline(message[2]);
-                            }
-                            break;
-                        case "ClientToClient":
-                            PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
-                            break;
-                        case "seenmsg":
-                            PublicEvent.getInstance().getEventChat().seenMessage(message[1]);
-                            break;
-                        case "block":
-                            PublicEvent.getInstance().getEventMain().BlockUser(type);
-                            break;
-                        case "messagesystem":
-                            PublicEvent.getInstance().getEventChat().reciveMessage(message[1]);
-                            break;
-                        case "loadmessage":
-                            String tmp = message[1];
-                            if(tmp.equals("yes")){
-                                PublicEvent.getInstance().getEventChat().loadMessage(message[2].toString());
-                            }
-                            break;
-                        case "authenotp":
-                            if(message[1].equals("true")){
-                                PublicEvent.getInstance().getEventAuthenOtp().authenSucess();
-                            }
-                            if(message[1].equals("false")){
-                                PublicEvent.getInstance().getEventAuthenOtp().authenFaile();
-                            }
-                            break;
-                        case "confirmPass":
-                            PublicEvent.getInstance().getEventUpdateInfo().changePassword(message[1]);
-                            break;
-                        case "checkuser":
-                            PublicEvent.getInstance().getEventLogin().register(message[1]);
-                            break;
-                        case "blockuser":
-                            if(message[1].contains("updateuserunblock") || message[1].contains("updateuserblock")){
-                               PublicEvent.getInstance().getEventChat().updateUserBlock(message[1]);
-                            }
-                            else{
-                                PublicEvent.getInstance().getEventChat().loadListBlock(message[1]);
-                            }
-                            break;
-                    } 
                 }catch (IOException ex) {
                     break;
                 }
