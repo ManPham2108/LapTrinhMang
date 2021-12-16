@@ -176,6 +176,7 @@ public class Chat extends javax.swing.JPanel {
                         break;
                     case "updateremoveblock":
                         listblock.remove(ab[1]);
+                        chatTitle.loadblockuser();
                         break;
                     case "loadblockgroup":
                         chatBottom.setBlock("userblock");
@@ -195,10 +196,11 @@ public class Chat extends javax.swing.JPanel {
                 String id = st.nextToken();
                 switch(type){
                     case "updateuserunblock":
-                        if(chatTitle.getGroup()==null && chatTitle.getaModel() != null &&chatTitle.getaModel().getId().equals(id)){
+                        if(chatTitle.getGroup()==null && chatTitle.getaModel() != null && chatTitle.getaModel().getId().equals(id)){
                             chatBottom.setVisible(false);
                             chatBottom.removeall();
                             chatBottom.setVisible(true);
+                            chatTitle.loadblockuser();
                         }
                         listblocked.remove(id);
                         break;
