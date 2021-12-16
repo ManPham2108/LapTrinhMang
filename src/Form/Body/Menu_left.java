@@ -134,7 +134,7 @@ public class Menu_left extends javax.swing.JPanel {
                     }
                     i++;
                 }
-                PublicEvent.getInstance().getEventChat().removeAllChatBody();
+                PublicEvent.getInstance().getEventChat().removeAll();
                 showGroup();
             }
         });

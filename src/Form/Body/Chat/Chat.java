@@ -102,9 +102,20 @@ public class Chat extends javax.swing.JPanel {
             }
             @Override
             public void removeAllChatBody(){
+                chatTitle.setVisible(true);
+                chatBody.setVisible(true);
+                chatBottom.setVisible(true);
                 chatBody.removeall();
                 chatBottom.removeall();
             }
+
+            @Override
+            public void removeAll() {
+                chatTitle.setVisible(false);
+                chatBody.setVisible(false);
+                chatBottom.setVisible(false);
+            }
+            
             @Override
             public void loadMessage(String text) {
                 String[] a = text.split("#-~");

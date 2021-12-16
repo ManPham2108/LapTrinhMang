@@ -113,22 +113,23 @@ public class Server {
                                     System.out.println("Nếu muốn block user hãy nhập: block>userid");
                                     System.out.println("Nếu muốn unblock user hãy nhập: unblock>userid");
                                     System.out.println("Nếu muốn gửi tin nhắn cho tất user hãy nhập: allmessage>message");
-                                }
+                                }   
                                 break;
                             case "block":
                                 try {
                                     String userid = cmd[1];
                                     if(isUserId(userid)){
                                         for(ThreadClient tc : listUserLogin){
-                                            if(tc.getId().equals(userid)){
+                                            if(tc.getId() != null && tc.getId().equals(userid)){
                                                 tc.send("block#~");
                                                 tc.updateStatus(tc.getId(), "false");
                                                 tc.saveLog("User Id "+tc.getId()+" is blocked");
-                                                tc.setId(null);
-                                                ac.UpdateBlock(userid, "True");
+                                                tc.setId(null);                                                
                                                 break;
                                             }    
                                         }
+                                        ac.UpdateBlock(userid, "True");
+                                        System.out.println("Đã block user id "+userid);
                                     }
                                     else{
                                         System.out.println("Sai cú pháp");
@@ -146,6 +147,7 @@ public class Server {
                                     String id = cmd[1];
                                     if(isUserId(id)){
                                         ac.UpdateBlock(id, "False");
+                                        System.out.println("Đã unblock user id "+id);
                                     }
                                     else{
                                         System.out.println("Sai cú pháp");

@@ -268,8 +268,8 @@ public class P_Register extends javax.swing.JPanel {
             Logger.getLogger(P_Register.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(!txtPass.getText().equals(txtConfirmPass.getText())){
-            errorPassword.setText("Mật khẩu khớp");
-            errorConfirmPassword.setText("Mật khẩu khớp");
+            errorPassword.setText("Mật khẩu không khớp");
+            errorConfirmPassword.setText("Mật khẩu không khớp");
             fail++;
         }
         else{

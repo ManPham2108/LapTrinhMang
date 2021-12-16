@@ -23,7 +23,7 @@ public class Client{
     private BufferedReader read = null;
     private BufferedWriter write = null;
     private String localhost = "127.0.0.1";
-    private String internet = "serverchat.ddns.net";
+    private String internet = "171.233.214.60";
     public AccountModel User;
     private Gson gson = new Gson();
     private String sessionkey = null;
@@ -156,7 +156,7 @@ public class Client{
     };
     public void send(String message) throws IOException{
         String ma=UtilsAES.EncryptText(sessionkey,message);
-        System.out.println("Da gui: "+message);
+        //System.out.println("Da gui: "+message);
         write.write(ma);
         write.newLine();
         write.flush();
